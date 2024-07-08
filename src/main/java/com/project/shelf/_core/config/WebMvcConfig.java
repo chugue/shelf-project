@@ -1,6 +1,7 @@
 package com.project.shelf._core.config;
 
 
+import com.project.shelf._core.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -14,9 +15,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
-                .addPathPatterns("/api-admin/**","/api-user/**","/api-theater/");
-//                 예외 처리
-//                .excludePathPatterns("");
+                .addPathPatterns("/api/**")
+                .excludePathPatterns("");// 예외 처리
+
     }
 
 

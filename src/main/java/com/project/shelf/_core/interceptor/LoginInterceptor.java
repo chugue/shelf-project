@@ -16,19 +16,10 @@ public class LoginInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
 
         Admin sessionAdmin = (Admin) session.getAttribute("sessionAdmin");
-        User sessionUser = (User) session.getAttribute("sessionUser");
 
-        String requestURI = request.getRequestURI();
-
-        if (requestURI.startsWith("/api-admin")) {
-            if (sessionAdmin == null) {
-                throw new Exception401("잘못된 접근입니다.");
-            }
-        } else if (requestURI.startsWith("/api-user")) {
-            if (sessionUser == null) {
-                throw new Exception401("고객 로그인이 필요합니다");
-            }
+        if(sessionAdmin != null){
+            return true;
         }
-        return true;
+        throw new Exception401("로그인 하셔야 해요");
     }
 }
