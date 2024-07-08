@@ -1,0 +1,47 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
+    session:
+      tracking-modes: cookie
+      timeout: 30m
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;MODE=MySQL
+    username: sa
+    password:
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 10
+    open-in-view: false
+  mustache:
+    servlet:
+      expose-session-attributes: true
+      expose-request-attributes: true
+  sql:
+    init:
+      data-locations:
+        - classpath:db/data.sql
+
+spring.servlet:
+  multipart:
+    max-file-size: 50MB
+    max-request-size: 50MB
