@@ -31,6 +31,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .setCachePeriod(60 * 60) // 초 단위 => 한시간
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver());
+
+        registry.addResourceHandler("/static/css/**")
+                .addResourceLocations("classpath:/static/css/")
+                .setCachePeriod(60 * 60)
+                .resourceChain(true)
+                .addResolver(new PathResourceResolver());
     }
 
 }

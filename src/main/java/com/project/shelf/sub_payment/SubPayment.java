@@ -12,7 +12,7 @@ import java.util.concurrent.Flow;
 @NoArgsConstructor
 @Entity
 @Data
-@Table(name =  "sub_payment_tb")
+@Table(name = "sub_payment_tb")
 public class SubPayment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
