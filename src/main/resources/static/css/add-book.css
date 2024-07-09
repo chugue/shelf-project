@@ -229,6 +229,14 @@ nav {
     display: flex;
     flex-direction: column;
 }
+/* 책 상세보기(조회) 페이지 */
+.input-data{
+    background: #f7f7f7;
+    padding: 10px;
+    font-size: 1.1rem;
+    overflow: auto;
+    line-height: 1.3rem;
+}
 
 .form-field label {
     color: #777;

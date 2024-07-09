@@ -64,7 +64,7 @@
         <!-- 사이드 바 종료 -->
 
         <div class="main-section">
-            <div class="main-header mb-20">e-book 등록/수정</div>
+            <div class="main-header mb-20">책 상세보기</div>
 
             <!-- SHELF -->
             <div class="form-section">
@@ -77,7 +77,6 @@
                             <img id="preview-img" src="" alt="미리보기 이미지" style="display: none" />
                             <!-- TODO : 기본 이미지 넣기 -->
                         </div>
-                        <label for="image-upload" class="custom-file-upload">책 표지 업로드</label>
                         <input id="image-upload" type="file" name="mainPhoto" />
                     </div>
                     <script>
@@ -102,15 +101,15 @@
                     <div class="form-field-header-right">
                         <div class="form-field mb-20">
                             <label for="title">제목</label>
-                            <input type="text" id="title" name="title">
+                            <div class="input-data">제목 입력</div>
                         </div>
                         <div class="form-field mb-20">
                             <label for="author">저자</label>
-                            <input type="text" id="author" name="author">
+                            <div class="input-data">저자 입력</div>
                         </div>
                         <div class="form-field mb-20">
                             <label for="publisher">출판사</label>
-                            <input type="text" id="publisher" name="publisher">
+                            <div class="input-data">출판사 입력</div>
                         </div>
                         <!-- <div class="form-field mb-20">
                             <label for="category">카테고리</label>
@@ -118,33 +117,35 @@
                         </div> -->
                         <div class="form-field mb-20">
                             <label for="category">카테고리</label>
-                            <select name="category" id="category" >
-                                <option value="">카테고리 선택</option>
-                                <option value="self-development">자기계발</option>
-                                <option value="poetry-essay">시/에세이</option>
-                                <option value="novel" style="border-radius: 0%;">소설</option>
-                            </select>
+                            <div class="input-data">카테고리 입력</div>
                         </div>
                     </div>
                 </div>
                 <!-- width 100% 입력 창 -->
                 <div class="form-field mb-20">
                     <label for="comment">코멘트</label>
-                    <textarea type="text" id="comment" name="comment" rows="3"></textarea>
+                    <div class="input-data" style="height: 5rem;">코멘트 내용</div>
                 </div>
                 <div class="form-field mb-20">
-                    <label for="introduction">책소개</label>
-                    <textarea type="text" id="introduction" name="introduction" rows="5"></textarea>
+                    <label for="introduction">책 소개</label>
+                    <div class="input-data" style="height: 7rem;">책 소개 내용</div>
                 </div>
                 <div class="form-field mb-20">
                     <label for="toc">목차</label>
-                    <textarea type="text" id="toc" name="toc" rows="5"></textarea>
+                    <div class="input-data" style="height: 7rem;">
+                        목차 내용<br>
+                        목차 내용<br>
+                        목차 내용<br>
+                        목차 내용<br>
+                        목차 내용<br>
+                        목차 내용<br>
+                    </div>
                 </div>
                 <!-- 파일 선택 -->
-                <div class="small-title">epub파일 선택</div>
+                <div class="small-title">epub파일</div>
                 <div class="form-field mb-20">
                     <div class="file-upload-container">
-                        <label for="ebook-file" class="custom-file-upload">파일 선택</label>
+                        <!-- <label for="ebook-file" class="custom-file-upload">파일 선택</label> -->
                         <input type="file" id="ebook-file" name="ebook-file" style="display: none;" />
                         <span id="file-name-display">선택된 파일 없음</span>
                     </div>
@@ -165,9 +166,8 @@
                     });
                 </script>
                 <div class="bottom-btns">
-                    <label for="upload-info-btn" class="custom-upload-button">ebook 등록</label>
-                    <button id="upload-info-btn" type="submit" class="custom-upload-button">ebook 등록</button>
-                    <button id="back-btn">취소</button>
+                    <label class="custom-upload-button">수정하기</label>
+                    <button id="back-btn">돌아가기</button>
                 </div>
             </div>
 
