@@ -40,6 +40,9 @@ spring:
     init:
       data-locations:
         - classpath:db/data.sql
+        - classpath:db/author_data.sql
+        - classpath:db/book_data.sql
+        - classpath:db/subscriptions.sql
 
 spring.servlet:
   multipart:
