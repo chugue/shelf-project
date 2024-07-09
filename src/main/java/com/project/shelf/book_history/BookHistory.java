@@ -27,7 +27,6 @@ public class BookHistory {
     private String lastReadPage; //마지막으로 읽은 페이지
     private LocalDate createdAt; //처음 읽은 날짜
     private LocalDate updatedAt; //마지막으로 읽은 날짜
-    private String index; //목차
 
     @Builder
     public BookHistory(Integer id, User user, Book book, String lastReadPage, LocalDate createdAt, LocalDate updatedAt) {

@@ -22,8 +22,6 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY)
     private Author author;
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Wishlist> wishlist;
     private String title;
     private String path;//사진 경로
     private String bookIntro;
@@ -39,10 +37,9 @@ public class Book {
     private LocalDate updatedAt;
 
     @Builder
-    public Book(Integer id, Author author, List<Wishlist> wishlist, String title, String path, String bookIntro, String index, String pageCount, String contents, Category category, String publisher, LocalDate createdAt, LocalDate updatedAt) {
+    public Book(Integer id, Author author, String title, String path, String bookIntro, String index, String pageCount, String contents, Category category, String publisher, LocalDate createdAt, LocalDate updatedAt) {
         this.id = id;
         this.author = author;
-        this.wishlist = wishlist;
         this.title = title;
         this.path = path;
         this.bookIntro = bookIntro;
