@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="/static/css/reset.css"/>
+    <link rel="stylesheet" href="/static/css/sales-dashboard.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>관리자 페이지 - 매출 관리</title>
+</head>
+<body>
+<!-- 네비게이션 바 시작 -->
+<nav>
+    <div class="nav-div">
+        <div>
+            <a href="/api/main-page">
+                <img src="/static/images/shelf_logo.png" alt="Shelf_logo" class="nav-logo"/>
+            </a>
+        </div>
+        <div class="logout">
+            <a href="/logout">로그아웃</a>
+        </div>
+    </div>
+</nav>
+<!-- 네비게이션 바 종료 -->
+
+<!-- main left-->
+<main>
+    <div class="main-div">
+        <!-- 사이드바 -->
+        {{> /_components/sidebar}}
+
+        <div class="main-section">
+            <div class="main-right-margin">
+                <div class="title">
+                    <div class="title-red">Shelf</div>월 매출
+                </div>
+                <div class="canvas-container">
+                    <canvas id="line-chart" width="750" height="400"></canvas>
+                </div>
+                <div class="table-title">월별 구독 현황</div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>월</th>
+                        <th>총 가입자 (명)</th>
+                        <th>구독 회원 (명)</th>
+                        <th>이달 매출 (만원)</th>
+                        <th>올해 누적 매출 (만원)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- #SalesPageDTO}}
+                        <tr>
+                            <td>yearMonth}}</td>
+                            <td>subscribeUserCount}}</td>
+                            <td>cumulativeUserCount}}</td>
+                            <td>monthlySales}}</td>
+                            <td>cumulativeSales}}</td>
+                        </tr>
+                    /SalesPageDTO}} -->
+                    <tr>
+                    <tr>
+                        <td>7월</td>
+                        <td>50</td>
+                        <td>45</td>
+                        <td>30</td>
+                        <td>60</td>
+                    </tr>
+                    <tr>
+                        <td>6월</td>
+                        <td>40</td>
+                        <td>35</td>
+                        <td>20</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>5월</td>
+                        <td>20</td>
+                        <td>15</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>4월</td>
+                        <td>10</td>
+                        <td>5</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- footer start -->
+<footer>
+    <div>
+        <p>셀프 shelf 유한회사 통신판매업신고번호:
+            제2023-부산진구-0703호 전화번호: 000-111-2222 (수신자 부담)</p>
+        <p>대표: 스티븐 성훈 킴</p>
+        <p>이메일 주소: korea@shelf.com</p>
+        <p>주소: 대한민국 부산광역시 부산진구 중앙대로 749 범향빌딩 3층
+            우편번호 03161</p>
+        <p>사업자등록번호: 000-111-2222</p>
+        <p>클라우드 호스팅: Amazon Web Services Inc.</p>
+        <p>공정거래위원회 웹사이트</p>
+    </div>
+</footer>
+<!-- footer end -->
+</body>
+</html>
+<!-- Chart -->
+<script>
+    var ctx = document.getElementById('line-chart').getContext('2d');
+
+    // 그라디언트 생성
+    var gradient = ctx.createLinearGradient(0, 0, 400, 0);
+    gradient.addColorStop(0, '#9DCEFF');
+    gradient.addColorStop(1, '#EEA4CE');
+
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            datasets: [
+                {
+                    label: 'Shelf 월 수익',
+                    data: [65000000, 68000000, 70000000, 72000000, 75000000, 72500000, 75000000, 0, 0, 0, 0, 0],
+                    borderColor: gradient,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Shelf Monthly Revenue'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        callback: function (value, index, values) {
+                            return value.toLocaleString('ko-KR') + ' ₩';
+                        }
+                    }
+                }]
+            }
+        }
+    });
+</script>
