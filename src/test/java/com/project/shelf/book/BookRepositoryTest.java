@@ -1,7 +1,5 @@
-package com.project.shelf.bookhistory;
+package com.project.shelf.book;
 
-import com.project.shelf.book.Book;
-import com.project.shelf.book.BookRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -15,7 +13,7 @@ public class BookRepositoryTest {
     private BookRepository bookRepository;
 
     @Test
-    public void findCurrentAndUpcomingMovies_Test(){
+    public void findBooksByHistory_Test(){
         // given
 
         // when
