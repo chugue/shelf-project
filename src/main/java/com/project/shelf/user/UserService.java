@@ -39,12 +39,12 @@ public class UserService {
     }
 
     //메인페이지
-    public void main(){
+    public void main(SessionUser sessionUser){
         //1. 베스트 셀러 정보 가져오기
         List<Book> books = bookRepository.findBooksByHistory();
 
         //2. 이어보기 정보 가져오기
-        List<BookHistory> bookHistories = bookHistoryRepository.findBookHistoryByUserId();
+        List<BookHistory> bookHistories = bookHistoryRepository.findBookHistoryByUserId(sessionUser.getId());
 
         // 2. DTO로 매핑하기
         List<UserResponse.MainDTO.BestSellerDTO> bestSellerDTOs = books.stream()
