@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 
+    private final UserRepository userRepository;
+    private final UserService userService;
+
     @PostMapping("/user/join")
     public ResponseEntity<?> join(@RequestBody UserRequest.JoinDTO reqDTO) {
-
-        return ResponseEntity.ok().body(new ApiUtil<>());
+            User user = userService.join(reqDTO);
+            UserResponse.Join respDTO = new UserResponse.Join(user);
+        return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 }
