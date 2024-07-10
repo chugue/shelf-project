@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,6 +30,10 @@ public class User {
     private String address;
     private LocalDate createdAt;
     private LocalDate updatedAt;
+
+    // 구독 상태인지, 기본값 false
+    @ColumnDefault("false")
+    private Boolean isSubscribed;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<SubPayment> subPayments;
