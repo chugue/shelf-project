@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @NoArgsConstructor
 @Entity
 @Data
@@ -21,6 +24,9 @@ public class Wishlist {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Book book;
+
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 
     @Builder
     public Wishlist(Integer id, User user, Book book) {
