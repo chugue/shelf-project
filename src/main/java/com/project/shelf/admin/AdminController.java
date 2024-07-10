@@ -23,9 +23,13 @@ public class AdminController {
     public String getManageBooks(HttpServletRequest request) {
         return "admin/book-management";
     }
-    @GetMapping("/admin/4")
-    public String get4(HttpServletRequest request) {
-        return "admin/sales-page";
+    @GetMapping("/admin/add-book")
+    public String getAddBook(HttpServletRequest request) {
+        return "admin/add-book";
+    }
+    @GetMapping("/admin/book-detail")
+    public String getBookDetail(HttpServletRequest request) {
+        return "admin/book-detail";
     }
 
 }
