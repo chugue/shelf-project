@@ -1,6 +1,7 @@
 package com.project.shelf._core.config;
 
 
+import com.project.shelf._core.interceptor.AppInterceptor;
 import com.project.shelf._core.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -16,10 +17,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/api/**")
-                .excludePathPatterns("");// 예외 처리
+                .excludePathPatterns();
+        registry.addInterceptor(new AppInterceptor())
+                .addPathPatterns("/app/**")
+                .excludePathPatterns();
 
     }
-
 
     //외부이미지 경로설정
     @Override
@@ -32,11 +35,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver());
 
-        registry.addResourceHandler("/static/css/**")
-                .addResourceLocations("classpath:/static/css/")
-                .setCachePeriod(60 * 60)
-                .resourceChain(true)
-                .addResolver(new PathResourceResolver());
     }
 
 }
