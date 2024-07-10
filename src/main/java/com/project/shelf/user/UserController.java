@@ -3,6 +3,7 @@ package com.project.shelf.user;
 import com.project.shelf._core.util.ApiUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,4 +22,6 @@ public class UserController {
             UserResponse.Join respDTO = new UserResponse.Join(user);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
+
+
 }

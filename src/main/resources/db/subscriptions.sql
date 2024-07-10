@@ -1,11 +1,11 @@
 --7. 구독--
-INSERT INTO sub_tb(amount, status, sub_period)
-values (10000, true, '일개월'),
-       (9800, true, '일년');
+INSERT INTO sub_typs_tb(amount, sub_period)
+values (10000, '일개월'),
+       (9800, '일년');
 
 
 --8. 구독 결제--
-INSERT INTO sub_payment_tb(user_id, sub_id, order_date, amount, sub_status, created_at, updated_at)
+INSERT INTO payment_tb(user_id, sub_types_id, order_date, amount, sub_status, created_at, updated_at)
 values (1,1, '2024-06-10 12:00', 10000, '완료' ,'2024-06-10 12:01', null), -- psk가 1개월 구독권을 첫번재 결제함
        (2,2, '2024-06-11 12:00', 9800, '완료' ,'2024-06-11 12:01', null),  -- sjm이 1년 정기 구독권중 첫번재 결제함
        (3,1, '2024-06-12 12:00', 10000, '완료' ,'2024-06-12 12:01', null), -- kjh이 1개월 구독권을 첫번재 결제함

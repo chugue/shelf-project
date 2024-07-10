@@ -1,21 +1,19 @@
-package com.project.shelf.sub_payment;
+package com.project.shelf.payment;
 
-import com.project.shelf.sub.Sub;
+import com.project.shelf.sub_types.SubTypes;
 import com.project.shelf.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.concurrent.Flow;
 
 @NoArgsConstructor
 @Entity
 @Data
-@Table(name = "sub_payment_tb")
-public class SubPayment {
+@Table(name = "payment_tb")
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -24,7 +22,7 @@ public class SubPayment {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Sub sub;
+    private SubTypes subTypes;
 
     private String orderDate; // 결제 시간
 
@@ -37,10 +35,10 @@ public class SubPayment {
     private LocalDateTime updatedAt;
 
     @Builder
-    public SubPayment(Integer id, User user, Sub sub, String orderDate, Integer amount, SubscriptionPayment subStatus, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Payment(Integer id, User user, SubTypes subTypes, String orderDate, Integer amount, SubscriptionPayment subStatus, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.user = user;
-        this.sub = sub;
+        this.subTypes = subTypes;
         this.orderDate = orderDate;
         this.amount = amount;
         this.subStatus = subStatus;
