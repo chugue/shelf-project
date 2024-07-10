@@ -25,6 +25,7 @@ public class UserController {
             UserResponse.Join respDTO = new UserResponse.Join(user);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
+
     // 사용자 마이페이지
     @GetMapping("/user/my-page")
     public ResponseEntity<?> myPage() {
@@ -32,6 +33,7 @@ public class UserController {
         UserResponse.MyPageDTO respDTO = userService.MyPage(sessionUser);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
+
     // 사용자 개인정보
     @GetMapping("/user/my-info")
     public ResponseEntity<?> myInfo() {
@@ -39,6 +41,7 @@ public class UserController {
         UserResponse.MyInfoDTO respDTO = userService.MyInfo(sessionUser);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
+
     // 개인정보 변경하기
     @PostMapping("/user/update-info")
     public ResponseEntity<?> updateInfo(@RequestBody UserRequest.UpdateInfoDTO reqDTO){

@@ -6,13 +6,19 @@ import lombok.Data;
 @Data
 public class SessionUser {
     private Integer id;
+    private String nickName;
+    private String email;
 
     @Builder
-    public SessionUser(Integer id) {
+    public SessionUser(Integer id, String nickName, String email) {
         this.id = id;
+        this.nickName = nickName;
+        this.email = email;
     }
 
     public SessionUser(User user) {
         this.id = user.getId();
+        this.nickName = getNickName();
+        this.email = getEmail();
     }
 }
