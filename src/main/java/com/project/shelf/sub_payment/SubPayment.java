@@ -31,19 +31,19 @@ public class SubPayment {
     private Integer amount; //결제 금액
 
     @Enumerated(EnumType.STRING)
-    private SubscriptionPayment subPayment; //완료, 취소, 환불
+    private SubscriptionPayment subStatus; //완료, 취소, 환불
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @Builder
-    public SubPayment(Integer id, User user, Sub sub, String orderDate, Integer amount, SubscriptionPayment subPayment, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public SubPayment(Integer id, User user, Sub sub, String orderDate, Integer amount, SubscriptionPayment subStatus, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.user = user;
         this.sub = sub;
         this.orderDate = orderDate;
         this.amount = amount;
-        this.subPayment = subPayment;
+        this.subStatus = subStatus;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
