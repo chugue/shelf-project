@@ -11,6 +11,11 @@ import java.util.List;
 @Controller
 public class AdminController {
 
+    @GetMapping("/")
+    public String mainPage(HttpServletRequest request) {
+        return "admin/sales-dashboard";
+    }
+
     @GetMapping("/admin/sales")
     public String getSalesPage(HttpServletRequest request) {
         return "admin/sales-dashboard";
