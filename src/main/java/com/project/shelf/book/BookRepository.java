@@ -15,4 +15,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query("SELECT b FROM BookHistory bh JOIN bh.book b GROUP BY b.id ORDER BY COUNT(bh.id) DESC")
     List<Book> findBooksByHistory();
 
+    //주간별 베스트 셀러 구하는 쿼리
+
+
 }

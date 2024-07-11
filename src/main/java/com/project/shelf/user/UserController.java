@@ -1,6 +1,7 @@
 package com.project.shelf.user;
 
 import com.project.shelf._core.util.ApiUtil;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final UserService userService;
+    private final HttpSession session;
 
     @PostMapping("/user/join")
     public ResponseEntity<?> join(@RequestBody UserRequest.JoinDTO reqDTO) {
@@ -23,5 +25,10 @@ public class UserController {
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
+//    @GetMapping("/")
+//    public ResponseEntity<?> mainPage() {
+//        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+//        UserResponse.MainDTO respDTO = userService.main(sessionUser);
+//    }
 
 }
