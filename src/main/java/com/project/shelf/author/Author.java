@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Entity
@@ -16,11 +17,11 @@ public class Author {
     private Integer id;
 
     private String name;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private String authorIntro;
 
-    public Author(Integer id, String name, LocalDate createdAt, LocalDate updatedAt, String authorIntro) {
+    public Author(Integer id, String name, LocalDateTime createdAt, LocalDateTime updatedAt, String authorIntro) {
         this.id = id;
         this.name = name;
         this.createdAt = createdAt;

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Entity
@@ -25,11 +26,11 @@ public class BookHistory {
     private Book book;
 
     private String lastReadPage; //마지막으로 읽은 페이지
-    private LocalDate createdAt; //처음 읽은 날짜
-    private LocalDate updatedAt; //마지막으로 읽은 날짜
+    private LocalDateTime createdAt; //처음 읽은 날짜
+    private LocalDateTime updatedAt; //마지막으로 읽은 날짜
 
     @Builder
-    public BookHistory(Integer id, User user, Book book, String lastReadPage, LocalDate createdAt, LocalDate updatedAt) {
+    public BookHistory(Integer id, User user, Book book, String lastReadPage, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.user = user;
         this.book = book;

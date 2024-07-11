@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -33,11 +34,11 @@ public class Book {
     private Category category; //소설, 자기개발, 역사
 
     private String publisher; //출판사
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @Builder
-    public Book(Integer id, Author author, String title, String path, String bookIntro, String index, String pageCount, String contents, Category category, String publisher, LocalDate createdAt, LocalDate updatedAt) {
+    public Book(Integer id, Author author, String title, String path, String bookIntro, String index, String pageCount, String contents, Category category, String publisher, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.author = author;
         this.title = title;

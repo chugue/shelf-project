@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -24,12 +25,12 @@ public class User {
     private String nickName;
     private String phone;
     private String address;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private boolean status; // 구독 상태
 
     @Builder
-    public User(Integer id, String email, String password, String nickName, String phone, String address, LocalDate createdAt, LocalDate updatedAt, boolean status) {
+    public User(Integer id, String email, String password, String nickName, String phone, String address, LocalDateTime createdAt, LocalDateTime updatedAt, boolean status) {
         this.id = id;
         this.email = email;
         this.password = password;
