@@ -24,7 +24,9 @@ public class User {
     private String nickName;
     private String phone;
     private String address;
+
     private LocalDate createdAt;
+
     private LocalDate updatedAt;
     private boolean status; // 구독 상태
 
