@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <title>관리자 페이지 - 책 등록/수정 </title>
+</head>
+
+<body>
+<!-- nav start -->
+<nav>
+    <div class="nav-div">
+        <div>
+            <a href="/api/main-page">
+                <img src="/static/images/OH!FLIX.png" alt="오류" class="nav-logo" />
+            </a>
+        </div>
+        <div class="logout">
+            <a href="/logout">로그아웃</a>
+        </div>
+    </div>
+</nav>
+<!-- nav end-->
+
+<!-- ------------------------------------------------------------------------------------------------ -->
+
+<!-- main start -->
+<main>
+    <div class="main-div">
+        <!-- 사이드 바 시작 -->
+        <div class="sidebar">
+            <a href="/api/main-page">
+                <div class="main-left-text">
+                    <i class="fa-solid fa-arrow-left main-left-icon"></i>Shelf 돌아가기
+                </div>
+            </a>
+            <ul class="custom-list">
+                <li id="account-membership"><a href="/api/video-manage"><i
+                        class="fa-solid fa-chart-line sidebar-icon"></i>매출 관리</a></li>
+                <li id="account-security"><a href="/admin/members-manage"><i
+                        class="fa-solid fa-book sidebar-icon"></i>책 목록</a></li>
+                <li id="account-security"><a href="/admin/members-manage"><i
+                        class="fa-solid fa-users-gear sidebar-icon"></i>회원 관리</a></li>
+            </ul>
+        </div>
+        <!-- 사이드바 현재 위치 표시 백그라운드 -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var currentUrl = window.location.pathname;
+                var links = document.querySelectorAll(".custom-list li a");
+
+                links.forEach(function (link) {
+                    if (link.getAttribute("href") === currentUrl) {
+                        link.parentElement.style.backgroundColor = "#ddd";  // 버튼 배경을 #ddd로
+                    }
+                });
+            });
+        </script>
+        <!-- 사이드 바 종료 -->
+
+        <div class="main-section">
+            <div class="main-header mb-20">책 상세보기</div>
+
+            <!-- SHELF -->
+            <div class="form-section">
+                <div class="box-deco"></div>
+
+                <div class="form-field-header">
+                    <!-- 책 표지 사진 -->
+                    <div class="form-field-header-left">
+                        <div class="image-preview">
+                            <img id="preview-img" src="" alt="미리보기 이미지" style="display: none" />
+                            <!-- TODO : 기본 이미지 넣기 -->
+                        </div>
+                        <input id="image-upload" type="file" name="mainPhoto" />
+                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const imageUpload = document.getElementById('image-upload');
+                            const previewImg = document.getElementById('preview-img');
+                            // 체인지 이벤트 발생.
+                            imageUpload.addEventListener('change', function (e) {
+                                const file = e.target.files[0];
+                                if (file) {
+                                    const reader = new FileReader();
+                                    // 미리보기 사진 보이기
+                                    reader.onload = function (e) {
+                                        previewImg.src = e.target.result;
+                                        previewImg.style.display = "block";
+                                    }
+                                    reader.readAsDataURL(file);
+                                }
+                            });
+                        });
+                    </script>
+                    <div class="form-field-header-right">
+                        <div class="form-field mb-20">
+                            <label for="title">제목</label>
+                            <div class="input-data">제목 입력</div>
+                        </div>
+                        <div class="form-field mb-20">
+                            <label for="author">저자</label>
+                            <div class="input-data">저자 입력</div>
+                        </div>
+                        <div class="form-field mb-20">
+                            <label for="publisher">출판사</label>
+                            <div class="input-data">출판사 입력</div>
+                        </div>
+                        <!-- <div class="form-field mb-20">
+                            <label for="category">카테고리</label>
+                            <input type="text" id="category" name="category">
+                        </div> -->
+                        <div class="form-field mb-20">
+                            <label for="category">카테고리</label>
+                            <div class="input-data">카테고리 입력</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- width 100% 입력 창 -->
+                <div class="form-field mb-20">
+                    <label for="comment">코멘트</label>
+                    <div class="input-data" style="height: 5rem;">코멘트 내용</div>
+                </div>
+                <div class="form-field mb-20">
+                    <label for="introduction">책 소개</label>
+                    <div class="input-data" style="height: 7rem;">책 소개 내용</div>
+                </div>
+                <div class="form-field mb-20">
+                    <label for="toc">목차</label>
+                    <div class="input-data" style="height: 7rem;">
+                        목차 내용<br>
+                        목차 내용<br>
+                        목차 내용<br>
+                        목차 내용<br>
+                        목차 내용<br>
+                        목차 내용<br>
+                    </div>
+                </div>
+                <!-- 파일 선택 -->
+                <div class="small-title">epub파일</div>
+                <div class="form-field mb-20">
+                    <div class="file-upload-container">
+                        <!-- <label for="ebook-file" class="custom-file-upload">파일 선택</label> -->
+                        <input type="file" id="ebook-file" name="ebook-file" style="display: none;" />
+                        <span id="file-name-display">선택된 파일 없음</span>
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const fileUpload = document.getElementById('ebook-file');
+                        const fileNameDisplay = document.getElementById('file-name-display');
+
+                        fileUpload.addEventListener('change', function (e) {
+                            const file = e.target.files[0];
+                            if (file) {
+                                fileNameDisplay.textContent = file.name;
+                            } else {
+                                fileNameDisplay.textContent = "선택된 파일 없음";
+                            }
+                        });
+                    });
+                </script>
+                <div class="bottom-btns">
+                    <label class="custom-upload-button">수정하기</label>
+                    <button id="back-btn">돌아가기</button>
+                </div>
+            </div>
+
+            </form>
+        </div>
+    </div>
+</main>
+<!-- 메인 종료 -->
+<hr />
+
+<!-- 푸터 시작 -->
+<footer>
+    <div>
+        <p>셀프 shelf 유한회사 통신판매업신고번호:
+            제2023-부산진구-0703호 전화번호: 000-111-2222 (수신자 부담)</p>
+        <p>대표: 스티븐 성훈 킴</p>
+        <p>이메일 주소: korea@shelf.com</p>
+        <p>주소: 대한민국 부산광역시 부산진구 중앙대로 749 범향빌딩 3층
+            우편번호 03161</p>
+        <p>사업자등록번호: 000-111-2222</p>
+        <p>클라우드 호스팅: Amazon Web Services Inc.</p>
+        <p>공정거래위원회 웹사이트</p>
+    </div>
+</footer>
+<!-- footer end -->
+
+<!-- 자바 스크립트 -->
+<script src="/static/js/admin-upload.js"></script>
+
+</body>
+
+</html>
