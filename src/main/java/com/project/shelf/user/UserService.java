@@ -10,6 +10,7 @@ import com.project.shelf.book.Book;
 import com.project.shelf.book.BookRepository;
 import com.project.shelf.book_history.BookHistory;
 import com.project.shelf.book_history.BookHistoryRepository;
+import com.project.shelf.user.UserResponseRecord.MainDTO;
 import com.project.shelf.user.UserResponseRecord.NaverRespDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -87,7 +88,6 @@ public class UserService {
         List<Book> DailyBestSeller = getDailyBestSellers(today);
 
         //5. DTO 매핑하기
-
 
     }
 
