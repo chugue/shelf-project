@@ -26,16 +26,16 @@ public class Book {
     private Author author;
 
     private String title;
-    private String path;//사진 경로
-    private String bookIntro;
-    private String index; //목차
-    private String pageCount; // 총 페이지 수
-    private String contents; // 책 내용 todo 추후에 맞게 수정
+    private String path;        // 사진 경로
+    private String bookIntro;   // 책 소개
+    private String index;       // 목차
+    private String pageCount;   // 총 페이지 수
+    private String contents;    // 책 내용 todo 추후에 맞게 수정
 
     @Enumerated(EnumType.STRING)
-    private Category category; //소설, 자기개발, 역사
+    private Category category;  // 소설, 자기개발, 역사
 
-    private String publisher; //출판사
+    private String publisher;   // 출판사
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

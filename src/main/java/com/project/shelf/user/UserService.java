@@ -101,4 +101,42 @@ public class UserService {
             return AppJwtUtil.create(returnUser);
         }
     }
+
+    // 사용자 마이 페이지
+    public UserResponse.MyPageDTO MyPage(String jwt){
+        // 사용자 정보 불러오기 ( 세션 )
+        SessionUser sessionUser = AppJwtUtil.verify(jwt);
+        User user = userRepository.findById(sessionUser.getId())
+                .orElseThrow(() -> new Exception401("❗로그인 되지 않았습니다❗"));
+
+        return new UserResponse.MyPageDTO(user);
+    }
+
+    // 사용자 개인 정보
+    public UserResponse.MyInfoDTO MyInfo(String jwt) {
+        // 사용자 정보 불러오기 ( 세션 )
+//        User user = userRepository.findById(sessionUser.getId())
+
+        SessionUser sessionUser = AppJwtUtil.verify(jwt);
+        User user = userRepository.findById(sessionUser.getId())
+                .orElseThrow(() -> new Exception401("❗로그인 되지 않았습니다❗"));
+
+        return new UserResponse.MyInfoDTO(user);
+    }
+
+    // 사용자 정보 수정
+    @Transactional
+    public UserResponse.UpdateInfoDTO UpdateInfo(String jwt, UserRequest.UpdateInfoDTO reqDTO) {
+        // 사용자 정보 불러오기 ( 세션 )
+        SessionUser sessionUser = AppJwtUtil.verify(jwt);
+
+        User user = userRepository.findById(sessionUser.getId())
+                .orElseThrow(() -> new Exception401("❗로그인 되지 않았습니다❗"));
+        // 사용자 정보 업데이트
+        user.setNickName(reqDTO.getNickName());
+        user.setPhone(reqDTO.getPhone());
+        user.setAddress(reqDTO.getAddress());
+
+        return new UserResponse.UpdateInfoDTO(user);
+    }
 }

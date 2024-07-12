@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -38,6 +39,7 @@ public class User {
     @Column(nullable = true)
     private LocalDateTime updatedAt;
 
+    @ColumnDefault("false") // 기본 값 false
     private boolean status; // 구독 상태
 
     private String provider; // facebook, kakao, apple, naver
