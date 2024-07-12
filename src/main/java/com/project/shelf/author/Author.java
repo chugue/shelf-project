@@ -24,7 +24,7 @@ public class Author {
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime updatedAt;
     private String authorIntro;
 

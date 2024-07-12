@@ -35,7 +35,7 @@ public class User {
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime updatedAt;
 
     private boolean status; // 구독 상태
