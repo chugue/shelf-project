@@ -8,15 +8,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
 @Entity
 @Data
 @Table(name =  "user_tb")
+@EntityListeners(AuditingEntityListener.class)  // 엔티티 리스너 추가
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,26 +30,22 @@ public class User {
     private String nickName;
     private String phone;
     private String address;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(nullable = true)
+    private LocalDateTime updatedAt;
+
+    @ColumnDefault("false") // 기본 값 false
     private boolean status; // 구독 상태
 
-    // 구독 상태인지, 기본값 false
-    @ColumnDefault("false")
-    private Boolean isSubscribed;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Payment> subPayments;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<BookHistory> bookHistories;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Wishlist> wishlist;
-
+    private String provider; // facebook, kakao, apple, naver
 
     @Builder
-    public User(Integer id, String email, String password, String nickName, String phone, String address, LocalDate createdAt, LocalDate updatedAt, List<Payment> subPayments, List<BookHistory> bookHistories, List<Wishlist> wishlist, boolean status) {
+    public User(Integer id, String email, String password, String nickName, String phone, String address, LocalDateTime createdAt, LocalDateTime updatedAt, boolean status, String provider) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -54,9 +54,7 @@ public class User {
         this.address = address;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.subPayments = subPayments;
-        this.bookHistories = bookHistories;
-        this.wishlist = wishlist;
         this.status = status;
+        this.provider = provider;
     }
 }
