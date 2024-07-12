@@ -1,6 +1,6 @@
 --관리자--
 Insert Into admin_tb(email, password, created_at, updated_at)
-values ('shelf@naver.com', '1234', now(), null);
+values ('shelf@naver.com', '1234', NOW(), NOW());
 
 --사용자--
 INSERT INTO user_tb (email, password, nick_name, phone, address, created_at, updated_at, status)
