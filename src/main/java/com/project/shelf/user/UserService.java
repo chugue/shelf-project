@@ -28,8 +28,10 @@ public class UserService {
     //회원가입
     @Transactional
     public User join(UserRequest.JoinDTO reqDTO){
-        User userOp = userRepository.findByEmail(reqDTO.getEmail())
-                .orElseThrow(() -> new Exception400("중복된 이메일이 존재합니다."));
+        userRepository.findByEmail(reqDTO.getEmail())
+                .ifPresent(existingUser -> {
+                    throw new Exception400("중복된 이메일이 존재 합니다.");
+                });
 
 
         User user = userRepository.save(User.builder()
@@ -59,11 +61,6 @@ public class UserService {
     public List<Object[]> getWeeklyBestSellers(LocalDate date) {
         LocalDateTime startOfWeek = date.with(DayOfWeek.MONDAY).atStartOfDay();
         LocalDateTime endOfWeek = date.with(DayOfWeek.SUNDAY).atTime(LocalTime.MAX);
-
-        List<Object[]> weeklyBestSellers = bookHistoryRepository.findWeekBestSellers(startOfWeek,endOfWeek);
-        if (weeklyBestSellers.isEmpty()) {
-           List<Object[]> BestSellers = bookRepository.findBooksByHistory();
-        }
 
         System.out.println(startOfWeek + " 찾아라 " + endOfWeek);
         return bookHistoryRepository.findWeekBestSellers(startOfWeek, endOfWeek);
