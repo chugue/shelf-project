@@ -25,6 +25,11 @@ public class UserController {
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
+//    @GetMapping("/")
+//    public ResponseEntity<?> mainPage() {
+//        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+//        UserResponse.MainDTO respDTO = userService.main(sessionUser);
+//    }
 
     @PostMapping("/user/login")
     public ResponseEntity<?> login(LoginReqDTO reqDTO) {

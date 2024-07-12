@@ -30,18 +30,8 @@ public class User {
     private LocalDate updatedAt;
     private boolean status; // 구독 상태
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Payment> subPayments;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<BookHistory> bookHistories;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Wishlist> wishlist;
-
-
     @Builder
-    public User(Integer id, String email, String password, String nickName, String phone, String address, LocalDate createdAt, LocalDate updatedAt, List<Payment> subPayments, List<BookHistory> bookHistories, List<Wishlist> wishlist, boolean status) {
+    public User(Integer id, String email, String password, String nickName, String phone, String address, LocalDate createdAt, LocalDate updatedAt, boolean status) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -50,9 +40,6 @@ public class User {
         this.address = address;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.subPayments = subPayments;
-        this.bookHistories = bookHistories;
-        this.wishlist = wishlist;
         this.status = status;
     }
 }
