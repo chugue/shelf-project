@@ -1,7 +1,6 @@
 package com.project.shelf.user;
 
 import com.project.shelf._core.erros.exception.Exception400;
-import com.project.shelf._core.erros.exception.Exception401;
 import com.project.shelf.book.Book;
 import com.project.shelf.book.BookRepository;
 import com.project.shelf.book_history.BookHistory;
@@ -15,8 +14,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -58,19 +55,20 @@ public class UserService {
     }
 
     //주간 베스트 셀러 날짜 구하는 메서드
-    public List<Object[]> getWeeklyBestSellers(LocalDate date) {
+    public List<Book> getWeeklyBestSellers(LocalDate date) {
         LocalDateTime startOfWeek = date.with(DayOfWeek.MONDAY).atStartOfDay();
         LocalDateTime endOfWeek = date.with(DayOfWeek.SUNDAY).atTime(LocalTime.MAX);
 
         System.out.println(startOfWeek + " 찾아라 " + endOfWeek);
-        return bookHistoryRepository.findWeekBestSellers(startOfWeek, endOfWeek);
+        return bookRepository.findWeekBestSellers(startOfWeek, endOfWeek);
     }
 
 
     //일별 베스트셀러 날짜 구하는 메서드
-    public List<Object[]> getDailyBestSellers(LocalDate date) {
+    public List<Book> getDailyBestSellers(LocalDate date) {
+        LocalDateTime startOfDay = date.atStartOfDay(); // 하루의 시작 시간
         LocalDateTime endOfDay = date.atTime(LocalTime.MAX); // 하루의 끝 시간
-        return bookHistoryRepository.findDayBestSellers(endOfDay);
+        return bookRepository.findDayBestSellers(startOfDay,endOfDay);
     }
 
 

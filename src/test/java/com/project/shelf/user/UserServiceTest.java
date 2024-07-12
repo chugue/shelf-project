@@ -18,10 +18,10 @@ public class UserServiceTest {
     @Test
     public void getWeeklyBestSellers_Test(){
         // given
-        LocalDate date = LocalDate.of(2024, 7, 10);
+        LocalDate date = LocalDate.of(2024, 7, 12);
 
         // when
-        List<Object[]> bestSellers = userService.getWeeklyBestSellers(date);
+        List<Book> bestSellers = userService.getWeeklyBestSellers(date);
 
         // then
         System.out.println(bestSellers.size());
@@ -33,10 +33,10 @@ public class UserServiceTest {
     @Test
     public void findDayBestSellers_Test(){
         // given
-        LocalDate date =LocalDate.of(2024, 7, 10);
+        LocalDate date =LocalDate.of(2024, 7, 12);
 
         // when
-        List<Object[]> bestSeller = userService.getDailyBestSellers(date);
+        List<Book> bestSeller = userService.getDailyBestSellers(date);
 
         // then
         System.out.println(bestSeller.size());

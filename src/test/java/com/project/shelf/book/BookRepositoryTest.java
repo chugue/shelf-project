@@ -20,7 +20,7 @@ public class BookRepositoryTest {
         // given
 
         // when
-        List<Object[]> bestSeller = bookRepository.findBooksByHistory();
+        List<Book> bestSeller = bookRepository.findBooksByHistory();
 
         // then
         bestSeller.forEach(System.out::println);
