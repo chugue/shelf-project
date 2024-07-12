@@ -78,15 +78,17 @@ public class UserService {
         //2. 이어보기 정보 가져오기
         List<BookHistory> bookHistories = bookHistoryRepository.findBookHistoryByUserId(sessionUser.getId());
 
+        LocalDate today = LocalDate.now();
+
         //3. 주간 베스트 셀러 정보 가져오기
-//        List<Book> weekBestSeller = getWeeklyBestSellers();
+        List<Book> weekBestSeller = getWeeklyBestSellers(today);
 
         //4, 일간 베스트 셀러 정보 가져오기
+        List<Book> DailyBestSeller = getDailyBestSellers(today);
 
-//        //5. DTO 매핑하기
-//        List<UserResponse.MainDTO.BestSellerDTO> bestSellerDTOs = books.stream()
-//                .map(book -> new UserResponse.MainDTO.BestSellerDTO(book))
-//                .collect(Collectors.toList());
+        //5. DTO 매핑하기
+
+
     }
 
     //주간 베스트 셀러 날짜 구하는 메서드
@@ -95,7 +97,8 @@ public class UserService {
         LocalDateTime endOfWeek = date.with(DayOfWeek.SUNDAY).atTime(LocalTime.MAX);
 
                 System.out.println(startOfWeek + " 찾아라 " + endOfWeek);
-        return bookRepository.findWeekBestSellers(startOfWeek, endOfWeek);    }
+        return bookRepository.findWeekBestSellers(startOfWeek, endOfWeek);
+    }
 
 
 

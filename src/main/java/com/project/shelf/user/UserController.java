@@ -39,12 +39,12 @@ public class UserController {
     }
 
 
-    //TODO: 안쓸거면 지우세요~
 //    @GetMapping("/")
 //    public ResponseEntity<?> mainPage() {
 //        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
 //        UserResponse.MainDTO respDTO = userService.main(sessionUser);
 //    }
+
 
     //로그인
     @PostMapping("/user/login")

@@ -49,16 +49,17 @@ public class UserResponse {
             private LocalDateTime firstRead;
             private LocalDateTime lastRead;
 
-            public BestSellerDTO(Book book, BookHistory bookHistory) {
-                this.id = book.getId();
-                this.bookFilePath = book.getPath();
-                this.bookTitle = book.getTitle();
-                this.author = book.getAuthor().getName();
+            public BestSellerDTO(BookHistory bookHistory) {
+                this.id = bookHistory.getBook().getId();
+                this.bookFilePath = bookHistory.getBook().getPath();
+                this.bookTitle = bookHistory.getBook().getTitle();
+                this.author = bookHistory.getBook().getAuthor().getName();
                 this.firstRead = bookHistory.getCreatedAt();
                 this.lastRead = bookHistory.getUpdatedAt();
             }
         }
 
+        //주간 베스트 셀러
         @Data
         public static class WeekBestSellerDTO {
             private Integer id;
@@ -68,16 +69,17 @@ public class UserResponse {
             private LocalDateTime firstRead;
             private LocalDateTime lastRead;
 
-            public WeekBestSellerDTO(Book book, BookHistory bookHistory) {
-                this.id = book.getId();
-                this.bookFilePath = book.getPath();
-                this.bookTitle = book.getTitle();
-                this.author = book.getAuthor().getName();
+            public WeekBestSellerDTO(BookHistory bookHistory) {
+                this.id = bookHistory.getBook().getId();
+                this.bookFilePath = bookHistory.getBook().getPath();
+                this.bookTitle = bookHistory.getBook().getTitle();
+                this.author =bookHistory.getBook().getAuthor().getName();
                 this.firstRead = bookHistory.getCreatedAt();
                 this.lastRead = bookHistory.getUpdatedAt();
             }
         }
 
+        //일간 베스트셀러
         @Data
         public static class DayBestSellerDTO {
             private Integer id;
@@ -88,11 +90,11 @@ public class UserResponse {
             private LocalDateTime lastRead;
 
 
-            public DayBestSellerDTO(Book book, BookHistory bookHistory) {
-                this.id = book.getId();
-                this.bookTitle = book.getTitle();
-                this.author = book.getAuthor().getName();
-                this.bookIntro = book.getBookIntro();
+            public DayBestSellerDTO(BookHistory bookHistory) {
+                this.id = bookHistory.getBook().getId();
+                this.bookTitle = bookHistory.getBook().getTitle();
+                this.author = bookHistory.getBook().getAuthor().getName();
+                this.bookIntro = bookHistory.getBook().getBookIntro();
                 this.firstRead = bookHistory.getCreatedAt();
                 this.lastRead = bookHistory.getUpdatedAt();
             }
