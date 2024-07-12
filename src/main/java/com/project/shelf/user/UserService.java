@@ -48,12 +48,12 @@ public class UserService {
     }
 
     @Transactional
-    public LoginRespDTO login(LoginReqDTO reqDTO){
+    public LoginRespDTO login(LoginReqDTO reqDTO) {
         User user = userRepository.findByEmail(reqDTO.email())
                 .orElseThrow(() -> new Exception400("등록된 정보를 찾을 수 없습니다."));
-        log.info("유저정보", user);
+        log.info("유저 정보: {}", user);
 
-        LoginRespDTO respDTO = LoginRespDTO.builder()
+        return LoginRespDTO.builder()
                 .email(user.getEmail())
                 .nickName(user.getNickName())
                 .phone(user.getPhone())
@@ -61,8 +61,6 @@ public class UserService {
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .build();
-
-        return respDTO;
     }
 
     //메인페이지
