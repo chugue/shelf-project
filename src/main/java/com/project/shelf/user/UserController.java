@@ -7,10 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,10 +21,10 @@ public class UserController {
 
 
     @GetMapping("/oauth/naver/callback")
-    public String oauthNaverCallback(String code){
-        User sessionUser = userService.oauthNaver(code);
-        session.setAttribute("sessionUser", sessionUser); // 로그인 되면 세션 저장
-        return "redirect:/";
+    public ResponseEntity<?> oauthCallback(@RequestParam("accessToken") String NaverAccessToken){
+        System.out.println("스프링에서 받은 카카오토큰 : "+NaverAccessToken);
+        String blogAccessToken = userService.oauthNaver(NaverAccessToken);
+        return ResponseEntity.ok().header("Authorization", "Bearer "+blogAccessToken).body(new ApiUtil(null));
     }
 
 

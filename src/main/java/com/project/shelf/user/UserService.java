@@ -1,6 +1,7 @@
 package com.project.shelf.user;
 
 import com.project.shelf._core.erros.exception.Exception400;
+import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf._core.util.NaverToken;
 import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
 import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
@@ -79,7 +80,7 @@ public class UserService {
     }
 
     //네이버 오어스
-    public User oauthNaver(String code) {
+    public String oauthNaver(String code) {
         RestTemplate restTemplate = new RestTemplate();
 
         NaverRespDTO naverResponse = naverToken.getNaverToken(code, restTemplate);
@@ -90,14 +91,15 @@ public class UserService {
         User oauthUser = userRepository.findByEmail(email).orElseThrow(() -> new Exception400("사용자 정보를 찾을 수 없습니다."));
 
         if (oauthUser != null) {
-            return oauthUser;
+            return AppJwtUtil.create(oauthUser);
         } else {
             User user = User.builder()
                     .password(UUID.randomUUID().toString())
-                    .email(naverUser.response().id() + "@nate.com")
+                    .email(naverUser.response().email())
                     .provider("naver")
                     .build();
-            return userRepository.save(user);
+            User returnUser = userRepository.save(user);
+            return AppJwtUtil.create(returnUser);
         }
     }
 }
