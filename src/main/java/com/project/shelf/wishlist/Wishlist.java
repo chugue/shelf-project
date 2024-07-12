@@ -37,9 +37,11 @@ public class Wishlist {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Wishlist(Integer id, User user, Book book) {
+    public Wishlist(Integer id, User user, Book book, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.user = user;
         this.book = book;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 }
