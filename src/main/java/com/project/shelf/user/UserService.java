@@ -106,8 +106,7 @@ public class UserService {
     // 사용자 마이 페이지
     public UserResponse.MyPageDTO MyPage(SessionUser sessionUser){
         // 사용자 정보 불러오기 ( 세션 )
-//        User user = userRepository.findById(sessionUser.getId())
-        User user = userRepository.findById(1)
+        User user = userRepository.findById(sessionUser.getId())
                 .orElseThrow(() -> new Exception401("❗로그인 되지 않았습니다❗"));
 
         return new UserResponse.MyPageDTO(user);

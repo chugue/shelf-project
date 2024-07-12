@@ -81,12 +81,10 @@ public class UserResponse {
         private Integer id;
         private String nickNam;
         //        private String profileIconPath; // 필드가 없음.
-        private Boolean isSubscribe;
 
         public MyPageDTO(User user) {
             this.id = user.getId();
             this.nickNam = user.getNickName();
-            this.isSubscribe = user.getIsSubscribed();
         }
     }
 
