@@ -4,6 +4,7 @@ package com.project.shelf._core.config;
 import com.project.shelf._core.interceptor.AppInterceptor;
 import com.project.shelf._core.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -37,4 +38,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     }
 
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        WebMvcConfigurer.super.addCorsMappings(registry);
+
+        // CORS 설정 추가
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3000", "http://example.com")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
+    }
 }
