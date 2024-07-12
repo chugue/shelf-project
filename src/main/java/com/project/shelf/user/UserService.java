@@ -54,6 +54,7 @@ public class UserService {
         log.info("유저 정보: {}", user);
 
         return LoginRespDTO.builder()
+                .id(user.getId())
                 .email(user.getEmail())
                 .nickName(user.getNickName())
                 .phone(user.getPhone())

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Builder
 public record LoginRespDTO(
+        Integer id,
         String email,
         String nickName,
         String phone,
@@ -18,6 +19,7 @@ public record LoginRespDTO(
 ) {
     public User toUser() {
         return User.builder()
+                .id(id)
                 .email(email)
                 .nickName(nickName)
                 .phone(phone)

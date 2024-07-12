@@ -18,10 +18,12 @@ public class AuthorRestController {
 
     private final AuthorService authorService;
 
-
-    @GetMapping("/search")
+    //검색페이지
+    @GetMapping("/app/search")
     public ResponseEntity<?> search() {
         List<SearchPageRespDTO> respDTO =  authorService.searchPage();
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
+
+
 }
