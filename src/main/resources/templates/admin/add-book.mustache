@@ -30,6 +30,7 @@
 <!-- ------------------------------------------------------------------------------------------------ -->
 
 <!-- main start -->
+<!-- main start -->
 <main>
     <div class="main-div">
         <!-- 사이드 바 시작 -->
@@ -112,16 +113,12 @@
                             <label for="publisher">출판사</label>
                             <input type="text" id="publisher" name="publisher">
                         </div>
-                        <!-- <div class="form-field mb-20">
-                            <label for="category">카테고리</label>
-                            <input type="text" id="category" name="category">
-                        </div> -->
                         <div class="form-field mb-20">
                             <label for="category">카테고리</label>
-                            <select name="category" id="category" >
+                            <select name="category" id="category">
                                 <option value="">카테고리 선택</option>
                                 <option value="self-development">자기계발</option>
-                                <option value="poetry-essay">시/에세이</option>
+                                <option value="poetry-essay">역사</option>
                                 <option value="novel" style="border-radius: 0%;">소설</option>
                             </select>
                         </div>
@@ -164,14 +161,14 @@
                         });
                     });
                 </script>
-                <div class="bottom-btns">
-                    <label for="upload-info-btn" class="custom-upload-button">ebook 등록</label>
-                    <button id="upload-info-btn" type="submit" class="custom-upload-button">ebook 등록</button>
-                    <button id="back-btn">취소</button>
-                </div>
+                <form id="ebook-form" method="post" enctype="multipart/form-data">
+                    <div class="bottom-btns">
+                        <label for="upload-info-btn" class="custom-upload-button">ebook 등록</label>
+                        <button id="upload-info-btn" type="submit" class="custom-upload-button">ebook 등록</button>
+                        <button id="back-btn">취소</button>
+                    </div>
+                </form>
             </div>
-
-            </form>
         </div>
     </div>
 </main>
@@ -196,6 +193,36 @@
 
 <!-- 자바 스크립트 -->
 <script src="/static/js/admin-upload.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('ebook-form');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // 폼 제출 기본 동작 방지
+
+            const formData = new FormData(form);
+
+            fetch('/api/ebook', {
+                method: 'POST',
+                body: formData
+            })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('네트워크 응답이 올바르지 않습니다.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert('eBook 등록 성공!');
+                        window.location.href = '/api/main-page';
+                    })
+                    .catch(error => {
+                        alert('eBook 등록 실패: ' + error.message);
+                    });
+        });
+    });
+</script>
 
 </body>
 

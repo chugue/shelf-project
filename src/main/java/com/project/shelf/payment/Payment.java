@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Table(name = "payment_tb")
+@EntityListeners(AuditingEntityListener.class)  // 엔티티 리스너 추가
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
