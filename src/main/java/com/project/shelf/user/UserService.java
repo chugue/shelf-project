@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,12 +44,17 @@ public class UserService {
     //메인페이지
     public void main(SessionUser sessionUser){
         //1. 베스트 셀러 정보 가져오기
-        List<Book> books = bookRepository.findBooksByHistory();
+        List<Book> bestSeller = bookRepository.findBooksByHistory();
 
         //2. 이어보기 정보 가져오기
         List<BookHistory> bookHistories = bookHistoryRepository.findBookHistoryByUserId(sessionUser.getId());
 
-//        // 2. DTO로 매핑하기
+        //3. 주간 베스트 셀러 정보 가져오기
+//        List<Book> weekBestSeller = getWeeklyBestSellers();
+
+        //4, 일간 베스트 셀러 정보 가져오기
+
+//        //5. DTO 매핑하기
 //        List<UserResponse.MainDTO.BestSellerDTO> bestSellerDTOs = books.stream()
 //                .map(book -> new UserResponse.MainDTO.BestSellerDTO(book))
 //                .collect(Collectors.toList());
@@ -59,9 +65,9 @@ public class UserService {
         LocalDateTime startOfWeek = date.with(DayOfWeek.MONDAY).atStartOfDay();
         LocalDateTime endOfWeek = date.with(DayOfWeek.SUNDAY).atTime(LocalTime.MAX);
 
-        System.out.println(startOfWeek + " 찾아라 " + endOfWeek);
-        return bookRepository.findWeekBestSellers(startOfWeek, endOfWeek);
-    }
+                System.out.println(startOfWeek + " 찾아라 " + endOfWeek);
+        return bookRepository.findWeekBestSellers(startOfWeek, endOfWeek);    }
+
 
 
     //일별 베스트셀러 날짜 구하는 메서드

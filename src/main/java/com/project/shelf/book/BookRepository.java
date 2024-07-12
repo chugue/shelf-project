@@ -14,14 +14,14 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
     //베스트셀러 구하는 쿼리
-    @Query("SELECT b FROM BookHistory bh JOIN bh.book b GROUP BY b.id ORDER BY COUNT(bh.id) DESC")
+    @Query("SELECT b,a FROM BookHistory bh JOIN bh.book b join bh.book.author a GROUP BY b.id ORDER BY COUNT(bh.id) DESC")
     List<Book> findBooksByHistory();
 
     //주간 베스트 셀러 구하는 쿼리
-    @Query("SELECT b FROM BookHistory bh JOIN bh.book b WHERE bh.createdAt >= :startOfWeek AND bh.createdAt <= :endOfWeek GROUP BY b.id ORDER BY COUNT(bh.id) DESC")
+    @Query("SELECT b,a FROM BookHistory bh JOIN bh.book b join bh.book.author a WHERE bh.createdAt >= :startOfWeek AND bh.createdAt <= :endOfWeek GROUP BY b.id ORDER BY COUNT(bh.id) DESC")
     List<Book> findWeekBestSellers(@Param("startOfWeek") LocalDateTime startOfWeek, @Param("endOfWeek") LocalDateTime endOfWeek);
 
     //일별 베스트 셀러 구하는 쿼리
-    @Query("SELECT b FROM BookHistory bh JOIN bh.book b WHERE bh.createdAt >= :startOfDay AND bh.createdAt <= :endOfDay GROUP BY b.id ORDER BY COUNT(bh.id) DESC")
+    @Query("SELECT b,a FROM BookHistory bh JOIN bh.book b join bh.book.author a WHERE bh.createdAt >= :startOfDay AND bh.createdAt <= :endOfDay GROUP BY b.id ORDER BY COUNT(bh.id) DESC")
     List<Book> findDayBestSellers(@Param("startOfDay")LocalDateTime startOfDay,@Param("endOfDay") LocalDateTime endOfDay);
 }

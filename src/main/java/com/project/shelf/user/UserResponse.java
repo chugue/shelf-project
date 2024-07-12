@@ -4,8 +4,7 @@ import com.project.shelf.book.Book;
 import com.project.shelf.book_history.BookHistory;
 import lombok.Data;
 
-import java.nio.file.Path;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class UserResponse {
@@ -29,13 +28,15 @@ public class UserResponse {
     @Data
     public static class MainDTO {
         private List<BestSellerDTO> bestSellers;
+        private List<WeekBestSellerDTO>weekSellerDTOS;
+        private List<DayBestSellerDTO> dayBestSellerDTOS;
         private List<BookHistoryDTO> bookHistories;
-        private ScrapDTO scrapDTO;
 
-        public MainDTO(List<BestSellerDTO> bestSellers, List<BookHistoryDTO> bookHistories, ScrapDTO scrapDTO) {
+        public MainDTO(List<BestSellerDTO> bestSellers, List<WeekBestSellerDTO> weekSellerDTOS, List<DayBestSellerDTO> dayBestSellerDTOS, List<BookHistoryDTO> bookHistories) {
             this.bestSellers = bestSellers;
+            this.weekSellerDTOS = weekSellerDTOS;
+            this.dayBestSellerDTOS = dayBestSellerDTOS;
             this.bookHistories = bookHistories;
-            this.scrapDTO = scrapDTO;
         }
 
         //베스트 셀러
@@ -45,33 +46,76 @@ public class UserResponse {
             private String bookFilePath;
             private String bookTitle;
             private String author;
+            private LocalDateTime firstRead;
+            private LocalDateTime lastRead;
 
-            public BestSellerDTO(Book book) {
+            public BestSellerDTO(Book book, BookHistory bookHistory) {
                 this.id = book.getId();
                 this.bookFilePath = book.getPath();
                 this.bookTitle = book.getTitle();
                 this.author = book.getAuthor().getName();
+                this.firstRead = bookHistory.getCreatedAt();
+                this.lastRead = bookHistory.getUpdatedAt();
             }
         }
 
-        //이어보기
-        public class BookHistoryDTO {
+        @Data
+        public static class WeekBestSellerDTO {
             private Integer id;
+            private String bookFilePath;
             private String bookTitle;
-            private String pageCount; //총 페이지수
-            private String lastReadPage;
-            private LocalDate createdAt; //처음으로 읽은 날짜
-            private LocalDate updatedAt; // 마지막으로 읽은 날짜
+            private String author;
+            private LocalDateTime firstRead;
+            private LocalDateTime lastRead;
 
-
+            public WeekBestSellerDTO(Book book, BookHistory bookHistory) {
+                this.id = book.getId();
+                this.bookFilePath = book.getPath();
+                this.bookTitle = book.getTitle();
+                this.author = book.getAuthor().getName();
+                this.firstRead = bookHistory.getCreatedAt();
+                this.lastRead = bookHistory.getUpdatedAt();
+            }
         }
 
-        //좋아요
-        public class ScrapDTO {
+        @Data
+        public static class DayBestSellerDTO {
             private Integer id;
             private String bookTitle;
             private String author;
             private String bookIntro;
+            private LocalDateTime firstRead;
+            private LocalDateTime lastRead;
+
+
+            public DayBestSellerDTO(Book book, BookHistory bookHistory) {
+                this.id = book.getId();
+                this.bookTitle = book.getTitle();
+                this.author = book.getAuthor().getName();
+                this.bookIntro = book.getBookIntro();
+                this.firstRead = bookHistory.getCreatedAt();
+                this.lastRead = bookHistory.getUpdatedAt();
+            }
+        }
+
+        //이어보기
+        @Data
+        public static class BookHistoryDTO {
+            private Integer id;
+            private String bookTitle;
+            private String pageCount; //총 페이지수
+            private String lastReadPage;
+            private LocalDateTime firstRead; //처음으로 읽은 날짜
+            private LocalDateTime lastRead; // 마지막으로 읽은 날짜
+
+            public BookHistoryDTO(BookHistory bookHistory) {
+                this.id = bookHistory.getBook().getId();
+                this.bookTitle = bookHistory.getBook().getTitle();
+                this.pageCount = bookHistory.getBook().getPageCount();
+                this.lastReadPage = bookHistory.getLastReadPage();
+                this.firstRead = bookHistory.getCreatedAt();
+                this.lastRead = bookHistory.getUpdatedAt();
+            }
         }
     }
 }
