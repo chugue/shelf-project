@@ -5,6 +5,5 @@ import lombok.Builder;
 @Builder
 public record SearchPageRespDTO(
         String AuthorName
-
 ) {
 }

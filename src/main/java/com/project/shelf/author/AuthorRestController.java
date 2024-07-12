@@ -3,6 +3,7 @@ package com.project.shelf.author;
 
 import com.project.shelf._core.util.ApiUtil;
 import com.project.shelf.author.AuthorResponseRecord.SearchPageRespDTO;
+import com.project.shelf.user.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ public class AuthorRestController {
     private final AuthorService authorService;
 
 
-    @GetMapping("/api/search")
+    @GetMapping("/search")
     public ResponseEntity<?> search() {
         List<SearchPageRespDTO> respDTO =  authorService.searchPage();
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));

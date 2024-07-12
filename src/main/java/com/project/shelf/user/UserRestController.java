@@ -31,7 +31,6 @@ public class UserRestController {
     //회원가입
     @PostMapping("/user/join")
     public ResponseEntity<?> join(@RequestBody UserRequest.JoinDTO reqDTO) {
-
         System.out.println("👉👉👉👉" + reqDTO.toString());
         User user = userService.join(reqDTO);
         UserResponse.Join respDTO = new UserResponse.Join(user);

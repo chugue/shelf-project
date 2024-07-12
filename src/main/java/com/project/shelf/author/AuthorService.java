@@ -20,7 +20,6 @@ public class AuthorService {
                 .map(author -> SearchPageRespDTO.builder()
                         .AuthorName(author.getName()).build())
                 .toList();
-
         return authors;
     }
 }
