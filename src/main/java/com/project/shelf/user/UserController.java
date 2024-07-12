@@ -3,6 +3,7 @@ package com.project.shelf.user;
 import com.project.shelf._core.util.ApiUtil;
 import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
 import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,18 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final UserService userService;
+    private final HttpSession session;
 
+
+    @GetMapping("/oauth/naver/callback")
+    public String oauthNaverCallback(String code){
+        User sessionUser = userService.oauthNaver(code);
+        session.setAttribute("sessionUser", sessionUser); // 로그인 되면 세션 저장
+        return "redirect:/";
+    }
+
+
+    //회원가입
     @PostMapping("/user/join")
     public ResponseEntity<?> join(@RequestBody UserRequest.JoinDTO reqDTO) {
             User user = userService.join(reqDTO);
@@ -35,6 +47,7 @@ public class UserController {
 //        UserResponse.MainDTO respDTO = userService.main(sessionUser);
 //    }
 
+    //로그인
     @PostMapping("/user/login")
     public ResponseEntity<?> login(@RequestBody LoginReqDTO reqDTO) {
         log.info("로그인 컨트롤러",reqDTO);
