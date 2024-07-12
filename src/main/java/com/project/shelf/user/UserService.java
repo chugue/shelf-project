@@ -1,6 +1,8 @@
 package com.project.shelf.user;
 
 import com.project.shelf._core.erros.exception.Exception400;
+import com.project.shelf._core.util.AppJwtUtil;
+import com.project.shelf._core.util.NaverToken;
 import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
 import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
 import com.project.shelf._core.erros.exception.Exception401;
@@ -8,13 +10,16 @@ import com.project.shelf.book.Book;
 import com.project.shelf.book.BookRepository;
 import com.project.shelf.book_history.BookHistory;
 import com.project.shelf.book_history.BookHistoryRepository;
+import com.project.shelf.user.UserResponseRecord.NaverRespDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -24,6 +29,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final BookHistoryRepository bookHistoryRepository;
+    private final NaverToken naverToken;
 
     //회원가입
     @Transactional
@@ -71,5 +77,29 @@ public class UserService {
         List<UserResponse.MainDTO.BestSellerDTO> bestSellerDTOs = books.stream()
                 .map(book -> new UserResponse.MainDTO.BestSellerDTO(book))
                 .collect(Collectors.toList());
+    }
+
+    //네이버 오어스
+    public String oauthNaver(String code) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        NaverRespDTO naverResponse = naverToken.getNaverToken(code, restTemplate);
+        NaverRespDTO.NaverUserDTO naverUser = naverToken.getNaveUser(naverResponse.accessToken(), restTemplate);
+
+        String email = "naver_" + naverUser.response().id();
+
+        User oauthUser = userRepository.findByEmail(email).orElseThrow(() -> new Exception400("사용자 정보를 찾을 수 없습니다."));
+
+        if (oauthUser != null) {
+            return AppJwtUtil.create(oauthUser);
+        } else {
+            User user = User.builder()
+                    .password(UUID.randomUUID().toString())
+                    .email(naverUser.response().email())
+                    .provider("naver")
+                    .build();
+            User returnUser = userRepository.save(user);
+            return AppJwtUtil.create(returnUser);
+        }
     }
 }

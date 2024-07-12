@@ -40,8 +40,10 @@ public class User {
 
     private boolean status; // 구독 상태
 
+    private String provider; // facebook, kakao, apple, naver
+
     @Builder
-    public User(Integer id, String email, String password, String nickName, String phone, String address, LocalDateTime createdAt, LocalDateTime updatedAt, boolean status) {
+    public User(Integer id, String email, String password, String nickName, String phone, String address, LocalDateTime createdAt, LocalDateTime updatedAt, boolean status, String provider) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -51,5 +53,6 @@ public class User {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.status = status;
+        this.provider = provider;
     }
 }
