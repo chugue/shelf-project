@@ -10,12 +10,14 @@ import com.project.shelf.book_history.BookHistory;
 import com.project.shelf.book_history.BookHistoryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -43,6 +45,7 @@ public class UserService {
     public LoginRespDTO login(LoginReqDTO reqDTO){
         User user = userRepository.findByEmail(reqDTO.email())
                 .orElseThrow(() -> new Exception400("등록된 정보를 찾을 수 없습니다."));
+        log.info("유저정보", user);
 
         LoginRespDTO respDTO = LoginRespDTO.builder()
                 .email(user.getEmail())

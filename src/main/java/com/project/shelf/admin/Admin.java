@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Entity
@@ -18,11 +21,16 @@ public class Admin {
 
     private String email;
     private String password;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
 
     @Builder
-    public Admin(Integer id, String email, String password, LocalDate createdAt, LocalDate updatedAt) {
+    public Admin(Integer id, String email, String password, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.email = email;
         this.password = password;

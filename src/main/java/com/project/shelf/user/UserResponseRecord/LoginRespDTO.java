@@ -3,6 +3,7 @@ package com.project.shelf.user.UserResponseRecord;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Builder
 public record LoginRespDTO(
@@ -10,7 +11,7 @@ public record LoginRespDTO(
          String nickName,
          String phone,
          String address,
-         LocalDate createdAt,
-         LocalDate updatedAt
+         LocalDateTime createdAt,
+         LocalDateTime updatedAt
 ) {
 }

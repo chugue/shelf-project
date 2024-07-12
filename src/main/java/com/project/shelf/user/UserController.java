@@ -4,12 +4,14 @@ import com.project.shelf._core.util.ApiUtil;
 import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
 import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class UserController {
@@ -25,6 +27,8 @@ public class UserController {
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
+
+    //TODO: 안쓸거면 지우세요~
 //    @GetMapping("/")
 //    public ResponseEntity<?> mainPage() {
 //        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
@@ -32,7 +36,8 @@ public class UserController {
 //    }
 
     @PostMapping("/user/login")
-    public ResponseEntity<?> login(LoginReqDTO reqDTO) {
+    public ResponseEntity<?> login(@RequestBody LoginReqDTO reqDTO) {
+        log.info("로그인 컨트롤러",reqDTO);
         LoginRespDTO respDTO = userService.login(reqDTO);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }

@@ -19,7 +19,6 @@ public class SubTypes {
     @Enumerated(EnumType.STRING)
     private SubscriptionPeriod subPeriod; //구독기간
 
-
     @Builder
     public SubTypes(Integer id, Integer amount,  SubscriptionPeriod subPeriod) {
         this.id = id;
