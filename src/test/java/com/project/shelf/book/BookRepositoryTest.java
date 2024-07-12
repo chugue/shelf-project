@@ -12,6 +12,7 @@ public class BookRepositoryTest {
     @Autowired
     private BookRepository bookRepository;
 
+
     @Test
     public void findBooksByHistory_Test(){
         // given
@@ -21,5 +22,12 @@ public class BookRepositoryTest {
 
         // then
         bestSeller.forEach(System.out::println);
+    }
+
+
+    @Test
+    void findByCategory() {
+        List<Book> books = bookRepository.findByCategory(Book.Category.소설);
+        books.forEach(book -> System.out.println("book = " + book));
     }
 }
