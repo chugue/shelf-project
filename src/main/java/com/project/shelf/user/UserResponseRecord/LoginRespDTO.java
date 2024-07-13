@@ -17,7 +17,7 @@ import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
  */
 @Builder
 public record LoginRespDTO(
-        Integer userId,
+        Integer id,
         String email,
         String nickName,
         Boolean status,
@@ -25,7 +25,7 @@ public record LoginRespDTO(
 ) {
     public User toUser() {
         return User.builder()
-                .id(userId)
+                .id(id)
                 .email(email)
                 .nickName(nickName)
                 .status(status)
