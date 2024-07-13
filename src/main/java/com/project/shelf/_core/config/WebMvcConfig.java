@@ -16,9 +16,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     // 로그인 인터셉터
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor())
-                .addPathPatterns("/api/**")
-                .excludePathPatterns();
+//        registry.addInterceptor(new LoginInterceptor())
+////                .addPathPatterns("/api/**")
+//                .excludePathPatterns();
         registry.addInterceptor(new AppInterceptor())
                 .addPathPatterns("/app/**")
                 .excludePathPatterns();
@@ -29,8 +29,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         WebMvcConfigurer.super.addResourceHandlers(registry);
-        registry.addResourceHandler("/imgae/**")
-                .addResourceLocations("file:./imgae/")
+        registry.addResourceHandler("/image/**")
+                .addResourceLocations("file:./image/")
                 .setCachePeriod(60 * 60) // 초 단위 => 한시간
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver());

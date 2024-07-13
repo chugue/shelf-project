@@ -40,4 +40,6 @@ public class AdminController {
     public String getBookDetail(HttpServletRequest request) {
         return "admin/book-detail";
     }
+
+
 }
