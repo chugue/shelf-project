@@ -30,11 +30,11 @@ public class Book {
 
     private String title;
     private String path; // 사진 경로
-    private String bookIntro;
-
 
     private String pageCount; // 총 페이지 수
-    private String contents; // 책 내용 todo 추후에 맞게 수정
+
+    private String bookIntro; // 책 소개
+    private String contentIntro; // 내용 소개
 
     @Enumerated(EnumType.STRING)
     private Category category; // 소설, 자기계발, 역사
@@ -49,22 +49,25 @@ public class Book {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+
     @Builder
-    public Book(Integer id, Author author, String title, String path, String bookIntro, String pageCount, String contents, Category category, String publisher, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Book(Integer id, Author author, String title, String path, String pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.author = author;
         this.title = title;
         this.path = path;
-        this.bookIntro = bookIntro;
         this.pageCount = pageCount;
-        this.contents = contents;
+        this.bookIntro = bookIntro;
+        this.contentIntro = contentIntro;
         this.category = category;
         this.publisher = publisher;
+        this.epubFile = epubFile;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
+
     public enum Category {
-        소설, 자기계발, 역사
+        소설, 자기계발, 역사;
     }
 }

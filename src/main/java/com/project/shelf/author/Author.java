@@ -28,6 +28,7 @@ public class Author {
     @LastModifiedDate
     @Column(nullable = true)
     private LocalDateTime updatedAt;
+
     private String authorIntro;
 
     public Author(Integer id, String name, LocalDateTime createdAt, LocalDateTime updatedAt, String authorIntro) {
