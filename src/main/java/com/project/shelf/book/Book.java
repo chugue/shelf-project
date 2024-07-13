@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Data
-@Table(name =  "book_tb")
+@Table(name = "book_tb")
 @EntityListeners(AuditingEntityListener.class)  // 엔티티 리스너 추가
 public class Book {
     @Id

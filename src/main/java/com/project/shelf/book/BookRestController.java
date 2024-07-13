@@ -24,8 +24,9 @@ public class BookRestController {
 
     //책 검색 결과페이지
     @GetMapping("/app/book/search")
-    public ResponseEntity<?> bookSearch(@RequestParam("category") String category) {
-        List<BookCategorySearchDTO> respDTO =  bookService.bookSearch(category);
+    public ResponseEntity<?> bookSearch(@RequestParam(value = "category", required = false) String category,
+                                        @RequestParam(value = "author", required = false) String author) {
+        BookCategorySearchDTO respDTO = bookService.bookSearch(category, author);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
