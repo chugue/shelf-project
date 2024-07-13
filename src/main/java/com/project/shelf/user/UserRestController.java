@@ -55,6 +55,30 @@ public class UserRestController {
                 .header(JwtVO.HEADER, JwtVO.PREFIX + jwt)
                 .body(new ApiUtil<>(respDTO));
     }
+
+    // 사용자 마이페이지
+    @GetMapping("/user/my-page")
+    public ResponseEntity<?> myPage(@RequestHeader("Authorization") String jwt) {
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        UserResponse.MyPageDTO respDTO = userService.MyPage(jwt.replace("Bearer ", ""));
+        return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
+    }
+
+    // 사용자 개인정보
+    @GetMapping("/user/my-info")
+    public ResponseEntity<?> myInfo(@RequestHeader("Authorization") String jwt) {
+        UserResponse.MyInfoDTO respDTO = userService.MyInfo(jwt.replace("Bearer ", ""));
+        return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
+    }
+
+    // 개인정보 변경하기
+    @PostMapping("/user/update-info")
+    public ResponseEntity<?> updateInfo(@RequestHeader("Authorization") String jwt,
+                                        @RequestBody UserRequest.UpdateInfoDTO reqDTO) {
+        UserResponse.UpdateInfoDTO respDTO
+                = userService.UpdateInfo(jwt.replace("Bearer ",""), reqDTO);
+        return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
+    }
 }
 
 

@@ -68,6 +68,6 @@ public class Book {
 
 
     public enum Category {
-        소설, 자기계발, 역사;
+        소설, 자기계발, 역사
     }
 }
