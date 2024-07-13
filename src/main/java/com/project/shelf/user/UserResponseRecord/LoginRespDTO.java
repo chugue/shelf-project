@@ -6,26 +6,30 @@ import lombok.Builder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
+/*
+  int id;
+  String email;
+  String nickName;
+  bool status;
+  DateTime? createdAt;
+ */
 @Builder
 public record LoginRespDTO(
-        Integer id,
+        Integer userId,
         String email,
         String nickName,
-        String phone,
-        String address,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        Boolean status,
+        LocalDateTime createdAt
 ) {
     public User toUser() {
         return User.builder()
-                .id(id)
+                .id(userId)
                 .email(email)
                 .nickName(nickName)
-                .phone(phone)
-                .address(address)
+                .status(status)
                 .createdAt(createdAt)
-                .updatedAt(updatedAt)
                 .build();
     }
 }

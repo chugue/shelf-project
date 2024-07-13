@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,17 +34,20 @@ public class UserService {
 
     //회원가입
     @Transactional
-    public User join(UserRequest.JoinDTO reqDTO){
+    public User join(UserRequest.JoinDTO reqDTO) {
         Optional<User> userOp = userRepository.findByEmail(reqDTO.getEmail());
 
-        if(userOp.isPresent()){
-           throw new Exception400("중복된 이메일이 존재합니다.");
+        if (userOp.isPresent()) {
+            throw new Exception400("중복된 이메일이 존재합니다.");
         }
         User user = userRepository.save(User.builder()
-                        .email(reqDTO.getEmail())
-                        .password(reqDTO.getPassword())
-                        .nickName(reqDTO.getNickName())
+                .email(reqDTO.getEmail())
+                .password(reqDTO.getPassword())
+                .nickName(reqDTO.getNickName())
+                .status(false)
+                .createdAt(LocalDateTime.now())
                 .build());
+
         return user;
     }
 
@@ -54,18 +58,16 @@ public class UserService {
         log.info("유저 정보: {}", user);
 
         return LoginRespDTO.builder()
-                .id(user.getId())
+                .userId(user.getId())
                 .email(user.getEmail())
                 .nickName(user.getNickName())
-                .phone(user.getPhone())
-                .address(user.getAddress())
+                .status(user.getStatus())
                 .createdAt(user.getCreatedAt())
-                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 
     //메인페이지
-    public void main(SessionUser sessionUser){
+    public void main(SessionUser sessionUser) {
         //1. 베스트 셀러 정보 가져오기
         List<Book> books = bookRepository.findBooksByHistory();
 
@@ -103,7 +105,7 @@ public class UserService {
     }
 
     // 사용자 마이 페이지
-    public UserResponse.MyPageDTO MyPage(String jwt){
+    public UserResponse.MyPageDTO MyPage(String jwt) {
         // 사용자 정보 불러오기 ( 세션 )
         SessionUser sessionUser = AppJwtUtil.verify(jwt);
         User user = userRepository.findById(sessionUser.getId())

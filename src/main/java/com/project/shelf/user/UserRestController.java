@@ -28,7 +28,7 @@ public class UserRestController {
     }
 
 
-    //회원가입
+    //회원가입 TODO : respDTO를 담는 로직이 service에 들어가 있어야지 SRP를 지킨 코드지
     @PostMapping("/user/join")
     public ResponseEntity<?> join(@RequestBody UserRequest.JoinDTO reqDTO) {
         System.out.println("👉👉👉👉" + reqDTO.toString());

@@ -4,7 +4,7 @@ values ('shelf@naver.com', '1234', NOW(), NOW());
 
 --사용자--
 INSERT INTO user_tb (email, password, nick_name, phone, address, created_at, updated_at, status)
-VALUES ('psk@naver.com', '1234', 'psk', '010-2897-2345', '부산광역시 금정구', NOW(), NOW(), true),
+VALUES ('psk@naver.com', '1234', '박선규', '010-2897-2345', '부산광역시 금정구', '2024-02-01', NOW(), true),
        ('sjm@naver.com', '1234', 'sjm', '010-3892-1445', '부산광역시 금정구', NOW(), NOW(), true),
        ('kjh@naver.com', '1234', 'kjh', '010-1782-2345', '서울특별시 강남구', NOW(), NOW(), true),
        ('ksh@naver.com', '1234', 'ksh', '010-2348-5422', '서울특별시 노원구', NOW(), NOW(), true),

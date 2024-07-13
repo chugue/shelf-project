@@ -1,8 +1,6 @@
 package com.project.shelf.user;
 
-import com.project.shelf._core.util.ApiUtil;
-import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
-import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
+
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

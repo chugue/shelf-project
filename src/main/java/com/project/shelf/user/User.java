@@ -1,8 +1,5 @@
 package com.project.shelf.user;
 
-import com.project.shelf.book_history.BookHistory;
-import com.project.shelf.payment.Payment;
-import com.project.shelf.wishlist.Wishlist;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -12,9 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @NoArgsConstructor
 @Entity
@@ -40,12 +35,12 @@ public class User {
     private LocalDateTime updatedAt;
 
     @ColumnDefault("false") // 기본 값 false
-    private boolean status; // 구독 상태
+    private Boolean status; // 구독 상태
 
     private String provider; // facebook, kakao, apple, naver
 
     @Builder
-    public User(Integer id, String email, String password, String nickName, String phone, String address, LocalDateTime createdAt, LocalDateTime updatedAt, boolean status, String provider) {
+    public User(Integer id, String email, String password, String nickName, String phone, String address, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean status, String provider) {
         this.id = id;
         this.email = email;
         this.password = password;
