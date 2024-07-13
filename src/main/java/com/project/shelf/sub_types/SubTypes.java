@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @NoArgsConstructor
 @Entity
 @Data
 @Table(name =  "sub_typs_tb")
+@EntityListeners(AuditingEntityListener.class)  // 엔티티 리스너 추가
 public class SubTypes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
