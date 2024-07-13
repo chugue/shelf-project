@@ -32,8 +32,6 @@ public class Book {
     private String path; // 사진 경로
     private String bookIntro;
 
-    @Column(columnDefinition = "TEXT")
-    private String index; // 목차 (여러 개의 목차를 JSON 문자열로 저장)
 
     private String pageCount; // 총 페이지 수
     private String contents; // 책 내용 todo 추후에 맞게 수정
@@ -52,13 +50,12 @@ public class Book {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Book(Integer id, Author author, String title, String path, String bookIntro, String index, String pageCount, String contents, Category category, String publisher, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Book(Integer id, Author author, String title, String path, String bookIntro, String pageCount, String contents, Category category, String publisher, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.author = author;
         this.title = title;
         this.path = path;
         this.bookIntro = bookIntro;
-        this.index = index;
         this.pageCount = pageCount;
         this.contents = contents;
         this.category = category;
