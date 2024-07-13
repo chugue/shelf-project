@@ -75,7 +75,7 @@
                                 <!-- TODO : 기본 이미지 넣기 -->
                             </div>
                             <label for="image-upload" class="custom-file-upload">책 표지 업로드</label>
-                            <input id="image-upload" type="file" name="path"/>
+                            <input id="image-upload" type="file" name="path" accept=".jpg,.jpeg,.png,.gif"/>
                         </div>
                         <script>
                             document.addEventListener('DOMContentLoaded', function () {
@@ -142,7 +142,7 @@
                     <div class="form-field mb-20">
                         <div class="file-upload-container">
                             <label for="epubFile" class="custom-file-upload">파일 선택</label>
-                            <input type="file" id="epubFile" name="epubFile" style="display: none;"/>
+                            <input type="file" id="epubFile" name="epubFile" accept=".epub" style="display: none;"/>
                             <span id="file-name-display">선택된 파일 없음</span>
                         </div>
                     </div>
@@ -194,8 +194,8 @@
             const contentIntro = formData.get('contentIntro').trim();
             const authorIntro = formData.get('authorIntro').trim();
             const pageCount = formData.get('pageCount').trim();
-            const path = formData.get('path');
-            const epubFile = formData.get('epubFile');
+            const path = form.querySelector('input[name="path"]').files[0];
+            const epubFile = form.querySelector('input[name="epubFile"]').files[0];
 
             if (!title) {
                 alert('제목을 입력하세요.');
@@ -229,12 +229,16 @@
                 alert('총 페이지 수를 입력하세요.');
                 return;
             }
-            if (!path || path.size === 0) {
-                alert('책 표지 이미지를 업로드하세요.');
+            if (isNaN(pageCount)) {
+                alert('총 페이지 수는 숫자만 입력할 수 있습니다.');
                 return;
             }
-            if (!epubFile || epubFile.size === 0) {
-                alert('epub 파일을 업로드하세요.');
+            if (!path || !/\.(jpg|jpeg|png|gif)$/i.test(path.name)) {
+                alert('책 표지 이미지를 업로드하세요. (jpg, jpeg, png, gif)');
+                return;
+            }
+            if (!epubFile || !/\.epub$/i.test(epubFile.name)) {
+                alert('epub 파일을 업로드하세요. (epub)');
                 return;
             }
 
@@ -247,7 +251,7 @@
                     })
                     .then(data => {
                         alert('eBook 등록 성공!');
-                        window.location.href = '/api/main-page';
+                        window.location.href = '/';
                     })
                     .catch(error => {
                         alert('eBook 등록 실패: ' + error.message);
