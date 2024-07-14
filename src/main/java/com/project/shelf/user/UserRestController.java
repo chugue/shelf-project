@@ -5,6 +5,7 @@ import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf._core.util.JwtVO;
 import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
 import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
+import com.project.shelf.user.UserResponseRecord.MainDTO;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,12 +39,13 @@ public class UserRestController {
     }
 
 
-    //TODO: 안쓸거면 지우세요~
-//    @GetMapping("/")
-//    public ResponseEntity<?> mainPage() {
-//        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-//        UserResponse.MainDTO respDTO = userService.main(sessionUser);
-//    }
+    //메인
+    @GetMapping("/app/main")
+    public ResponseEntity<?> mainPage() {
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        MainDTO respDTO = userService.main(sessionUser);
+        return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
+    }
 
     //로그인
     @PostMapping("/user/login")
