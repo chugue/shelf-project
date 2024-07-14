@@ -1,5 +1,6 @@
 package com.project.shelf.book;
 
+import com.project.shelf.author.Author;
 import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,13 +16,11 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query("SELECT b FROM BookHistory bh JOIN bh.book b GROUP BY b.id ORDER BY COUNT(bh.id) DESC")
     List<Book> findBooksByHistory();
 
-    @Query("SELECT b FROM Book b where b.category = :category")
+    @Query("SELECT b FROM Book b JOIN FETCH b.author a WHERE a.id = :authorId")
+    List<Book> findByAuthorId(@Param("authorId") Integer authorId);
+
+    @Query("SELECT b FROM Book b JOIN FETCH b.author a WHERE b.category = :category")
     List<Book> findByCategory(@Param("category") Book.Category category);
-
-
-    @Query("SELECT count(*) FROM Book b where b.category = :category")
-    Integer findByCategoryConut(@Param("category") Book.Category category);
-
 
 
     //주간별 베스트 셀러 구하는 쿼리
