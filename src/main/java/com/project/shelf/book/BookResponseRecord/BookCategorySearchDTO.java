@@ -4,10 +4,11 @@ import lombok.Builder;
 
 @Builder
 public record BookCategorySearchDTO(
-        String AuthorName,
-        String BookTitle,
-        String BookPath,
-        Integer BookCount
+        Integer categoryId,
+        String authorName,
+        String bookTitle,
+        String bookPath,
+        Integer bookCount
 ) {
 
 }

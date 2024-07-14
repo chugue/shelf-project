@@ -36,10 +36,11 @@ public class BookService {
             // 카테고리별 책 리스트 조회 및 매핑
             return bookRepository.findByCategory(bookCategory).stream()
                     .map(book -> BookCategorySearchDTO.builder()
-                            .BookCount(bookCount)
-                            .BookPath(book.getPath())
-                            .BookTitle(book.getTitle())
-                            .AuthorName(book.getAuthor().getName())
+                            .bookCount(bookCount)
+                            .categoryId(book.getId())
+                            .bookPath(book.getPath())
+                            .bookTitle(book.getTitle())
+                            .authorName(book.getAuthor().getName())
                             .build())
                     .collect(Collectors.toList());
         } catch (IllegalArgumentException e) {
