@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Data
-@Table(name =  "book_tb")
+@Table(name = "book_tb")
 @EntityListeners(AuditingEntityListener.class)  // 엔티티 리스너 추가
 public class Book {
     @Id
@@ -68,6 +68,6 @@ public class Book {
 
 
     public enum Category {
-        소설, 자기계발, 역사
+        소설, 자기계발, 역사, 인문, 사회, 과학, 만화, 철학, 종교, 어린이, IT
     }
 }

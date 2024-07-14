@@ -18,7 +18,7 @@ public class AuthorService {
     public List<SearchPageRespDTO> searchPage() {
         List<SearchPageRespDTO> authors = authorRepository.findAll().stream()
                 .map(author -> SearchPageRespDTO.builder()
-                        .AuthorName(author.getName()).AuthorId(author.getId()).build())
+                        .authorName(author.getName()).authorId(author.getId()).build())
                 .toList();
         return authors;
     }

@@ -1,5 +1,6 @@
 package com.project.shelf.book;
 
+import com.project.shelf.author.Author;
 import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,7 +25,11 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query("SELECT b,a FROM BookHistory bh JOIN bh.book b join bh.book.author a WHERE bh.createdAt >= :startOfDay AND bh.createdAt <= :endOfDay GROUP BY b.id ORDER BY COUNT(bh.id) DESC")
     List<Book> findDayBestSellers(@Param("startOfDay") LocalDateTime startOfDay, @Param("endOfDay") LocalDateTime endOfDay);
 
-    @Query("SELECT b FROM Book b where b.category = :category")
+
+    @Query("SELECT b FROM Book b JOIN FETCH b.author a WHERE a.id = :authorId")
+    List<Book> findByAuthorId(@Param("authorId") Integer authorId);
+
+    @Query("SELECT b FROM Book b JOIN FETCH b.author a WHERE b.category = :category")
     List<Book> findByCategory(@Param("category") Book.Category category);
 
 
