@@ -22,6 +22,7 @@ public class BookResponse {
         private String bookIntro;   // 책 소개
         private String contentIntro;// 내용 소개
         private Boolean isWish;     // 서재에 담겼는지
+        // TODO : epub 경로 추가
 
         public DetailPageDTO(Book book, Boolean isWish) {
             this.id = book.getId();
