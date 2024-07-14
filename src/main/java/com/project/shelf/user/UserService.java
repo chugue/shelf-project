@@ -104,9 +104,8 @@ public class UserService {
     }
 
     // 사용자 마이 페이지
-    public UserResponse.MyPageDTO MyPage(String jwt) {
+    public UserResponse.MyPageDTO MyPage(SessionUser sessionUser) {
         // 사용자 정보 불러오기 ( 세션 )
-        SessionUser sessionUser = AppJwtUtil.verify(jwt);
         User user = userRepository.findById(sessionUser.getId())
                 .orElseThrow(() -> new Exception401("❗로그인 되지 않았습니다❗"));
 
@@ -114,11 +113,8 @@ public class UserService {
     }
 
     // 사용자 개인 정보
-    public UserResponse.MyInfoDTO MyInfo(String jwt) {
+    public UserResponse.MyInfoDTO MyInfo(SessionUser sessionUser) {
         // 사용자 정보 불러오기 ( 세션 )
-//        User user = userRepository.findById(sessionUser.getId())
-
-        SessionUser sessionUser = AppJwtUtil.verify(jwt);
         User user = userRepository.findById(sessionUser.getId())
                 .orElseThrow(() -> new Exception401("❗로그인 되지 않았습니다❗"));
 
@@ -127,10 +123,8 @@ public class UserService {
 
     // 사용자 정보 수정
     @Transactional
-    public UserResponse.UpdateInfoDTO UpdateInfo(String jwt, UserRequest.UpdateInfoDTO reqDTO) {
+    public UserResponse.UpdateInfoDTO UpdateInfo(SessionUser sessionUser, UserRequest.UpdateInfoDTO reqDTO) {
         // 사용자 정보 불러오기 ( 세션 )
-        SessionUser sessionUser = AppJwtUtil.verify(jwt);
-
         User user = userRepository.findById(sessionUser.getId())
                 .orElseThrow(() -> new Exception401("❗로그인 되지 않았습니다❗"));
         // 사용자 정보 업데이트
