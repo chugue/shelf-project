@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record SearchPageRespDTO(
-        Integer AuthorId,
-        String AuthorName
+        Integer authorId,
+        String authorName
 ) {
 }
