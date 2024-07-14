@@ -19,7 +19,7 @@ import java.util.List;
 public class BookRestController {
     private static final Logger log = LoggerFactory.getLogger(BookRestController.class);
     private final AuthorService authorService;
-    private  final BookService bookService;
+    private final BookService bookService;
 
 
     //책 검색 결과페이지
@@ -42,4 +42,13 @@ public class BookRestController {
         }
     }
 
+    // 책 상세보기 페이지
+    @GetMapping("/book/{bookId}")
+    public ResponseEntity<?> bookDetailPage(@RequestHeader("Authorization") String jwt,
+                                            @PathVariable Integer bookId){
+        BookResponse.DetailPageDTO respDTO
+                = bookService.bookDetailPage(jwt.replace("Bearer ",""), bookId);
+
+        return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
+    }
 }

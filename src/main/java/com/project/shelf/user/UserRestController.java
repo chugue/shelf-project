@@ -59,7 +59,6 @@ public class UserRestController {
     // 사용자 마이페이지
     @GetMapping("/user/my-page")
     public ResponseEntity<?> myPage(@RequestHeader("Authorization") String jwt) {
-        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         UserResponse.MyPageDTO respDTO = userService.MyPage(jwt.replace("Bearer ", ""));
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
