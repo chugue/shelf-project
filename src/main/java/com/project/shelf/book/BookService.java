@@ -8,13 +8,16 @@ import com.project.shelf.author.Author;
 import com.project.shelf.author.AuthorRepository;
 import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -24,29 +27,48 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
 
-    // 카테고리 조회 메서드
-    @Transactional
-    public List<BookCategorySearchDTO> bookSearch(String category) {
-        try {
-            Book.Category bookCategory = Book.Category.valueOf(category);
 
-            // 카테고리별 책 수 조회
-            Integer bookCount = bookRepository.findByCategoryConut(bookCategory);
 
-            // 카테고리별 책 리스트 조회 및 매핑
-            return bookRepository.findByCategory(bookCategory).stream()
-                    .map(book -> BookCategorySearchDTO.builder()
-                            .bookCount(bookCount)
-                            .categoryId(book.getId())
-                            .bookPath(book.getPath())
-                            .bookTitle(book.getTitle())
-                            .authorName(book.getAuthor().getName())
-                            .build())
-                    .collect(Collectors.toList());
-        } catch (IllegalArgumentException e) {
-            // 잘못된 카테고리인 경우 예외 처리
-            throw new Exception400("해당 카테고리의 책 정보를 찾을 수 없습니다.");
+    public BookCategorySearchDTO bookSearch(String category, String authorName) {
+        List<Book> books;
+
+        if (authorName != null && !authorName.isEmpty()) {
+            Author author = authorRepository.findByName(authorName)
+                    .orElseThrow(() -> new Exception400("저자를 찾을 수 없습니다."));
+            books = bookRepository.findByAuthorId(author.getId());
+            if (books.isEmpty()) {
+                throw new Exception400("저자의 책을 찾을 수 없습니다.");
+            }
+        } else {
+            try {
+                Book.Category bookCategory = Book.Category.valueOf(category);
+                books = bookRepository.findByCategory(bookCategory);
+                if (books.isEmpty()) {
+                    throw new Exception400("카테고리에 맞는 책 정보를 찾을 수 없습니다.");
+                }
+            } catch (IllegalArgumentException e) {
+                throw new Exception400("유효하지 않은 카테고리입니다.");
+            }
         }
+
+        Integer bookCount = books.size();
+
+        List<BookCategorySearchDTO.Book> bookDTOs = books.stream()
+                .map(book -> BookCategorySearchDTO.Book.builder()
+                        .bookId(book.getId())
+                        .bookTitle(book.getTitle())
+                        .bookPath(book.getPath())
+                        .author(BookCategorySearchDTO.Book.Author.builder()
+                                .authorId(book.getAuthor().getId())
+                                .authorName(book.getAuthor().getName())
+                                .build())
+                        .build())
+                .collect(Collectors.toList());
+
+        return BookCategorySearchDTO.builder()
+                .bookCount(bookCount)
+                .book(bookDTOs)
+                .build();
     }
 
     public void saveBook(BookSaveReqDTO reqDTO) throws IOException {

@@ -47,7 +47,6 @@ public class UserService {
                 .status(false)
                 .createdAt(LocalDateTime.now())
                 .build());
-
         return user;
     }
 
