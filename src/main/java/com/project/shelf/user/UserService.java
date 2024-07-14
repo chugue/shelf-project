@@ -10,6 +10,7 @@ import com.project.shelf.book.Book;
 import com.project.shelf.book.BookRepository;
 import com.project.shelf.book_history.BookHistory;
 import com.project.shelf.book_history.BookHistoryRepository;
+import com.project.shelf.user.UserResponseRecord.MainDTO;
 import com.project.shelf.user.UserResponseRecord.NaverRespDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -67,17 +71,72 @@ public class UserService {
     }
 
     //메인페이지
-    public void main(SessionUser sessionUser) {
-        //1. 베스트 셀러 정보 가져오기
-        List<Book> books = bookRepository.findBooksByHistory();
+    public MainDTO main(SessionUser sessionUser){
+        //1. 베스트 셀러 정보 DTO 매핑
+        List<MainDTO.BestSellerDTO> bestSeller =  bookRepository.findBooksByHistory().stream().map(
+                book -> MainDTO.BestSellerDTO.builder()
+                        .id(book.getId())
+                        .bookImagePath(book.getPath())
+                        .bookTitle(book.getTitle())
+                        .author(book.getAuthor().getName())
+                        .build()).collect(Collectors.toList());
 
-        //2. 이어보기 정보 가져오기
-        List<BookHistory> bookHistories = bookHistoryRepository.findBookHistoryByUserId(sessionUser.getId());
+        //2. 이어보기 정보 DTO 매핑
+        List<MainDTO.BookHistoryDTO> bookHistories = bookHistoryRepository.findBookHistoryByUserId(sessionUser.getId()).stream().map(
+                bookHistory -> MainDTO.BookHistoryDTO.builder()
+                        .userId(sessionUser.getId())
+                        .bookId(bookHistory.getBook().getId())
+                        .bookTitle(bookHistory.getBook().getTitle())
+                        .pageCount(bookHistory.getBook().getPageCount())
+                        .lastReadPage(bookHistory.getLastReadPage())
+                        .build()).collect(Collectors.toList());
 
-        // 2. DTO로 매핑하기
-        List<UserResponse.MainDTO.BestSellerDTO> bestSellerDTOs = books.stream()
-                .map(book -> new UserResponse.MainDTO.BestSellerDTO(book))
-                .collect(Collectors.toList());
+
+        LocalDate today = LocalDate.now();
+
+        //3. 주간 베스트 셀러 정보 가져오기
+        List<MainDTO.WeekBestSellerDTO> weekBestSeller = getWeeklyBestSellers(today).stream().map(
+                book -> MainDTO.WeekBestSellerDTO.builder()
+                        .id(book.getId())
+                        .bookImagePath(book.getPath())
+                        .bookTitle(book.getTitle())
+                        .author(book.getAuthor().getName())
+                        .build()).collect(Collectors.toList());
+
+
+        //4, 일간 베스트 셀러 정보 가져오기
+        List<MainDTO.DayBestSellerDTO> dailyBestSeller = getDailyBestSellers(today).stream().map(
+                book -> MainDTO.DayBestSellerDTO.builder()
+                        .id(book.getId())
+                        .bookTitle(book.getTitle())
+                        .bookIntro(book.getBookIntro())
+                        .author(book.getAuthor().getName())
+                        .build()).collect(Collectors.toList());
+
+        return MainDTO.builder()
+                .bestSellerDTOS(bestSeller)
+                .bookHistoryDTOS(bookHistories)
+                .weekBestSellerDTOS(weekBestSeller)
+                .dayBestSellerDTOS(dailyBestSeller)
+                .build();
+    }
+
+    //주간 베스트 셀러 날짜 구하는 메서드
+    public List<Book> getWeeklyBestSellers(LocalDate date) {
+        LocalDateTime startOfWeek = date.with(DayOfWeek.MONDAY).atStartOfDay();
+        LocalDateTime endOfWeek = date.with(DayOfWeek.SUNDAY).atTime(LocalTime.MAX);
+
+        System.out.println(startOfWeek + " 찾아라 " + endOfWeek);
+        return bookRepository.findWeekBestSellers(startOfWeek, endOfWeek);
+    }
+
+
+
+    //일별 베스트셀러 날짜 구하는 메서드
+    public List<Book> getDailyBestSellers(LocalDate date) {
+        LocalDateTime startOfDay = date.atStartOfDay(); // 하루의 시작 시간
+        LocalDateTime endOfDay = date.atTime(LocalTime.MAX); // 하루의 끝 시간
+        return bookRepository.findDayBestSellers(startOfDay,endOfDay);
     }
 
     //네이버 오어스
