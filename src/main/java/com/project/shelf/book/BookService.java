@@ -2,12 +2,19 @@ package com.project.shelf.book;
 
 
 import com.project.shelf._core.erros.exception.Exception400;
+import com.project.shelf._core.erros.exception.Exception401;
+import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf._core.util.MyFileUtil;
 import com.project.shelf.admin.AdminRequestRecord.BookSaveReqDTO;
 import com.project.shelf.author.Author;
 import com.project.shelf.author.AuthorRepository;
 import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
+import com.project.shelf.user.SessionUser;
+import com.project.shelf.user.User;
+import com.project.shelf.user.UserRepository;
+import com.project.shelf.wishlist.WishlistRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,10 +30,12 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
-
+    private final WishlistRepository wishlistRepository;
+    private final UserRepository userRepository;
 
 
     public BookCategorySearchDTO bookSearch(String category, String authorName) {
@@ -103,5 +112,24 @@ public class BookService {
                 .build();
 
         bookRepository.save(book);
+    }
+
+    // 책 상세보기 페이지
+    public BookResponse.DetailPageDTO bookDetailPage(SessionUser sessionUser, Integer bookId){
+//        SessionUser sessionUser = AppJwtUtil.verify(jwt);
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new Exception401("책 정보를 찾을 수 없습니다!!"));
+        // 사용자 가져오기
+        User user = userRepository.findById(sessionUser.getId())
+                .orElseThrow(() -> new Exception401("사용자를 찾을 수 없습니다!!"));
+        // 저자 가져오기
+        Author author = authorRepository.findById(book.getAuthor().getId())
+                .orElseThrow(() -> new Exception401("저자를 찾을 수 없습니다!!"));
+        book.setAuthor(author);
+
+        // 위시리스트 여부
+        Boolean isWish = wishlistRepository.existsByUserAndBook(user, book);
+
+        return new BookResponse.DetailPageDTO(book, isWish);
     }
 }
