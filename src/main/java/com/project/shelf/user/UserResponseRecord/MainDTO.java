@@ -29,7 +29,6 @@ public record MainDTO(
             String bookTitle,
             String author
     ) {
-
     }
 
     @Builder
@@ -39,7 +38,6 @@ public record MainDTO(
             String author,
             String bookIntro
     ) {
-
     }
 
     @Builder
@@ -50,6 +48,5 @@ public record MainDTO(
             String pageCount,
             String lastReadPage
     ) {
-
     }
 }
