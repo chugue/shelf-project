@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Error Page</title>
+</head>
+
+<body>
+<!-- nav start -->
+<nav>
+    <div class="nav-div">
+        <div>
+            <a href="/api/main-page">
+                <img src="/images/shelf_logo.png" alt="Shelf_logo" class="nav-logo"/>
+            </a>
+        </div>
+    </div>
+</nav>
+<!-- nav end-->
+
+<!-- ------------------------------------------------------------------------------------------------ -->
+
+<!-- main start -->
+<main>
+    <div class="err-section">
+        <div class="shelf_only_logo">
+            <img src="/images/shelf_only_logo.png" alt="Shelf_only_logo">
+        </div>
+        <div class="err-num mb-20">{errorCode}}</div>
+        <div class="err-msg">{msg}}</div>
+
+        <!-- 로그인 페이지로 -->
+        <a class="go-login-page" href="/admin/login">로그인 페이지로 가기</a>
+    </div>
+</main>
+<!-- nav start end-->
+
+<!-- ------------------------------------------------------------------------------------------------ -->
+
+<!-- ------------------------------------------------------------------------------------------------ -->
+
+<!-- 푸터 -->
+{{> /_components/footer}}
+</body>
+
+</html>
