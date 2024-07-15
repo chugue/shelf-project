@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/style.css"/>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>관리자 페이지 - 회원 관리</title>
 </head>
@@ -29,20 +29,25 @@
 <main>
     <div class="main-div">
         <div class="login-section">
-            <div class="title">Shelf 관리자 로그인</div>
-            <form action="/login" method="post" enctype="multipart/form-data" id="sign-up-form">
-                <div class="input-group">
-                    <div class="input-container">
-                        <input type="email" id="email" name="email" placeholder=" " required >
-                        <label for="email">이메일을 입력해주세요</label>
+            <div class="shelf_only_logo">
+                <img src="/images/shelf_only_logo.png" alt="Shelf_only_logo">
+            </div>
+            <div class="login-form-section">
+                <div class="title">관리자 로그인</div>
+                <form action="/login" method="post" enctype="multipart/form-data" id="sign-up-form">
+                    <div class="input-group">
+                        <div class="input-container">
+                            <input type="email" id="email" name="email" placeholder=" " required>
+                            <label for="email">이메일을 입력해주세요</label>
+                        </div>
+                        <div class="input-container">
+                            <input type="password" id="password" name="password" placeholder=" " required>
+                            <label for="password">비밀번호를 입력해주세요</label>
+                        </div>
                     </div>
-                    <div class="input-container">
-                        <input type="password" id="password" name="password" placeholder=" " required>
-                        <label for="password">비밀번호를 입력해주세요</label>
-                    </div>
-                </div>
-                <button class="login-btn" type="submit" class="submit-button">Log in</button>
-            </form>
+                    <button class="login-btn" type="submit" class="submit-button">Log in</button>
+                </form>
+            </div>
         </div>
     </div>
 </main>
