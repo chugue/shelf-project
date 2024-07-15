@@ -1,5 +1,6 @@
 package com.project.shelf.user;
 
+import com.project.shelf._core.enums.Avatar;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -37,10 +38,13 @@ public class User {
     @ColumnDefault("false") // 기본 값 false
     private Boolean status; // 구독 상태
 
+    @Enumerated(EnumType.STRING)  // 플러터에서 쓸 아바타 이름
+    private Avatar avatar;
+
     private String provider; // facebook, kakao, apple, naver
 
     @Builder
-    public User(Integer id, String email, String password, String nickName, String phone, String address, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean status, String provider) {
+    public User(Integer id, String email, String password, String nickName, String phone, String address, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean status, Avatar avatar, String provider) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -50,6 +54,7 @@ public class User {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.status = status;
+        this.avatar = avatar;
         this.provider = provider;
     }
 }

@@ -1,5 +1,6 @@
 package com.project.shelf.user;
 
+import com.project.shelf._core.enums.Avatar;
 import com.project.shelf._core.erros.exception.Exception400;
 import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf._core.util.NaverToken;
@@ -48,6 +49,7 @@ public class UserService {
                 .email(reqDTO.getEmail())
                 .password(reqDTO.getPassword())
                 .nickName(reqDTO.getNickName())
+                .avatar(Avatar.AVATAR01)
                 .status(false)
                 .createdAt(LocalDateTime.now())
                 .build());
@@ -65,14 +67,15 @@ public class UserService {
                 .email(user.getEmail())
                 .nickName(user.getNickName())
                 .status(user.getStatus())
+                .avatar(user.getAvatar())
                 .createdAt(user.getCreatedAt())
                 .build();
     }
 
     //메인페이지
-    public MainDTO main(SessionUser sessionUser){
+    public MainDTO main(SessionUser sessionUser) {
         //1. 베스트 셀러 정보 DTO 매핑
-        List<MainDTO.BestSellerDTO> bestSeller =  bookRepository.findBooksByHistory().stream().map(
+        List<MainDTO.BestSellerDTO> bestSeller = bookRepository.findBooksByHistory().stream().map(
                 book -> MainDTO.BestSellerDTO.builder()
                         .id(book.getId())
                         .bookImagePath(book.getPath())
@@ -130,12 +133,11 @@ public class UserService {
     }
 
 
-
     //일별 베스트셀러 날짜 구하는 메서드
     public List<Book> getDailyBestSellers(LocalDate date) {
         LocalDateTime startOfDay = date.atStartOfDay(); // 하루의 시작 시간
         LocalDateTime endOfDay = date.atTime(LocalTime.MAX); // 하루의 끝 시간
-        return bookRepository.findDayBestSellers(startOfDay,endOfDay);
+        return bookRepository.findDayBestSellers(startOfDay, endOfDay);
     }
 
     //네이버 오어스

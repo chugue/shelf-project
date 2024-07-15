@@ -1,5 +1,6 @@
 package com.project.shelf.user;
 
+import com.project.shelf._core.enums.Avatar;
 import com.project.shelf.book.Book;
 import com.project.shelf.book_history.BookHistory;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class UserResponse {
         private String email;
         private String nickName;
         private Boolean status;
+        private Avatar avatar;
         private LocalDateTime createdAt;
 
         public Join(User user) {
@@ -25,6 +27,7 @@ public class UserResponse {
             this.email = user.getEmail();
             this.nickName = user.getNickName();
             this.status = user.getStatus();
+            this.avatar = user.getAvatar();
             this.createdAt = user.getCreatedAt();
         }
 
