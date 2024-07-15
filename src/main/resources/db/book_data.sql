@@ -9,17 +9,17 @@ VALUES
 
 
 --5. 위 시리스트--
-INSERT INTO wishlist_tb(user_id, book_id, created_at, updated_at)
-values (1, 1, now(), NOW()),
-       (1, 2, now(), NOW()),
-       (1, 3, now(), NOW()),
-       (1, 4, now(), NOW()),
-       (1, 5, now(), NOW()),
-       (2, 1, now(), NOW()),
-       (2, 2, now(), NOW()),
-       (2, 3, now(), NOW()),
-       (3, 4, now(), NOW()),
-       (3, 5, now(), NOW());
+INSERT INTO wishlist_tb(user_id, book_id, created_at)
+values (1, 1, now()),
+       (1, 2, now()),
+       (1, 3, now()),
+       (1, 4, now()),
+       (1, 5, now()),
+       (2, 1, now()),
+       (2, 2, now()),
+       (2, 3, now()),
+       (3, 4, now()),
+       (3, 5, now());
 
 
 --6. 책 읽기--
