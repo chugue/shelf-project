@@ -226,6 +226,7 @@ public class UserService {
         List<MyLibraryResponseDTO.BookListDTO.AllBookDTO> allBook = bookHistoryRepository.findBookListByUserId(sessionUser.getId()).stream().map(
                 bookHistory -> MyLibraryResponseDTO.BookListDTO.AllBookDTO.builder()
                         .id(bookHistory.getBook().getId())
+                        .bookImagePath(bookHistory.getBook().getPath())
                         .bookTitle(bookHistory.getBook().getTitle())
                         .author(bookHistory.getBook().getAuthor().getName())
                         .build()).collect(Collectors.toList());
@@ -242,6 +243,7 @@ public class UserService {
                 wishlist -> MyLibraryResponseDTO.WishListDTO.builder()
                         .id(wishlist.getId())
                         .bookId(wishlist.getBook().getId())
+                        .bookImagePath(wishlist.getBook().getPath())
                         .bookTitle(wishlist.getBook().getTitle())
                         .author(wishlist.getBook().getAuthor().getName())
                         .build()).collect(Collectors.toList());
