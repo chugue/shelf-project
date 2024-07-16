@@ -54,7 +54,6 @@ public class WishlistService {
                             .userId(userId)
                             .bookId(bookId)
                             .createdAt(wishlist.getCreatedAt())
-                            .updatedAt(wishlist.getUpdatedAt())
                             .build();
                 })
 
@@ -70,7 +69,6 @@ public class WishlistService {
                             .userId(userId)
                             .bookId(bookId)
                             .createdAt(savedWishlist.getCreatedAt())
-                            .updatedAt(savedWishlist.getUpdatedAt())
                             .build();
                 });
     }
