@@ -82,8 +82,13 @@ public class UserService {
     //메인페이지
     public MainDTO main(SessionUser sessionUser) {
         //1. 베스트 셀러 정보 DTO 매핑
-        List<Book> books = bookRepository.findBooksByHistory();
-        I
+        List<MainDTO.BestSellerDTO> bestSeller = bookRepository.findBooksByHistory().stream().map(
+                book -> MainDTO.BestSellerDTO.builder()
+                        .id(book.getId())
+                        .bookImagePath(book.getPath())
+                        .bookTitle(book.getTitle())
+                        .author(book.getAuthor().getName())
+                        .build()).collect(Collectors.toList());
 
         //2. 이어보기 정보 DTO 매핑
         List<MainDTO.BookHistoryDTO> bookHistories = bookHistoryRepository.findBookHistoryByUserId(sessionUser.getId()).stream().map(
