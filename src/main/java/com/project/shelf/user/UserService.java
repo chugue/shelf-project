@@ -6,6 +6,7 @@ import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf._core.util.NaverToken;
 import com.project.shelf.payment.Payment;
 import com.project.shelf.payment.PaymentRepository;
+import com.project.shelf.payment.Payment;
 import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
 import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
 import com.project.shelf._core.erros.exception.Exception401;
@@ -13,7 +14,9 @@ import com.project.shelf.book.Book;
 import com.project.shelf.book.BookRepository;
 import com.project.shelf.book_history.BookHistoryRepository;
 import com.project.shelf.user.UserResponseRecord.MainDTO;
+import com.project.shelf.user.UserResponseRecord.MyLibraryResponseDTO;
 import com.project.shelf.user.UserResponseRecord.NaverRespDTO;
+import com.project.shelf.wishlist.WishlistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +32,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -38,6 +43,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
+    private final WishlistRepository wishlistRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final BookHistoryRepository bookHistoryRepository;
@@ -95,6 +102,7 @@ public class UserService {
                 bookHistory -> MainDTO.BookHistoryDTO.builder()
                         .userId(sessionUser.getId())
                         .bookId(bookHistory.getBook().getId())
+                        .bookImagePath(bookHistory.getBook().getPath())
                         .bookTitle(bookHistory.getBook().getTitle())
                         .pageCount(bookHistory.getBook().getPageCount())
                         .lastReadPage(bookHistory.getLastReadPage())
@@ -118,6 +126,7 @@ public class UserService {
         MainDTO.DayBestSellerDTO dayBestSeller = MainDTO.DayBestSellerDTO.builder()
                 .id(book.getId())
                 .bookTitle(book.getTitle())
+                .bookImagePath(book.getPath())
                 .bookIntro(book.getBookIntro())
                 .author(book.getAuthor().getName())
                 .build();
@@ -184,17 +193,17 @@ public class UserService {
                 .findFirst()
                 .orElseThrow(() -> new Exception401("❗로그인 되지 않았습니다❗"));
 
-        // 구독 시작일, 날짜 포맷
-        String subStartDayStr = payment.getOrderDate();
-        LocalDate subStartDateLD = LocalDate.parse(subStartDayStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-
+        // 구독 시작일 가져오기 및 변환
+        LocalDateTime subStartDateTime = LocalDateTime.parse(payment.getOrderDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        LocalDate subStartDateLD = subStartDateTime.toLocalDate();
+        // 구독 종료일 및 다음 결제일 계산
         LocalDate subEndDateLD = subStartDateLD.plusMonths(1).minusDays(1);
         LocalDate nextPaymentDayLD = subStartDateLD.plusMonths(1);
-        // String 변환
+        // String 문자열로 포맷
         String subStartDate = subStartDateLD.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
         String subEndDate = subEndDateLD.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
         String nextPaymentDate = nextPaymentDayLD.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-
+        // 구독기간 생성
         String subPeriod = subStartDate + " ~ " + subEndDate;
 
         return new UserResponse.MyPageDTO(subPeriod, nextPaymentDate);
@@ -221,5 +230,50 @@ public class UserService {
         user.setAddress(reqDTO.getAddress());
 
         return new UserResponse.UpdateInfoDTO(user);
+    }
+
+    //내 서재 페이지
+    public MyLibraryResponseDTO myLibrary(SessionUser sessionUser) {
+        //1. 이어보기 정보 DTO 매핑
+        List<MyLibraryResponseDTO.BookListDTO.HistoryDTO> bookHistories = bookHistoryRepository.findBookHistoryByUserId(sessionUser.getId()).stream().map(
+                bookHistory -> MyLibraryResponseDTO.BookListDTO.HistoryDTO.builder()
+                        .id(bookHistory.getBook().getId())
+                        .imagePath(bookHistory.getBook().getPath())
+                        .bookTitle(bookHistory.getBook().getTitle())
+                        .pageCount(bookHistory.getBook().getPageCount())
+                        .lastReadPage(bookHistory.getLastReadPage())
+                        .build()).collect(Collectors.toList());
+
+        //2. 전체 도서 DTO 매핑
+        List<MyLibraryResponseDTO.BookListDTO.AllBookDTO> allBook = bookHistoryRepository.findBookListByUserId(sessionUser.getId()).stream().map(
+                bookHistory -> MyLibraryResponseDTO.BookListDTO.AllBookDTO.builder()
+                        .id(bookHistory.getBook().getId())
+                        .bookImagePath(bookHistory.getBook().getPath())
+                        .bookTitle(bookHistory.getBook().getTitle())
+                        .author(bookHistory.getBook().getAuthor().getName())
+                        .build()).collect(Collectors.toList());
+
+        //3. 책 목록 DTO 매핑
+        List<MyLibraryResponseDTO.BookListDTO> bookList = new ArrayList<>();
+        bookList.add(MyLibraryResponseDTO.BookListDTO.builder()
+                        .historyList(bookHistories)
+                        .allBook(allBook)
+                .build());
+
+        //4. 위시리스트 DTO 매핑
+        List<MyLibraryResponseDTO.WishListDTO> wishList = wishlistRepository.findWishlistByByUserId(sessionUser.getId()).stream().map(
+                wishlist -> MyLibraryResponseDTO.WishListDTO.builder()
+                        .id(wishlist.getId())
+                        .bookId(wishlist.getBook().getId())
+                        .bookImagePath(wishlist.getBook().getPath())
+                        .bookTitle(wishlist.getBook().getTitle())
+                        .author(wishlist.getBook().getAuthor().getName())
+                        .build()).collect(Collectors.toList());
+
+        return MyLibraryResponseDTO.builder()
+                .bookList(bookList)
+                .wishList(wishList)
+                .build();
+
     }
 }
