@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Service
@@ -76,14 +77,19 @@ public class UserService {
 
     //메인페이지
     public MainDTO main(SessionUser sessionUser) {
-        //1. 베스트 셀러 정보 DTO 매핑
-        List<MainDTO.BestSellerDTO> bestSeller = bookRepository.findBooksByHistory().stream().map(
-                book -> MainDTO.BestSellerDTO.builder()
-                        .id(book.getId())
-                        .bookImagePath(book.getPath())
-                        .bookTitle(book.getTitle())
-                        .author(book.getAuthor().getName())
-                        .build()).collect(Collectors.toList());
+        // 1. 베스트 셀러 정보 DTO 매핑
+        List<MainDTO.BestSellerDTO> bestSeller = IntStream.range(0, bookRepository.findBooksByHistory().size())
+                .mapToObj(i -> {
+                    Book book = bookRepository.findBooksByHistory().get(i);
+                    return MainDTO.BestSellerDTO.builder()
+                            .id(book.getId())
+                            .bookImagePath(book.getPath())
+                            .bookTitle(book.getTitle())
+                            .author(book.getAuthor().getName())
+                            .rankNum(i + 1) // 순위 추가
+                            .build();
+                })
+                .collect(Collectors.toList());
 
         //2. 이어보기 정보 DTO 매핑
         List<MainDTO.BookHistoryDTO> bookHistories = bookHistoryRepository.findBookHistoryByUserId(sessionUser.getId()).stream().map(
@@ -99,15 +105,19 @@ public class UserService {
 
         LocalDate today = LocalDate.now();
 
-        //3. 주간 베스트 셀러 DTO매핑
-        List<MainDTO.WeekBestSellerDTO> weekBestSeller = getWeeklyBestSellers(today).stream().map(
-                book -> MainDTO.WeekBestSellerDTO.builder()
-                        .id(book.getId())
-                        .bookImagePath(book.getPath())
-                        .bookTitle(book.getTitle())
-                        .author(book.getAuthor().getName())
-                        .build()).collect(Collectors.toList());
-
+        // 3. 주간 베스트 셀러 DTO 매핑
+        List<MainDTO.WeekBestSellerDTO> weekBestSeller = IntStream.range(0, getWeeklyBestSellers(today).size())
+                .mapToObj(i -> {
+                    Book book = getWeeklyBestSellers(today).get(i);
+                    return MainDTO.WeekBestSellerDTO.builder()
+                            .id(book.getId())
+                            .bookImagePath(book.getPath())
+                            .bookTitle(book.getTitle())
+                            .author(book.getAuthor().getName())
+                            .rankNum(i + 1) // 순위 추가
+                            .build();
+                })
+                .collect(Collectors.toList());
 
         //4, 일간 베스트 셀러 정보 DTO 매핑
         Book book = getDailyBestSellers(today);
