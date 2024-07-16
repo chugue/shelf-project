@@ -20,6 +20,11 @@ public class AdminController {
         return "admin/sales-dashboard";
     }
 
+    @GetMapping("/admin/login")
+    public String getLoginPage(HttpServletRequest request) {
+        return "admin/login";
+    }
+
     @GetMapping("/admin/sales")
     public String getSalesPage(HttpServletRequest request) {
         return "admin/sales-dashboard";

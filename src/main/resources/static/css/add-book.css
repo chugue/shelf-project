@@ -310,8 +310,8 @@ input[type="file"] {
     display: none;
 }
 
-button[type="submit"]{
-    display: none;
+#upload-info-btn {
+    border: none;
 }
 
 /* 사용자 정의 파일 선택 버튼 스타일 */
@@ -321,7 +321,8 @@ button[type="submit"]{
     padding: 10px 20px;
     cursor: pointer;
     background-color: #eee;
-    color: rgb(0, 0, 0);
+    color: #777;
+    font-weight: bold;
     border: 1px solid #999;
     border-radius: 5px;
     font-size: 16px;
@@ -329,6 +330,7 @@ button[type="submit"]{
 
 .custom-file-upload:hover {
     background-color: #aaaaaa;
+    color: #000;
 }
 
 
