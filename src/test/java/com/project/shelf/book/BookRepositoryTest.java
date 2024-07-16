@@ -31,4 +31,6 @@ public class BookRepositoryTest {
         List<Book> books = bookRepository.findByCategory(Book.Category.소설);
         books.forEach(book -> System.out.println("book = " + book));
     }
+
+
 }
