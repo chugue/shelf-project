@@ -9,13 +9,15 @@ import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
 import com.project.shelf._core.erros.exception.Exception401;
 import com.project.shelf.book.Book;
 import com.project.shelf.book.BookRepository;
-import com.project.shelf.book_history.BookHistory;
 import com.project.shelf.book_history.BookHistoryRepository;
 import com.project.shelf.user.UserResponseRecord.MainDTO;
 import com.project.shelf.user.UserResponseRecord.NaverRespDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -96,7 +98,7 @@ public class UserService {
 
         LocalDate today = LocalDate.now();
 
-        //3. 주간 베스트 셀러 정보 가져오기
+        //3. 주간 베스트 셀러 DTO매핑
         List<MainDTO.WeekBestSellerDTO> weekBestSeller = getWeeklyBestSellers(today).stream().map(
                 book -> MainDTO.WeekBestSellerDTO.builder()
                         .id(book.getId())
@@ -106,20 +108,23 @@ public class UserService {
                         .build()).collect(Collectors.toList());
 
 
-        //4, 일간 베스트 셀러 정보 가져오기
-        List<MainDTO.DayBestSellerDTO> dailyBestSeller = getDailyBestSellers(today).stream().map(
-                book -> MainDTO.DayBestSellerDTO.builder()
-                        .id(book.getId())
-                        .bookTitle(book.getTitle())
-                        .bookIntro(book.getBookIntro())
-                        .author(book.getAuthor().getName())
-                        .build()).collect(Collectors.toList());
+        //4, 일간 베스트 셀러 정보 DTO 매핑
+        Book book = getDailyBestSellers(today);
+        MainDTO.DayBestSellerDTO dayBestSeller = MainDTO.DayBestSellerDTO.builder()
+                .id(book.getId())
+                .bookTitle(book.getTitle())
+                .bookIntro(book.getBookIntro())
+                .author(book.getAuthor().getName())
+                .build();
+
+
+
 
         return MainDTO.builder()
                 .bestSellerDTOS(bestSeller)
                 .bookHistoryDTOS(bookHistories)
                 .weekBestSellerDTOS(weekBestSeller)
-                .dayBestSellerDTOS(dailyBestSeller)
+                .dayBestSellerDTO(dayBestSeller)
                 .build();
     }
 
@@ -134,10 +139,12 @@ public class UserService {
 
 
     //일별 베스트셀러 날짜 구하는 메서드
-    public List<Book> getDailyBestSellers(LocalDate date) {
+    public Book getDailyBestSellers(LocalDate date) {
         LocalDateTime startOfDay = date.atStartOfDay(); // 하루의 시작 시간
         LocalDateTime endOfDay = date.atTime(LocalTime.MAX); // 하루의 끝 시간
-        return bookRepository.findDayBestSellers(startOfDay, endOfDay);
+        Pageable pageable = PageRequest.of(0,1);
+        Page<Book> page = bookRepository.findTopDayBestSeller(startOfDay,endOfDay,pageable);
+        return page.getContent().get(0);
     }
 
     //네이버 오어스

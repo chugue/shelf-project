@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 
 @NoArgsConstructor
 @Entity
@@ -42,7 +44,13 @@ public class Book {
     private String publisher; // 출판사
     private String epubFile;
 
-    private LocalDateTime registrationDate;
+//    @ColumnDefault("'2019-07-16'")
+    private LocalDateTime registrationDate; // 출판일
+
+    @ColumnDefault("527")
+    private int totalView;
+    @ColumnDefault("300")
+    private int completedViews;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -50,7 +58,6 @@ public class Book {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
 
     @Builder
     public Book(Integer id, Author author, String title, String path, String pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime registrationDate) {

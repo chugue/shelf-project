@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/style.css"/>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>관리자 페이지 - 회원 관리</title>
 </head>
@@ -29,39 +29,32 @@
 <main>
     <div class="main-div">
         <div class="login-section">
-            <div class="title">Shelf 관리자 로그인</div>
-            <form action="/login" method="post" enctype="multipart/form-data" id="sign-up-form">
-                <div class="input-group">
-                    <div class="input-container">
-                        <input type="email" id="email" name="email" placeholder=" " required >
-                        <label for="email">이메일을 입력해주세요</label>
+            <div class="shelf_only_logo">
+                <img src="/images/shelf_only_logo.png" alt="Shelf_only_logo">
+            </div>
+            <div class="login-form-section">
+                <div class="title">관리자 로그인</div>
+                <form action="/login" method="post" enctype="multipart/form-data" id="sign-up-form">
+                    <div class="input-group">
+                        <div class="input-container">
+                            <input type="email" id="email" name="email" placeholder=" " required>
+                            <label for="email">이메일을 입력해주세요</label>
+                        </div>
+                        <div class="input-container">
+                            <input type="password" id="password" name="password" placeholder=" " required>
+                            <label for="password">비밀번호를 입력해주세요</label>
+                        </div>
                     </div>
-                    <div class="input-container">
-                        <input type="password" id="password" name="password" placeholder=" " required>
-                        <label for="password">비밀번호를 입력해주세요</label>
-                    </div>
-                </div>
-                <button class="login-btn" type="submit" class="submit-button">Log in</button>
-            </form>
+                    <button class="login-btn" type="submit" class="submit-button">Log in</button>
+                </form>
+            </div>
         </div>
     </div>
 </main>
 <!-- 메인 종료 -->
-<!-- 푸터 시작 -->
-<footer>
-    <div>
-        <p>셀프 shelf 유한회사 통신판매업신고번호:
-            제2023-부산진구-0703호 전화번호: 000-111-2222 (수신자 부담)</p>
-        <p>대표: 스티븐 성훈 킴</p>
-        <p>이메일 주소: korea@shelf.com</p>
-        <p>주소: 대한민국 부산광역시 부산진구 중앙대로 749 범향빌딩 3층
-            우편번호 03161</p>
-        <p>사업자등록번호: 000-111-2222</p>
-        <p>클라우드 호스팅: Amazon Web Services Inc.</p>
-        <p>공정거래위원회 웹사이트</p>
-    </div>
-</footer>
-<!-- footer end -->
+<hr/>
+<!-- 푸터  -->
+{{> /_components/footer}}
 </body>
 
 </html>

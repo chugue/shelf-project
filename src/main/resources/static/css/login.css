@@ -88,7 +88,13 @@ nav {
     margin: 0 auto ;
     padding: 30px 50px 80px;
 }
-
+.shelf_only_logo{
+    width: 200px;
+    margin: 0 auto;
+}
+.shelf_only_logo img{
+    width: 100%;
+}
 /* 사이드 바 */
 .sidebar {
     width: calc(30% - 20px);
@@ -132,8 +138,14 @@ nav {
 /* """"""""""""""""""""""""""main - right"""""""""""""""""""""""""" */
 
 .login-section{
+    margin: 50px auto;
     width: 400px;
-    margin: 100px auto;
+}
+
+.login-section::before {
+
+}
+.login-form-section{
     display: flex;
     flex-direction: column;
     position: relative; /* Relative positioning context for the pseudo-element */
@@ -142,8 +154,7 @@ nav {
     padding: 50px 20px;
     background-color: white;
 }
-
-.login-section::before {
+.login-form-section::before{
     content: '';
     position: absolute;
     top: -5px;

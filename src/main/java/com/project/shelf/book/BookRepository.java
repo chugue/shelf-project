@@ -2,6 +2,8 @@ package com.project.shelf.book;
 
 import com.project.shelf.author.Author;
 import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,9 +29,10 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     List<Book> findWeekBestSellers(@Param("startOfWeek") LocalDateTime startOfWeek, @Param("endOfWeek") LocalDateTime endOfWeek);
 
     // 일별 베스트 셀러 구하는 쿼리
-    @Query("SELECT b,a FROM BookHistory bh JOIN bh.book b join bh.book.author a WHERE bh.createdAt >= :startOfDay AND bh.createdAt <= :endOfDay GROUP BY b.id ORDER BY COUNT(bh.id) DESC")
-    List<Book> findDayBestSellers(@Param("startOfDay") LocalDateTime startOfDay, @Param("endOfDay") LocalDateTime endOfDay);
-
+    @Query("SELECT b FROM BookHistory bh JOIN bh.book b JOIN fetch bh.book.author a WHERE bh.createdAt >= :startOfDay AND bh.createdAt <= :endOfDay GROUP BY b.id ORDER BY COUNT(bh.id) DESC")
+    Page<Book> findTopDayBestSeller(@Param("startOfDay") LocalDateTime startOfDay,
+                                    @Param("endOfDay") LocalDateTime endOfDay,
+                                    Pageable pageable);
 
     @Query("SELECT b FROM Book b JOIN FETCH b.author a WHERE a.id = :authorId")
     List<Book> findByAuthorId(@Param("authorId") Integer authorId);

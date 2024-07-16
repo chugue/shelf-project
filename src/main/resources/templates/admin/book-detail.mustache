@@ -129,23 +129,12 @@
                     <label for="introduction">책 소개</label>
                     <div class="input-data" style="height: 7rem;">{{book.bookIntro}}</div>
                 </div>
-                <div class="form-field mb-20">
-                    <label for="toc">목차</label>
-                    <div class="input-data" style="height: 7rem;">
-                        목차 내용<br>
-                        목차 내용<br>
-                        목차 내용<br>
-                        목차 내용<br>
-                        목차 내용<br>
-                        목차 내용<br>
-                    </div>
-                </div>
                 <!-- 파일 선택 -->
                 <div class="small-title">epub파일</div>
                 <div class="form-field mb-20">
                     <div class="file-upload-container">
                         <!-- <label for="ebook-file" class="custom-file-upload">파일 선택</label> -->
-                        <input type="file" id="ebook-file" name="ebook-file" style="display: none;" />
+                        <input type="file" id="ebook-file" name="ebook-file" src="{{book.epubFile}}" />
                         <span id="file-name-display">{{book.epubFile}}</span>
                     </div>
                 </div>
@@ -175,23 +164,9 @@
     </div>
 </main>
 <!-- 메인 종료 -->
-<hr />
-
-<!-- 푸터 시작 -->
-<footer>
-    <div>
-        <p>셀프 shelf 유한회사 통신판매업신고번호:
-            제2023-부산진구-0703호 전화번호: 000-111-2222 (수신자 부담)</p>
-        <p>대표: 스티븐 성훈 킴</p>
-        <p>이메일 주소: korea@shelf.com</p>
-        <p>주소: 대한민국 부산광역시 부산진구 중앙대로 749 범향빌딩 3층
-            우편번호 03161</p>
-        <p>사업자등록번호: 000-111-2222</p>
-        <p>클라우드 호스팅: Amazon Web Services Inc.</p>
-        <p>공정거래위원회 웹사이트</p>
-    </div>
-</footer>
-<!-- footer end -->
+<hr/>
+<!-- 푸터  -->
+{{> /_components/footer}}
 
 <!-- 자바 스크립트 -->
 <script src="/static/js/admin-upload.js"></script>
