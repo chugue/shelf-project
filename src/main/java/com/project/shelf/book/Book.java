@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -41,6 +42,13 @@ public class Book {
 
     private String publisher; // 출판사
     private String epubFile;
+
+    @ColumnDefault("'2019-07-16'")
+    private LocalDateTime registrationDate; // 출판일
+    @ColumnDefault("527")
+    private int totalView;
+    @ColumnDefault("300")
+    private int completedViews;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
