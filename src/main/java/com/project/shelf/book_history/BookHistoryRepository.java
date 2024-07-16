@@ -15,4 +15,7 @@ public interface BookHistoryRepository extends JpaRepository<BookHistory, Intege
     @Query("SELECT bh FROM BookHistory bh JOIN FETCH bh.book b JOIN FETCH bh.user u WHERE u.id = :userId")
     List<BookHistory> findBookHistoryByUserId(@Param("userId") Integer userId);
 
+    //사용자가 읽은 모든 책 구하는 쿼리
+    @Query("select bh from BookHistory bh JOIN FETCH bh.book b JOIN FETCH b.author a JOIN FETCH bh.user u where u.id = :userId ")
+    List<BookHistory> findBookListByUserId(@Param("userId") Integer userId);
 }

@@ -66,6 +66,7 @@ public class UserRestController {
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
+
     // 사용자 개인정보
     @GetMapping("/api/user/my-info")
     public ResponseEntity<?> myInfo() {
@@ -82,6 +83,12 @@ public class UserRestController {
                 = userService.UpdateInfo(sessionUser, reqDTO);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
+
+//    @GetMapping("/app/user/wishList")
+//    public ResponseEntity<?> wishList() {
+//        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+//
+//    }
 }
 
 
