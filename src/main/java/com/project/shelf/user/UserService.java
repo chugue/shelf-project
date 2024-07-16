@@ -4,6 +4,8 @@ import com.project.shelf._core.enums.Avatar;
 import com.project.shelf._core.erros.exception.Exception400;
 import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf._core.util.NaverToken;
+import com.project.shelf.payment.Payment;
+import com.project.shelf.payment.PaymentRepository;
 import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
 import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
 import com.project.shelf._core.erros.exception.Exception401;
@@ -27,6 +29,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +46,7 @@ public class UserService {
     private final BookRepository bookRepository;
     private final BookHistoryRepository bookHistoryRepository;
     private final NaverToken naverToken;
+    private final PaymentRepository paymentRepository;
 
     //회원가입
     @Transactional
@@ -181,10 +185,25 @@ public class UserService {
     // 사용자 마이 페이지
     public UserResponse.MyPageDTO MyPage(SessionUser sessionUser) {
         // 사용자 정보 불러오기 ( 세션 )
-        User user = userRepository.findById(sessionUser.getId())
+        Payment payment = paymentRepository.findLastPaymentById(sessionUser.getId())
+                .stream()
+                .findFirst()
                 .orElseThrow(() -> new Exception401("❗로그인 되지 않았습니다❗"));
 
-        return new UserResponse.MyPageDTO(user);
+        // 구독 시작일 가져오기 및 변환
+        LocalDateTime subStartDateTime = LocalDateTime.parse(payment.getOrderDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        LocalDate subStartDateLD = subStartDateTime.toLocalDate();
+        // 구독 종료일 및 다음 결제일 계산
+        LocalDate subEndDateLD = subStartDateLD.plusMonths(1).minusDays(1);
+        LocalDate nextPaymentDayLD = subStartDateLD.plusMonths(1);
+        // String 문자열로 포맷
+        String subStartDate = subStartDateLD.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+        String subEndDate = subEndDateLD.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+        String nextPaymentDate = nextPaymentDayLD.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+        // 구독기간 생성
+        String subPeriod = subStartDate + " ~ " + subEndDate;
+
+        return new UserResponse.MyPageDTO(subPeriod, nextPaymentDate);
     }
 
     // 사용자 개인 정보

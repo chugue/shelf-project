@@ -31,36 +31,8 @@
 <!-- main start -->
 <main>
     <div class="main-div">
-        <!-- 사이드 바 시작 -->
-        <div class="sidebar">
-            <a href="/api/main-page">
-                <div class="main-left-text">
-                    <i class="fa-solid fa-arrow-left main-left-icon"></i>Shelf 돌아가기
-                </div>
-            </a>
-            <ul class="custom-list">
-                <li id="account-membership"><a href="/api/video-manage"><i
-                        class="fa-solid fa-chart-line sidebar-icon"></i>매출 관리</a></li>
-                <li id="account-security"><a href="/admin/members-manage"><i
-                        class="fa-solid fa-book sidebar-icon"></i>책 목록</a></li>
-                <li id="account-security"><a href="/admin/members-manage"><i
-                        class="fa-solid fa-users-gear sidebar-icon"></i>회원 관리</a></li>
-            </ul>
-        </div>
-        <!-- 사이드바 현재 위치 표시 백그라운드 -->
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                var currentUrl = window.location.pathname;
-                var links = document.querySelectorAll(".custom-list li a");
-
-                links.forEach(function (link) {
-                    if (link.getAttribute("href") === currentUrl) {
-                        link.parentElement.style.backgroundColor = "#ddd";  // 버튼 배경을 #ddd로
-                    }
-                });
-            });
-        </script>
-        <!-- 사이드 바 종료 -->
+        <!-- 사이드바 -->
+        {{> _components/sidebar}}
 
         <div class="main-section">
             <div class="main-header mb-20">책 상세보기</div>
