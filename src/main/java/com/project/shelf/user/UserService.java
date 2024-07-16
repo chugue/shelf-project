@@ -90,6 +90,7 @@ public class UserService {
                 bookHistory -> MainDTO.BookHistoryDTO.builder()
                         .userId(sessionUser.getId())
                         .bookId(bookHistory.getBook().getId())
+                        .bookImagePath(bookHistory.getBook().getPath())
                         .bookTitle(bookHistory.getBook().getTitle())
                         .pageCount(bookHistory.getBook().getPageCount())
                         .lastReadPage(bookHistory.getLastReadPage())
@@ -113,6 +114,7 @@ public class UserService {
         MainDTO.DayBestSellerDTO dayBestSeller = MainDTO.DayBestSellerDTO.builder()
                 .id(book.getId())
                 .bookTitle(book.getTitle())
+                .bookImagePath(book.getPath())
                 .bookIntro(book.getBookIntro())
                 .author(book.getAuthor().getName())
                 .build();

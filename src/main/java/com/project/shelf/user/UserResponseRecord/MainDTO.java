@@ -36,7 +36,8 @@ public record MainDTO(
             Integer id,
             String bookTitle,
             String author,
-            String bookIntro
+            String bookIntro,
+            String bookImagePath
     ) {
     }
 
@@ -46,7 +47,8 @@ public record MainDTO(
             Integer bookId,
             String bookTitle,
             String pageCount,
-            String lastReadPage
+            String lastReadPage,
+            String bookImagePath
     ) {
     }
 }
