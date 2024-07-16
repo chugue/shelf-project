@@ -3,27 +3,27 @@ package com.project.shelf.book;
 
 import com.project.shelf._core.util.ApiUtil;
 import com.project.shelf.admin.AdminRequestRecord.BookSaveReqDTO;
-import com.project.shelf.author.AuthorResponseRecord.SearchPageRespDTO;
-import com.project.shelf.author.AuthorService;
 import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
 import com.project.shelf.book.BookResponseRecord.BrandNewRespDTO;
+import com.project.shelf.book.BookResponseRecord.BookRankRespDTO;
 import com.project.shelf.user.SessionUser;
-import jakarta.servlet.http.HttpServletRequest;
+import com.project.shelf.wishlist.WishlistService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class BookRestController {
-    private static final Logger log = LoggerFactory.getLogger(BookRestController.class);
-    private final AuthorService authorService;
+
     private final BookService bookService;
+    private final WishlistService wishlistService;
     private final HttpSession session;
 
 
@@ -31,6 +31,13 @@ public class BookRestController {
     @GetMapping("/app/book/new")
     public ResponseEntity<?> brandNew(@RequestParam(value = "month", required = true) String registrationMonth) {
         List<BrandNewRespDTO> respDTO = bookService.brandNew(registrationMonth);
+        return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
+    }
+
+    // 위시리스트가 많은 순으로 베스트 셀러를 조회함
+    @GetMapping("/app/book/rank")
+    public ResponseEntity<?> getBooksByCategory(@RequestParam(required = false) String category) {
+        List<BookRankRespDTO> respDTO = bookService.getBooksByCategory(category);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
@@ -60,7 +67,10 @@ public class BookRestController {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         BookResponse.DetailPageDTO respDTO
                 = bookService.bookDetailPage(sessionUser, bookId);
-
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
+
+
+
+
 }

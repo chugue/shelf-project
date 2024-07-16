@@ -8,14 +8,17 @@ import com.project.shelf.admin.AdminRequestRecord.BookSaveReqDTO;
 import com.project.shelf.author.Author;
 import com.project.shelf.author.AuthorRepository;
 import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
+import com.project.shelf.book.BookResponseRecord.BookRankRespDTO;
 import com.project.shelf.book.BookResponseRecord.BrandNewRespDTO;
 import com.project.shelf.user.SessionUser;
 import com.project.shelf.user.User;
 import com.project.shelf.user.UserRepository;
+import com.project.shelf.wishlist.Wishlist;
 import com.project.shelf.wishlist.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -24,6 +27,8 @@ import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
 import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -35,6 +40,40 @@ public class BookService {
     private final AuthorRepository authorRepository;
     private final WishlistRepository wishlistRepository;
     private final UserRepository userRepository;
+
+    //전체 베스트셀러 랭킹
+    public List<BookRankRespDTO> getBooksByCategory(String category) {
+        List<Wishlist> wishlists;
+
+        if (category == null || category.isEmpty() || category.equalsIgnoreCase("종합")) {
+            // 전체 검색
+            wishlists = wishlistRepository.findAllBooksInWishlist();
+        } else {
+            try {
+                Book.Category enumCategory = Book.Category.valueOf(category);
+                wishlists = wishlistRepository.findAllBooksInWishlist(enumCategory);
+            } catch (IllegalArgumentException e) {
+                wishlists = List.of();
+            }
+        }
+
+        return wishlists.stream()
+                .map(wishlist -> {
+                    Book book = wishlist.getBook();
+                    return new BookRankRespDTO(
+                            book.getId(),
+                            book.getTitle(),
+                            book.getPath(),
+                            new BookRankRespDTO.Author(
+                                    book.getAuthor().getId(),
+                                    book.getAuthor().getName()
+                            )
+                    );
+                })
+                .distinct() // 중복 제거
+                .sorted((b1, b2) -> b1.bookId().compareTo(b2.bookId())) // 오름차순 정렬
+                .collect(Collectors.toList());
+    }
 
 
     public List<BrandNewRespDTO> brandNew(String registrationMonth) {
@@ -107,6 +146,8 @@ public class BookService {
         return weeklyData;
     }
 
+
+    //책 카테고리와 어서 검색 결과 페이지
     public BookCategorySearchDTO bookSearch(String category, String authorName) {
         List<Book> books;
 
@@ -184,7 +225,7 @@ public class BookService {
     }
 
     // 책 상세보기 페이지
-    public BookResponse.DetailPageDTO bookDetailPage(SessionUser sessionUser, Integer bookId){
+    public BookResponse.DetailPageDTO bookDetailPage(SessionUser sessionUser, Integer bookId) {
 //        SessionUser sessionUser = AppJwtUtil.verify(jwt);
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new Exception401("책 정보를 찾을 수 없습니다!!"));
