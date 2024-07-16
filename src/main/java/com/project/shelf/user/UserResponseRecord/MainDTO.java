@@ -9,7 +9,7 @@ import java.util.List;
 public record MainDTO(
         List<BestSellerDTO> bestSellerDTOS,
         List<WeekBestSellerDTO> weekBestSellerDTOS,
-        List<DayBestSellerDTO> dayBestSellerDTOS,
+        DayBestSellerDTO dayBestSellerDTO,
         List<BookHistoryDTO> bookHistoryDTOS
 ) {
 

@@ -62,17 +62,17 @@ VALUES
     (44, '상상하는 공학 진화하는 인 잠', '/image/book/상상하는_공학_진화하는_인간.jpg', '316', 'KAIST의 세계적인 기계공학자들이 들려주는 첨단 기술의 해법과 상상력!', '첨단 기술의 오늘을 알려주고 미래를 함께 고민하기 위해 KAIST 기계공학과 교수 27명의 지식을 한데 모은 책 ', '과학', '해냄', '/image/epub/대화의_힘.epub', '2024-06-23', NOW(), NOW());
 
 --5. 위 시리스트--
-INSERT INTO wishlist_tb(user_id, book_id, created_at, updated_at)
-values (1, 1, now(), NOW()),
-       (1, 2, now(), NOW()),
-       (1, 3, now(), NOW()),
-       (1, 4, now(), NOW()),
-       (1, 5, now(), NOW()),
-       (2, 1, now(), NOW()),
-       (2, 2, now(), NOW()),
-       (2, 3, now(), NOW()),
-       (3, 4, now(), NOW()),
-       (3, 5, now(), NOW());
+INSERT INTO wishlist_tb(user_id, book_id, created_at)
+values (1, 1, now()),
+       (1, 2, now()),
+       (1, 3, now()),
+       (1, 4, now()),
+       (1, 5, now()),
+       (2, 1, now()),
+       (2, 2, now()),
+       (2, 3, now()),
+       (3, 4, now()),
+       (3, 5, now());
 
 
 --6. 책 읽기--
