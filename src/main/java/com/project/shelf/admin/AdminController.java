@@ -56,4 +56,10 @@ public class AdminController {
         return "admin/book-detail";
     }
 
+    @GetMapping("/err")
+    public String getErrPage(HttpServletRequest request) {
+        return "err/err-page";
+    }
+
+
 }
