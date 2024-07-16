@@ -129,23 +129,12 @@
                     <label for="introduction">책 소개</label>
                     <div class="input-data" style="height: 7rem;">{{book.bookIntro}}</div>
                 </div>
-                <div class="form-field mb-20">
-                    <label for="toc">목차</label>
-                    <div class="input-data" style="height: 7rem;">
-                        목차 내용<br>
-                        목차 내용<br>
-                        목차 내용<br>
-                        목차 내용<br>
-                        목차 내용<br>
-                        목차 내용<br>
-                    </div>
-                </div>
                 <!-- 파일 선택 -->
                 <div class="small-title">epub파일</div>
                 <div class="form-field mb-20">
                     <div class="file-upload-container">
                         <!-- <label for="ebook-file" class="custom-file-upload">파일 선택</label> -->
-                        <input type="file" id="ebook-file" name="ebook-file" style="display: none;" />
+                        <input type="file" id="ebook-file" name="ebook-file" src="{{book.epubFile}}" />
                         <span id="file-name-display">{{book.epubFile}}</span>
                     </div>
                 </div>
