@@ -29,7 +29,7 @@ public class BookRestController {
 
     // Brandnew 페이지
     @GetMapping("/app/book/new")
-    public ResponseEntity<?> brandNew(@RequestParam(value = "registrationMonth", required = true) String registrationMonth) {
+    public ResponseEntity<?> brandNew(@RequestParam(value = "month", required = true) String registrationMonth) {
         List<BrandNewRespDTO> respDTO = bookService.brandNew(registrationMonth);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }

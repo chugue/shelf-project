@@ -52,11 +52,6 @@ public class BookService {
         // 검색한 list를 주별로 구분
         Map<Integer, List<Book>> weeklyData = splitDataByWeeks(books, startDate, endDate);
 
-        // 결과 출력
-        for (Map.Entry<Integer, List<Book>> entry : weeklyData.entrySet()) {
-            System.out.println("Week " + entry.getKey() + ": " + entry.getValue());
-        }
-
         // 주별 데이터 담기
         List<BrandNewRespDTO> brandNewRespDTOList = new ArrayList<>();
         for (Map.Entry<Integer, List<Book>> entry : weeklyData.entrySet()) {
@@ -68,10 +63,26 @@ public class BookService {
                        .path(book.getPath())
                        .build();
             }).toList();
-            brandNewRespDTOList.add(new BrandNewRespDTO(entry.getKey(), list));
+            String weekName = weekIntegerToString(entry.getKey());
+
+
+            brandNewRespDTOList.add(new BrandNewRespDTO(weekName, list));
         }
 
         return brandNewRespDTOList;
+    }
+
+    // 몇째 주인지 string으로 변환
+    private static String weekIntegerToString(Integer weekNumber){
+        String weekName = switch (weekNumber) {
+            case 1 -> "첫째";
+            case 2 -> "둘째";
+            case 3 -> "셋째";
+            case 4 -> "넷째";
+            case 5 -> "다섯째";
+            default -> "";
+        };
+        return weekName;
     }
 
     // 데이터를 주 단위로 쪼개는 메서드

@@ -16,8 +16,8 @@ public class BookRepositoryTest {
     @Test
     public void findByRegistrationMonth_test(){
         // given
-        int year = 2024;
-        int month = 6;
+        int year = 2021;
+        int month = 7;
 
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()); // 해당 월의 마지막날 구하기

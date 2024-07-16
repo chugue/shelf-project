@@ -5,7 +5,7 @@ import java.util.List;
 
 @Builder
 public record BrandNewRespDTO (
-    Integer brandNewWeekly,
+    String brandNewWeekly,
     List<brandNewList> brandNewList
 
 ){
