@@ -42,6 +42,8 @@ public class Book {
     private String publisher; // 출판사
     private String epubFile;
 
+    private LocalDateTime registrationDate;
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -51,7 +53,7 @@ public class Book {
 
 
     @Builder
-    public Book(Integer id, Author author, String title, String path, String pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Book(Integer id, Author author, String title, String path, String pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime registrationDate) {
         this.id = id;
         this.author = author;
         this.title = title;
@@ -64,6 +66,7 @@ public class Book {
         this.epubFile = epubFile;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.registrationDate = registrationDate;
     }
 
 
