@@ -93,15 +93,13 @@ public class UserResponse {
     // 마이페이지
     @Data
     public static class MyPageDTO {
-        private Integer id;
-        private String nickNam;
-        private boolean status;
+        private String subPeriod;
+        private String nextPaymentDate;
         //        private String profileIconPath; // 필드가 없음.
 
-        public MyPageDTO(User user) {
-            this.id = user.getId();
-            this.nickNam = user.getNickName();
-            this.status = user.getStatus();
+        public MyPageDTO(String subPeriod, String nextPaymentDate) {
+            this.subPeriod = subPeriod;
+            this.nextPaymentDate = nextPaymentDate;
         }
     }
 

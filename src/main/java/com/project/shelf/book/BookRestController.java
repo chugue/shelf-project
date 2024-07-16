@@ -6,6 +6,7 @@ import com.project.shelf.admin.AdminRequestRecord.BookSaveReqDTO;
 import com.project.shelf.author.AuthorResponseRecord.SearchPageRespDTO;
 import com.project.shelf.author.AuthorService;
 import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
+import com.project.shelf.book.BookResponseRecord.BrandNewRespDTO;
 import com.project.shelf.user.SessionUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +26,13 @@ public class BookRestController {
     private final BookService bookService;
     private final HttpSession session;
 
+
+    // Brandnew 페이지
+    @GetMapping("/app/book/new")
+    public ResponseEntity<?> brandNew(@RequestParam(value = "month", required = true) String registrationMonth) {
+        List<BrandNewRespDTO> respDTO = bookService.brandNew(registrationMonth);
+        return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
+    }
 
     //책 검색 결과페이지
     @GetMapping("/app/book/search")

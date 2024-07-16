@@ -1,8 +1,6 @@
 package com.project.shelf.book.BookResponseRecord;
 
-import com.project.shelf.author.Author;
 import lombok.Builder;
-
 import java.util.List;
 
 @Builder

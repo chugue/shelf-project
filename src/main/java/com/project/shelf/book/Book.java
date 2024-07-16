@@ -60,7 +60,7 @@ public class Book {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Book(Integer id, Author author, String title, String path, String pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Book(Integer id, Author author, String title, String path, String pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime registrationDate) {
         this.id = id;
         this.author = author;
         this.title = title;
@@ -73,6 +73,7 @@ public class Book {
         this.epubFile = epubFile;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.registrationDate = registrationDate;
     }
 
 
