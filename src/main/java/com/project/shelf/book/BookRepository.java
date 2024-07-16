@@ -47,11 +47,4 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     // 관리자 책 상세보기
     @Query("select b, a.name from Book b JOIN FETCH b.author a where b.id =:bookId")
     Optional<Book> findByBookId(@Param("bookId") Integer bookId);
-
-    //사용자가 읽은 모든 책 구하는 쿼리
-    @Query("select b from Book b JOIN FETCH b.author a JOIN FETCH b.bookHistoryList u where u.id = :userId ")
-    List<Book> findBooksByUserId(@Param("userId") Integer userId);
-
-
-
 }
