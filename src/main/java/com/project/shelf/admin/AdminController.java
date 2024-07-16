@@ -1,5 +1,7 @@
 package com.project.shelf.admin;
 
+import com.project.shelf.admin.AdminResponseRecord.BookListRespDTO;
+import com.project.shelf.book.BookService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 public class AdminController {
+
+    private final AdminService adminService;
 
     @GetMapping("/")
     public String mainPage(HttpServletRequest request) {
@@ -28,6 +32,8 @@ public class AdminController {
 
     @GetMapping("/admin/books")
     public String getManageBooks(HttpServletRequest request) {
+        BookListRespDTO resp = adminService.bookList();
+        request.setAttribute("books", resp);
         return "admin/book-management";
     }
 

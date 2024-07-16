@@ -36,5 +36,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query("SELECT count(*) FROM Book b where b.category = :category")
     Integer findByCategoryConut(@Param("category") Book.Category category);
 
+    @Query("SELECT b FROM Book b JOIN FETCH b.author a ORDER BY b.id DESC")
+    List<Book> findAllWithAuthor();
 
 }

@@ -38,7 +38,7 @@
                     <div class="member">
                         <div class="member-count">
                             <!-- <span class="gray mr-10">책 목록 :</span>items.size}} -->
-                            <span class="gray mr-10">책 목록 :</span>5
+                            <span class="gray mr-10">책 목록 :</span>{{books.count}}
                         </div>
                     </div>
                 </div>
@@ -63,41 +63,16 @@
                             <td>createdAt}}</td>
                         </tr>
                     /items}} -->
-                    <tr>
-                        <td>5</td>
-                        <td>무엇인지 무엇이었는지 무엇일 수 있는지</td>
-                        <td>최유수</td>
-                        <td>도어스프레스</td>
-                        <td>2024.07.08</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>영원에 무늬가 있다면</td>
-                        <td>최유수</td>
-                        <td>도어스프레스</td>
-                        <td>2024.07.08</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>너는 불투명한 문</td>
-                        <td>최유수</td>
-                        <td>별빛들</td>
-                        <td>2024.07.08</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>끝내주는 인생</td>
-                        <td>이슬아</td>
-                        <td>디플롯</td>
-                        <td>2024.07.08</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>이토록 안타까운 나에게</td>
-                        <td>손현녕</td>
-                        <td>테라포트</td>
-                        <td>2024.07.08</td>
-                    </tr>
+                    {{#books.bookDTOList}}
+                        <tr>
+                            <td>{{bookId}}</td>
+                            <td>{{title}}</td>
+                            <td>{{author}}</td>
+                            <td>{{publisher}}</td>
+                            <td>{{createdAt}}</td>
+                        </tr>
+                    {{/books.bookDTOList}}
+
                     <!-- 프론트 더미 끝-->
                     </tbody>
                 </table>
