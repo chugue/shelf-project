@@ -73,7 +73,7 @@
                     <!-- 책 표지 사진 -->
                     <div class="form-field-header-left">
                         <div class="image-preview">
-                            <img id="preview-img" src="" alt="미리보기 이미지" style="display: none" />
+                            <img id="preview-img" src="{{book.path}}" alt="미리보기 이미지" />
                             <!-- TODO : 기본 이미지 넣기 -->
                         </div>
                         <input id="image-upload" type="file" name="mainPhoto" />
@@ -100,15 +100,15 @@
                     <div class="form-field-header-right">
                         <div class="form-field mb-20">
                             <label for="title">제목</label>
-                            <div class="input-data">제목 입력</div>
+                            <div class="input-data">{{book.title}}</div>
                         </div>
                         <div class="form-field mb-20">
                             <label for="author">저자</label>
-                            <div class="input-data">저자 입력</div>
+                            <div class="input-data">{{book.author.name}}</div>
                         </div>
                         <div class="form-field mb-20">
                             <label for="publisher">출판사</label>
-                            <div class="input-data">출판사 입력</div>
+                            <div class="input-data">{{book.publisher}}</div>
                         </div>
                         <!-- <div class="form-field mb-20">
                             <label for="category">카테고리</label>
@@ -116,37 +116,26 @@
                         </div> -->
                         <div class="form-field mb-20">
                             <label for="category">카테고리</label>
-                            <div class="input-data">카테고리 입력</div>
+                            <div class="input-data">{{book.category}}</div>
                         </div>
                     </div>
                 </div>
                 <!-- width 100% 입력 창 -->
                 <div class="form-field mb-20">
                     <label for="comment">코멘트</label>
-                    <div class="input-data" style="height: 5rem;">코멘트 내용</div>
+                    <div class="input-data" style="height: 5rem;">{{book.contentIntro}}</div>
                 </div>
                 <div class="form-field mb-20">
                     <label for="introduction">책 소개</label>
-                    <div class="input-data" style="height: 7rem;">책 소개 내용</div>
-                </div>
-                <div class="form-field mb-20">
-                    <label for="toc">목차</label>
-                    <div class="input-data" style="height: 7rem;">
-                        목차 내용<br>
-                        목차 내용<br>
-                        목차 내용<br>
-                        목차 내용<br>
-                        목차 내용<br>
-                        목차 내용<br>
-                    </div>
+                    <div class="input-data" style="height: 7rem;">{{book.bookIntro}}</div>
                 </div>
                 <!-- 파일 선택 -->
                 <div class="small-title">epub파일</div>
                 <div class="form-field mb-20">
                     <div class="file-upload-container">
                         <!-- <label for="ebook-file" class="custom-file-upload">파일 선택</label> -->
-                        <input type="file" id="ebook-file" name="ebook-file" style="display: none;" />
-                        <span id="file-name-display">선택된 파일 없음</span>
+                        <input type="file" id="ebook-file" name="ebook-file" src="{{book.epubFile}}" />
+                        <span id="file-name-display">{{book.epubFile}}</span>
                     </div>
                 </div>
                 <script>

@@ -47,7 +47,7 @@ public class BookRestController {
     }
 
     // 책 상세보기 페이지
-    @GetMapping("/api/book/{bookId}")
+    @GetMapping("/app/book/{bookId}")
     public ResponseEntity<?> bookDetailPage(@PathVariable Integer bookId){
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         BookResponse.DetailPageDTO respDTO
