@@ -164,6 +164,13 @@ nav {
     justify-content: space-between;
     align-items: start;
 }
+
+.book-header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
 .book-count{
     display: flex;
     font-size: 20px;
@@ -171,6 +178,13 @@ nav {
     text-align: center;
     align-items: start;
     margin: 20px auto 0 0;
+}
+.add-book-btn{
+    font-size: 1rem;
+    padding: 10px 20px;
+    background: #9DCEFF;
+    border-radius: 5px;
+    line-height: 40px;
 }
 
 table {
