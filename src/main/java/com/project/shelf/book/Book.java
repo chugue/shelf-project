@@ -1,7 +1,6 @@
 package com.project.shelf.book;
 
 import com.project.shelf.author.Author;
-import com.project.shelf.book_history.BookHistory;
 import com.project.shelf.wishlist.Wishlist;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -15,8 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @NoArgsConstructor
 @Entity
@@ -45,11 +44,9 @@ public class Book {
     private String publisher; // 출판사
     private String epubFile;
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
-    private List<BookHistory> bookHistoryList;
-
-    @ColumnDefault("'2019-07-16'")
+//    @ColumnDefault("'2019-07-16'")
     private LocalDateTime registrationDate; // 출판일
+
     @ColumnDefault("527")
     private int totalView;
     @ColumnDefault("300")
@@ -61,7 +58,6 @@ public class Book {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
 
     @Builder
     public Book(Integer id, Author author, String title, String path, String pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDateTime createdAt, LocalDateTime updatedAt) {
