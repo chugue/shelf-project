@@ -6,6 +6,7 @@ import com.project.shelf._core.util.JwtVO;
 import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
 import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
 import com.project.shelf.user.UserResponseRecord.MainDTO;
+import com.project.shelf.user.UserResponseRecord.MyLibraryResponseDTO;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,11 +85,13 @@ public class UserRestController {
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
-//    @GetMapping("/app/user/wishList")
-//    public ResponseEntity<?> wishList() {
-//        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-//
-//    }
+    @GetMapping("/app/user/my-library")
+    public ResponseEntity<?> wishList() {
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        MyLibraryResponseDTO respDTO = userService.myLibrary(sessionUser);
+
+        return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
+    }
 }
 
 

@@ -208,7 +208,7 @@ public class UserService {
         return new UserResponse.UpdateInfoDTO(user);
     }
 
-    //위시 리스트 페이지
+    //내 서재 페이지
     public MyLibraryResponseDTO myLibrary(SessionUser sessionUser) {
         //1. 이어보기 정보 DTO 매핑
         List<MyLibraryResponseDTO.BookListDTO.HistoryDTO> bookHistories = bookHistoryRepository.findBookHistoryByUserId(sessionUser.getId()).stream().map(
