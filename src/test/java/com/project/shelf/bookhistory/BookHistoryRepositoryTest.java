@@ -26,4 +26,17 @@ public class BookHistoryRepositoryTest {
         // then
         bookHistories.forEach(System.out::println);
     }
+
+    @Test
+    void findBooksByUserId_Test(){
+        // given
+        Integer userId = 1;
+
+        // when
+        List<BookHistory> books = bookHistoryRepository.findBookListByUserId(userId);
+
+        // then
+        System.out.println(books.size());
+        System.out.println(books.getFirst().getBook().getBookIntro());
+    }
 }
