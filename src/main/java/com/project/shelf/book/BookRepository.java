@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
@@ -36,5 +37,8 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query("SELECT count(*) FROM Book b where b.category = :category")
     Integer findByCategoryConut(@Param("category") Book.Category category);
 
+    //관리자 책 상세보기
+    @Query("select b, a.name from Book b JOIN FETCH b.author a where b.id =:bookId")
+    Optional<Book> findByBookId(@Param("bookId") Integer bookId);
 
 }
