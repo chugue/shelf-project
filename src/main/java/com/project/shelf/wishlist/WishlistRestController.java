@@ -4,6 +4,8 @@ import com.project.shelf._core.util.ApiUtil;
 import com.project.shelf.user.*;
 import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
 import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
+import com.project.shelf.wishlist.WishlistRequestRecord.WishlistSaveReqDTO;
+import com.project.shelf.wishlist.WishlistResponseRecord.WishlistSaveRespDTO;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,18 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 public class WishlistRestController {
+    private final WishlistService wishlistService;
+
+    @PostMapping("/app/wishlist/toggle")
+    public ResponseEntity<?> toggleWishlist(@RequestBody WishlistSaveReqDTO requestDTO) {
+        WishlistSaveRespDTO respDTO = wishlistService.toggleWishlist(requestDTO);
+        return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
+    }
+//
+//    @DeleteMapping("/delete")
+//    public void deleteWishlist(@RequestBody WishlistSaveReqDTO requestDTO) {
+//        wishlistService.deleteWishlist(requestDTO);
+//    }
 
 
 }

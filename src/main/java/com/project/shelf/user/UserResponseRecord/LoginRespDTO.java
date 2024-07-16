@@ -1,5 +1,6 @@
 package com.project.shelf.user.UserResponseRecord;
 
+import com.project.shelf._core.enums.Avatar;
 import com.project.shelf.user.User;
 import lombok.Builder;
 
@@ -21,6 +22,7 @@ public record LoginRespDTO(
         String email,
         String nickName,
         Boolean status,
+        Avatar avatar,
         LocalDateTime createdAt
 ) {
     public User toUser() {
@@ -29,6 +31,7 @@ public record LoginRespDTO(
                 .email(email)
                 .nickName(nickName)
                 .status(status)
+                .avatar(avatar)
                 .createdAt(createdAt)
                 .build();
     }

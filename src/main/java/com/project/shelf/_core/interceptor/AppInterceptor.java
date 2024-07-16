@@ -26,7 +26,7 @@ public class AppInterceptor implements HandlerInterceptor {
         try {
             SessionUser sessionUser = AppJwtUtil.verify(jwt);
             session.setAttribute("sessionUser", sessionUser);
-
+            System.out.println("승호승호승호 "+session.getId());
         } catch (TokenExpiredException e) {
             throw new Exception401("토큰 만료 시간이 지났습니다. 다시 로그인 하세요");
         } catch (JWTDecodeException e) {

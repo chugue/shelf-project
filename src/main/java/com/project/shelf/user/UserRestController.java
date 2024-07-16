@@ -59,26 +59,27 @@ public class UserRestController {
     }
 
     // 사용자 마이페이지
-    @GetMapping("/user/my-page")
-    public ResponseEntity<?> myPage(@RequestHeader("Authorization") String jwt) {
+    @GetMapping("/api/user/my-page")
+    public ResponseEntity<?> myPage() {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        UserResponse.MyPageDTO respDTO = userService.MyPage(jwt.replace("Bearer ", ""));
+        UserResponse.MyPageDTO respDTO = userService.MyPage(sessionUser);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
     // 사용자 개인정보
-    @GetMapping("/user/my-info")
-    public ResponseEntity<?> myInfo(@RequestHeader("Authorization") String jwt) {
-        UserResponse.MyInfoDTO respDTO = userService.MyInfo(jwt.replace("Bearer ", ""));
+    @GetMapping("/api/user/my-info")
+    public ResponseEntity<?> myInfo() {
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        UserResponse.MyInfoDTO respDTO = userService.MyInfo(sessionUser);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
     // 개인정보 변경하기
     @PostMapping("/user/update-info")
-    public ResponseEntity<?> updateInfo(@RequestHeader("Authorization") String jwt,
-                                        @RequestBody UserRequest.UpdateInfoDTO reqDTO) {
+    public ResponseEntity<?> updateInfo(@RequestBody UserRequest.UpdateInfoDTO reqDTO) {
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         UserResponse.UpdateInfoDTO respDTO
-                = userService.UpdateInfo(jwt.replace("Bearer ",""), reqDTO);
+                = userService.UpdateInfo(sessionUser, reqDTO);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 }
