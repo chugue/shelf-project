@@ -12,6 +12,7 @@ public record BookListRespDTO(
 ){
     @Builder
     public record BookDTO(
+        Integer no,
         Integer bookId,
         String title,
         String author,
