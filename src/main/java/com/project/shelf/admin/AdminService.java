@@ -126,12 +126,11 @@ public class AdminService {
 
     }
 
-
-    @Transactional
     public SessionAdmin login(AdminRequest.LoginDTO reqDTO) {
         Admin admin = adminRepository.findByEmail(reqDTO.getEmail())
                 .orElseThrow(() -> new SSRException401("등록되지 않은 이메일 입니다!"));
-
+//        admin = adminRepository.findByPassword(reqDTO.getPassword())
+//                .orElseThrow(() -> new SSRException401("비밀번호가 맞지 않습니다."));
     return  new SessionAdmin(admin);
     }
 }

@@ -23,26 +23,30 @@ public class AdminController {
     private final HttpSession session;
     private final AdminService adminService;
 
+    // 메인 페이지 - login
     @GetMapping("/")
     public String mainPage(HttpServletRequest request) {
         return "admin/login";
     }
 
+    // 로그인 POST ( 관리자 )
     @PostMapping("/login")
     public String login(AdminRequest.LoginDTO reqDTO) {
         SessionAdmin sessionAdmin = adminService.login(reqDTO);
         session.setAttribute("sessionAdmin", sessionAdmin);
-        System.out.println("승호" + sessionAdmin);
         return "redirect:/admin/sales";
     }
-
+    
+    // 로그아웃
     @GetMapping("/logout")
     public String logout() {
-        session.removeAttribute("sessionUser");
+        session.removeAttribute("sessionAdmin");
         session.invalidate();
 
-        return "redirect:/login";
+        return "redirect:/";
     }
+    
+    // 매출 확인 페이지
     @GetMapping("/admin/sales")
     public String getSalesPage(HttpServletRequest request) {
         return "admin/sales-dashboard";
@@ -56,14 +60,15 @@ public class AdminController {
         return "admin/member-management";
     }
 
-    // 책 목록 페이지
+    // 책 목록보기 페이지
     @GetMapping("/admin/books")
     public String getManageBooks(HttpServletRequest request) {
         BookListRespDTO resp = adminService.bookList();
         request.setAttribute("books", resp);
         return "admin/book-management";
     }
-
+    
+    // 책 등록 페이지
     @GetMapping("/admin/add-book")
     public String getAddBook(HttpServletRequest request) {
         return "admin/add-book";
@@ -78,7 +83,7 @@ public class AdminController {
         return "admin/book-detail";
     }
 
-    //책 수정하기 페이지
+    // 책 수정하기 페이지
     @GetMapping("/admin/book-update-form/{bookId}")
     public String getUpdateForm(HttpServletRequest request,@PathVariable Integer bookId) {
         BookDetailRespDTO book = adminService.bookDetail(bookId);
@@ -87,14 +92,14 @@ public class AdminController {
         return "admin/book-update";
     }
 
-    //책 수정하기
+    // 책 수정하기
     @PostMapping("/admin/book-update/{bookId}")
     public String updateBook(HttpServletRequest request,@PathVariable Integer bookId) {
 
         return "admin/book-detail";
     }
 
-    //책 삭제하기
+    // 책 삭제하기
     @DeleteMapping("/admin/book")
     public String deleteBook(HttpServletRequest request) {
         return "admin/sales-dashboard";
