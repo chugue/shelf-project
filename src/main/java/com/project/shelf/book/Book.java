@@ -1,6 +1,7 @@
 package com.project.shelf.book;
 
 import com.project.shelf.author.Author;
+import com.project.shelf.book_history.BookHistory;
 import com.project.shelf.wishlist.Wishlist;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -29,6 +30,12 @@ public class Book {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Author author;
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Wishlist> wishlist;
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<BookHistory> bookHistory;
 
     private String title;
     private String path; // 사진 경로

@@ -145,5 +145,14 @@ public class AdminService {
 
     }
 
+    ///책 삭제하기
+    @Transactional
+    public void deleteBook(Integer bookId){
+        //1. 책 정보 조회
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new Exception404("책을 찾을 수 없습니다."));
 
+        //2. 책 삭제
+        bookRepository.delete(book);
+    }
 }

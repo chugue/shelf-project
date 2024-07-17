@@ -83,9 +83,10 @@ public class AdminController {
     }
 
     //책 삭제하기
-    @DeleteMapping("/admin/book/delete")
-    public String deleteBook() {
-        return "admin/sales-dashboard";
+    @PostMapping("/admin/book-delete/{bookId}")
+    public String deleteBook(@PathVariable Integer bookId) {
+        adminService.deleteBook(bookId);
+        return "redirect:/admin/books";
     }
 
     @GetMapping("/err")

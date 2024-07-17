@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -126,8 +126,15 @@
                     });
                 </script>
                 <div class="bottom-btns">
-                    <a class="custom-upload-button" href="/admin/book-update-form/{{bookId}}" >수정하기</a>
+                    <form method="get" action="/admin/book-update-form/{{bookId}}">
+                    <button class="custom-upload-button" >수정하기</button>
+                    </form>
+                    <form method="get" action="/admin/books">
                     <button id="back-btn">돌아가기</button>
+                    </form>
+                    <form method="post" action="/admin/book-delete/{{bookId}}">
+                    <button class="custom-upload-button" >삭제하기</button>
+                    </form>
                 </div>
             </div>
 
