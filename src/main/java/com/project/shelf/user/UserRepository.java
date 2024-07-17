@@ -20,4 +20,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByEmail(@Param("email") String email);
 
+    // existsBy가 문법임!
+    boolean existsByEmail(String email);
+
+    boolean existsByNickName(String nickName);
 }

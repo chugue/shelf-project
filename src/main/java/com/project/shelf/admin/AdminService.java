@@ -1,17 +1,21 @@
 package com.project.shelf.admin;
 
+import com.project.shelf.admin.AdminResponseRecord.BookDetailRespDTO;
 import com.project.shelf.admin.AdminResponseRecord.BookListRespDTO;
+import com.project.shelf._core.erros.exception.SSRException401;
 import com.project.shelf._core.erros.exception.Exception404;
 import com.project.shelf.admin.AdminResponseRecord.MonthlySalesPageDTO;
 import com.project.shelf.admin.AdminResponseRecord.UserListRespDTO;
 import com.project.shelf.book.Book;
 import com.project.shelf.book.BookRepository;
+import jakarta.transaction.Transactional;
 import com.project.shelf.payment.PaymentRepository;
 import com.project.shelf.payment.PaymentResponseRecord.MonthlySaleDTO;
 import com.project.shelf.user.UserRepository;
 import com.project.shelf.user.UserResponseRecord.MonthlyUserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,6 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class AdminService {
 
+    private final AdminRepository adminRepository;
     private final BookRepository bookRepository;
     private final PaymentRepository paymentRepository;
     private final UserRepository userRepository;
@@ -129,11 +134,48 @@ public class AdminService {
                 .build();
     }
 
-    // 상세보기
-    public Book bookDetail(Integer bookId){
+    //상세보기
+    public BookDetailRespDTO bookDetail(Integer bookId){
         Book book = bookRepository.findByBookId(bookId)
                 .orElseThrow(() -> new Exception404("책 정보를 찾을 수 없습니다."));
-        return book;
+
+        BookDetailRespDTO respDTO = BookDetailRespDTO.builder()
+                .bookPath(book.getPath())
+                .bookTitle(book.getTitle())
+                .author(book.getAuthor().getName())
+                .publisher(book.getPublisher())
+                .category(book.getCategory().name())
+                .bookIntro(book.getBookIntro())
+                .contentIntro(book.getContentIntro())
+                .authorIntro(book.getAuthor().getAuthorIntro())
+                .pageCount(book.getPageCount())
+                .build();
+
+        return respDTO;
     }
 
+    // 책 수정하기
+    @Transactional
+    public void updateBook(Integer bookId){
+        //1. 책 정보 조회
+        Book book = bookRepository.findByBookId(bookId)
+                .orElseThrow(() -> new Exception404("책 정보를 찾을 수 없습니다."));
+
+        //2. 책 정보 업데이트
+
+    }
+
+    //책 사진 업로드
+    @Transactional
+    public void uploadBookImage(MultipartFile bookImage, Book book){
+
+    }
+
+    public SessionAdmin login(AdminRequest.LoginDTO reqDTO) {
+        Admin admin = adminRepository.findByEmail(reqDTO.getEmail())
+                .orElseThrow(() -> new SSRException401("등록되지 않은 이메일 입니다!"));
+//        admin = adminRepository.findByPassword(reqDTO.getPassword())
+//                .orElseThrow(() -> new SSRException401("비밀번호가 맞지 않습니다."));
+    return  new SessionAdmin(admin);
+    }
 }

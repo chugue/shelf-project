@@ -283,4 +283,13 @@ public class UserService {
                 .build();
 
     }
+
+
+    public boolean checkEmailDuplicate(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public boolean checkNickNameDuplicate(String nickName) {
+        return userRepository.existsByNickName(nickName);
+    }
 }
