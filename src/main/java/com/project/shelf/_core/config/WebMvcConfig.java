@@ -22,7 +22,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new AppInterceptor())
                 .addPathPatterns("/app/**")
                 .excludePathPatterns();
-
     }
 
     //외부이미지 경로설정

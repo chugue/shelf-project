@@ -44,7 +44,7 @@ public class BookRestController {
 
 
     @PostMapping("/api/ebook")
-    public ResponseEntity<String> addBook(@ModelAttribute BookSaveReqDTO reqDTO) {
+    public ResponseEntity<?> addBook(@ModelAttribute BookSaveReqDTO reqDTO) {
         log.info("이북등록하기 {}", reqDTO);
         try {
             bookService.saveBook(reqDTO);
