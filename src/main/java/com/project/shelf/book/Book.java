@@ -44,7 +44,6 @@ public class Book {
     private String publisher; // 출판사
     private String epubFile;
 
-//    @ColumnDefault("'2019-07-16'")
     private LocalDateTime registrationDate; // 출판일
 
     @ColumnDefault("527")
