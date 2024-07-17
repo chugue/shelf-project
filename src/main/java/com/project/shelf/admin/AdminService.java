@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 @Service
@@ -122,16 +123,18 @@ public class AdminService {
 
     // 책 목록보기
     public BookListRespDTO bookList() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        List<BookListRespDTO.BookDTO> bookDTOList = bookRepository.findAllWithAuthor().stream()
-                .map(book -> BookListRespDTO.BookDTO.builder()
-                        .bookId(book.getId())
-                        .title(book.getTitle())
-                        .author(book.getAuthor().getName())
-                        .publisher(book.getPublisher())
-                        .createdAt(book.getCreatedAt().format(formatter))
-                        .build())
-                .collect(Collectors.toList());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        List<Book> bookList = bookRepository.findAllWithAuthor();
+        List<BookListRespDTO.BookDTO> bookDTOList = IntStream.range(0, bookList.size())
+                .mapToObj(i -> BookListRespDTO.BookDTO.builder()
+                        .no(bookList.size() - i)
+                        .bookId(bookList.get(i).getId())
+                        .title(bookList.get(i).getTitle())
+                        .author(bookList.get(i).getAuthor().getName())
+                        .publisher(bookList.get(i).getPublisher())
+                        .createdAt(bookList.get(i).getCreatedAt().format(formatter))
+                        .build()).collect(Collectors.toList());
+
         return BookListRespDTO.builder()
                 .count(bookDTOList.size())
                 .bookDTOList(bookDTOList)
