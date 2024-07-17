@@ -79,7 +79,7 @@ public class UserService {
                 .email(user.getEmail())
                 .nickName(user.getNickName())
                 .status(user.getStatus())
-                .avatar(user.getAvatar())
+                .avatar(user.getAvatar().getValue())
                 .createdAt(user.getCreatedAt())
                 .build();
     }
