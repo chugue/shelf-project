@@ -16,16 +16,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     // 로그인 인터셉터
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new LoginInterceptor())
-//                .addPathPatterns("/api/**")
-//                .excludePathPatterns();
-        registry.addInterceptor(new AppInterceptor())
-                .addPathPatterns("/api/**")
+        registry.addInterceptor(new LoginInterceptor())
+                .addPathPatterns("/api/**","/admin/**")
                 .excludePathPatterns();
         registry.addInterceptor(new AppInterceptor())
                 .addPathPatterns("/app/**")
                 .excludePathPatterns();
-
     }
 
     //외부이미지 경로설정
