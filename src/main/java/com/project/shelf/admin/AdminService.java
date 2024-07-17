@@ -2,17 +2,18 @@ package com.project.shelf.admin;
 
 import com.project.shelf.admin.AdminResponseRecord.BookListRespDTO;
 import com.project.shelf._core.erros.exception.Exception404;
+import com.project.shelf.admin.AdminResponseRecord.MonthlySalesPageDTO;
 import com.project.shelf.admin.AdminResponseRecord.UserListRespDTO;
 import com.project.shelf.book.Book;
 import com.project.shelf.book.BookRepository;
 import com.project.shelf.payment.PaymentRepository;
+import com.project.shelf.payment.PaymentResponseRecord.MonthlySaleDTO;
 import com.project.shelf.user.UserRepository;
+import com.project.shelf.user.UserResponseRecord.MonthlyUserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -22,6 +23,60 @@ public class AdminService {
     private final BookRepository bookRepository;
     private final PaymentRepository paymentRepository;
     private final UserRepository userRepository;
+
+    // 매출 관리 페이지
+    public MonthlySalesPageDTO monthlySales() {
+        // 월별 매출
+        List<MonthlySaleDTO> monthlySaleList = paymentRepository.findSalesByMonth();
+
+        // 월별 가입자
+        List<MonthlyUserDTO> monthlyUsersList = userRepository.findUserByMonth();
+
+        // 연도와 월을 기준으로 그룹화하여 병합
+        Map<String, MonthlySaleDTO> saleMap = monthlySaleList.stream()
+                .collect(Collectors.toMap(s -> s.year() + "-" + s.month(), s -> s));
+        Map<String, MonthlyUserDTO> userMap = monthlyUsersList.stream()
+                .collect(Collectors.toMap(u -> u.year() + "-" + u.month(), u -> u));
+
+        // 정렬
+        List<String> keys = saleMap.keySet().stream()
+                .sorted(Comparator.comparing((String key) -> Integer.parseInt(key.split("-")[0])) // 연도 기준 정렬
+                        .thenComparing(key -> Integer.parseInt(key.split("-")[1])) // 월 기준 정렬
+                        .reversed()) // 최신순 정렬
+                .toList();
+
+        // 최신순 정렬된 리스트를 거꾸로 순회하며 누적 값을 계산 + chart Data 저장
+        List<MonthlySalesPageDTO.ListDTO> resp = new ArrayList<>();
+        List<MonthlySalesPageDTO.ChartDTO> chartDTOS = new ArrayList<>();
+        Long cumulativeUsers = 0L;
+        Long cumulativeSales = 0L;
+
+        for (int i = keys.size() - 1; i >= 0; i--) {
+            String key = keys.get(i);
+            MonthlySaleDTO sale = saleMap.get(key);
+            MonthlyUserDTO user = userMap.getOrDefault(key, new MonthlyUserDTO(sale.year(), sale.month(), 0L));
+
+            cumulativeUsers += user.userCount();
+            cumulativeSales += sale.totalSales();
+
+            // chartData
+            chartDTOS.addLast(MonthlySalesPageDTO.ChartDTO.builder()
+                    .month(sale.month())
+                    .monthlySales(sale.totalSales())
+                    .build());
+
+            resp.addFirst(MonthlySalesPageDTO.ListDTO.builder()
+                    .year(sale.year())
+                    .month(sale.month())
+                    .cumulativeTotalUsers(cumulativeUsers)
+                    .monthlySubUsers(sale.subUser())
+                    .monthlySales(sale.totalSales())
+                    .cumulativeTotalSales(cumulativeSales)
+                    .build());
+        }
+
+        return new MonthlySalesPageDTO(resp, chartDTOS);
+    }
 
     // 회원 관리 페이지
     public UserListRespDTO userList() {

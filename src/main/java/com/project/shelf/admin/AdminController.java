@@ -1,6 +1,7 @@
 package com.project.shelf.admin;
 
 import com.project.shelf.admin.AdminResponseRecord.BookListRespDTO;
+import com.project.shelf.admin.AdminResponseRecord.MonthlySalesPageDTO;
 import com.project.shelf.admin.AdminResponseRecord.UserListRespDTO;
 import com.project.shelf.book.Book;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -27,8 +26,11 @@ public class AdminController {
         return "admin/login";
     }
 
+    // 매출 관리 페이지
     @GetMapping("/admin/sales")
     public String getSalesPage(HttpServletRequest request) {
+        MonthlySalesPageDTO resp = adminService.monthlySales();
+        request.setAttribute("MonthlySalesDTO", resp);
         return "admin/sales-dashboard";
     }
 
