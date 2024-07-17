@@ -232,7 +232,9 @@ public class UserService {
         User user = userRepository.findById(sessionUser.getId())
                 .orElseThrow(() -> new Exception401("❗로그인 되지 않았습니다❗"));
         // 사용자 정보 업데이트
+        user.setAvatar(reqDTO.getAvatar());
         user.setNickName(reqDTO.getNickName());
+        user.setPassword(reqDTO.getPassword());
         user.setPhone(reqDTO.getPhone());
         user.setAddress(reqDTO.getAddress());
 
