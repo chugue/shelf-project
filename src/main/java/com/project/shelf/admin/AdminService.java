@@ -1,5 +1,6 @@
 package com.project.shelf.admin;
 
+import com.project.shelf.admin.AdminResponseRecord.BookDetailRespDTO;
 import com.project.shelf.admin.AdminResponseRecord.BookListRespDTO;
 import com.project.shelf._core.erros.exception.Exception404;
 import com.project.shelf.book.Book;
@@ -35,15 +36,24 @@ public class AdminService {
     }
 
     //상세보기
-    public Book bookDetail(Integer bookId){
+    public BookDetailRespDTO bookDetail(Integer bookId){
         Book book = bookRepository.findByBookId(bookId)
                 .orElseThrow(() -> new Exception404("책 정보를 찾을 수 없습니다."));
-        return book;
+
+        BookDetailRespDTO respDTO = BookDetailRespDTO.builder()
+                .bookPath(book.getPath())
+                .bookTitle(book.getTitle())
+                .author(book.getAuthor().getName())
+                .publisher(book.getPublisher())
+                .category(book.getCategory().name())
+                .bookIntro(book.getBookIntro())
+                .contentIntro(book.getContentIntro())
+                .authorIntro(book.getAuthor().getAuthorIntro())
+                .pageCount(book.getPageCount())
+                .build();
+
+        return respDTO;
     }
 
-    //수정하기 폼 페이지
-    public void getBookInfo(Integer bookId){
-
-    }
 
 }

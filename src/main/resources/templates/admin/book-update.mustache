@@ -32,7 +32,7 @@
         {{> _components/sidebar}}
 
         <div class="main-section">
-            <div class="main-header mb-20">e-book 등록/수정</div>
+            <div class="main-header mb-20">e-book 수정</div>
 
             <form id="ebook-form" method="post" enctype="multipart/form-data">
                 <!-- SHELF -->
@@ -43,8 +43,7 @@
                         <!-- 책 표지 사진 -->
                         <div class="form-field-header-left">
                             <div class="image-preview">
-                                <img id="preview-img" src="" alt="미리보기 이미지" style="display: none"/>
-                                <!-- TODO : 기본 이미지 넣기 -->
+                                <img id="preview-img" src="{{book.bookPath}}" alt="미리보기 이미지"/>
                             </div>
                             <label for="image-upload" class="custom-file-upload">책 표지 업로드</label>
                             <input id="image-upload" type="file" name="path" accept=".jpg,.jpeg,.png,.gif"/>
@@ -71,20 +70,20 @@
                         <div class="form-field-header-right">
                             <div class="form-field mb-20">
                                 <label for="title">제목</label>
-                                <input type="text" id="title" name="title">
+                                <input type="text" id="title" name="title" value="{{book.bookTitle}}">
                             </div>
                             <div class="form-field mb-20">
                                 <label for="author">저자</label>
-                                <input type="text" id="author" name="author">
+                                <input type="text" id="author" name="author" value="{{book.author}}">
                             </div>
                             <div class="form-field mb-20">
                                 <label for="publisher">출판사</label>
-                                <input type="text" id="publisher" name="publisher">
+                                <input type="text" id="publisher" name="publisher" value="{{book.author}}">
                             </div>
                             <div class="form-field mb-20">
                                 <label for="category">카테고리</label>
                                 <select name="category" id="category">
-                                    <option value="">카테고리 선택</option>
+                                    <option value="{{book.category}}" selected>{{book.category}}</option>
                                     <option value="자기계발">자기계발</option>
                                     <option value="역사">역사</option>
                                     <option value="소설">소설</option>
@@ -95,24 +94,25 @@
                     <!-- width 100% 입력 창 -->
                     <div class="form-field mb-20">
                         <label for="bookIntro">책 소개</label>
-                        <textarea type="text" id="bookIntro" name="bookIntro" rows="3"></textarea>
+                        <textarea type="text" id="bookIntro" name="bookIntro" rows="3">{{book.bookIntro}}</textarea>
                     </div>
                     <div class="form-field mb-20">
                         <label for="contentIntro">내용 소개</label>
-                        <textarea type="text" id="contentIntro" name="contentIntro" rows="5"></textarea>
+                        <textarea type="text" id="contentIntro" name="contentIntro" rows="5">{{book.contentIntro}}</textarea>
                     </div>
                     <div class="form-field mb-20">
                         <label for="authorIntro">작가 소개</label>
-                        <textarea type="text" id="authorIntro" name="authorIntro" rows="5"></textarea>
+                        <textarea type="text" id="authorIntro" name="authorIntro" rows="5">{{book.authorIntro}}</textarea>
                     </div>
                     <div class="form-field mb-20">
                         <label for="pageCount">총 페이지 수</label>
-                        <input type="text" id="pageCount" name="pageCount">
+                        <input type="text" id="pageCount" name="pageCount" value="{{book.pageCount}}">
                     </div>
                     <div class="bottom-btns">
-                        <button id="upload-info-btn" type="submit" class="custom-upload-button">ebook 등록</button>
+                        <button id="upload-info-btn" type="submit" class="custom-upload-button">ebook 수정</button>
                         <button id="back-btn">취소</button>
                     </div>
+                </div>
             </form>
         </div>
     </div>
@@ -185,25 +185,6 @@
                 alert('책 표지 이미지를 업로드하세요. (jpg, jpeg, png, gif)');
                 return;
             }
-            if (!epubFile || !/\.epub$/i.test(epubFile.name)) {
-                alert('epub 파일을 업로드하세요. (epub)');
-                return;
-            }
-
-            axios.post('/api/ebook', formData)
-                    .then(response => {
-                        if (response.status !== 200) {
-                            throw new Error('네트워크 응답이 올바르지 않습니다.');
-                        }
-                        return response.data;
-                    })
-                    .then(data => {
-                        alert('eBook 등록 성공!');
-                        window.location.href = '/';
-                    })
-                    .catch(error => {
-                        alert('eBook 등록 실패: ' + error.message);
-                    });
         });
     });
 </script>

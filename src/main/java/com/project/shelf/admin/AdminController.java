@@ -1,5 +1,6 @@
 package com.project.shelf.admin;
 
+import com.project.shelf.admin.AdminResponseRecord.BookDetailRespDTO;
 import com.project.shelf.admin.AdminResponseRecord.BookListRespDTO;
 import com.project.shelf.book.Book;
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,7 +53,7 @@ public class AdminController {
 
     @GetMapping("/admin/book/{bookId}")
     public String getBookDetail(HttpServletRequest request, @PathVariable Integer bookId) {
-        Book book = adminService.bookDetail(bookId);
+        BookDetailRespDTO book = adminService.bookDetail(bookId);
 
         request.setAttribute("book", book);
         return "admin/book-detail";
@@ -61,14 +62,15 @@ public class AdminController {
     //책 수정하기 페이지
     @GetMapping("/admin/book-update-form/{bookId}")
     public String getUpdateForm(HttpServletRequest request,@PathVariable Integer bookId) {
+        BookDetailRespDTO book = adminService.bookDetail(bookId);
 
+        request.setAttribute("book", book);
         return "admin/book-update";
     }
 
     //책 수정하기
     @PostMapping("/admin/book-update/{bookId}")
     public String updateBook(HttpServletRequest request,@PathVariable Integer bookId) {
-
 
         return "admin/book-detail";
     }
