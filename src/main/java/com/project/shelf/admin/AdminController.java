@@ -4,6 +4,7 @@ import com.project.shelf.admin.AdminResponseRecord.BookListRespDTO;
 import com.project.shelf.admin.AdminResponseRecord.UserListRespDTO;
 import com.project.shelf.book.Book;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import java.util.List;
 public class AdminController {
 
     private final AdminService adminService;
+    private final HttpSession session;
 
     @GetMapping("/")
     public String mainPage(HttpServletRequest request) {
@@ -65,6 +67,13 @@ public class AdminController {
     @GetMapping("/err")
     public String getErrPage(HttpServletRequest request) {
         return "err/err-page";
+    }
+
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        session.invalidate();
+        return "/";
     }
 
 

@@ -17,15 +17,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(new LoginInterceptor())
-//                .addPathPatterns("/api/**")
+//                .addPathPatterns("/api/**","/admin/**")
 //                .excludePathPatterns();
-        registry.addInterceptor(new AppInterceptor())
-                .addPathPatterns("/api/**")
-                .excludePathPatterns();
         registry.addInterceptor(new AppInterceptor())
                 .addPathPatterns("/app/**")
                 .excludePathPatterns();
-
     }
 
     //외부이미지 경로설정

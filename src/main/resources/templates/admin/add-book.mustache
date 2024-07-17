@@ -34,7 +34,7 @@
         <div class="main-section">
             <div class="main-header mb-20">e-book 등록/수정</div>
 
-            <form id="ebook-form" method="post" enctype="multipart/form-data">
+            <form action="/api/ebook" id="ebook-form" method="post" enctype="multipart/form-data">
                 <!-- SHELF -->
                 <div class="form-section">
                     <div class="box-deco"></div>
@@ -90,6 +90,10 @@
                                     <option value="소설">소설</option>
                                 </select>
                             </div>
+                            <div class="form-field mb-20">
+                                <label for="registrationDate">출판일</label>
+                                <input type="date" id="registrationDate" name="registrationDate">
+                            </div>
                         </div>
                     </div>
                     <!-- width 100% 입력 창 -->
@@ -114,14 +118,15 @@
                     <div class="form-field mb-20">
                         <div class="file-upload-container">
                             <label for="epubFile" class="custom-file-upload">파일 선택</label>
-                            <input type="file" id="epubFile" name="epubFile" accept=".epub" style="display: none;"/>
+                            <input type="file" id="epubFile" name="epubFile" accept=".epub" style="display: none;" onchange="updateFileName()"/>
                             <span id="file-name-display">선택된 파일 없음</span>
                         </div>
                     </div>
                     <div class="bottom-btns">
                         <button id="upload-info-btn" type="submit" class="custom-upload-button">ebook 등록</button>
-                        <button id="back-btn">취소</button>
+                        <button id="back-btn" type="button">취소</button>
                     </div>
+                </div>
             </form>
         </div>
     </div>
@@ -129,11 +134,20 @@
 <!-- 메인 종료 -->
 <hr/>
 <!-- 푸터  -->
-{{> /_components/footer}}
+{{> _components/footer}}
 
 <!-- 자바 스크립트 -->
-
 <script>
+    function updateFileName() {
+        var input = document.getElementById('epubFile');
+        var fileNameDisplay = document.getElementById('file-name-display');
+        if (input.files && input.files.length > 0) {
+            fileNameDisplay.textContent = input.files[0].name;
+        } else {
+            fileNameDisplay.textContent = '선택된 파일 없음';
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('ebook-form');
 
@@ -151,6 +165,7 @@
             const contentIntro = formData.get('contentIntro').trim();
             const authorIntro = formData.get('authorIntro').trim();
             const pageCount = formData.get('pageCount').trim();
+            const registrationDate = formData.get('registrationDate').trim();
             const path = form.querySelector('input[name="path"]').files[0];
             const epubFile = form.querySelector('input[name="epubFile"]').files[0];
 
@@ -188,6 +203,10 @@
             }
             if (isNaN(pageCount)) {
                 alert('총 페이지 수는 숫자만 입력할 수 있습니다.');
+                return;
+            }
+            if (!registrationDate) {
+                alert('출판일을 입력하세요.');
                 return;
             }
             if (!path || !/\.(jpg|jpeg|png|gif)$/i.test(path.name)) {
