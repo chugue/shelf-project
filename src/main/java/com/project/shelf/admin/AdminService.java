@@ -41,4 +41,9 @@ public class AdminService {
         return book;
     }
 
+    //수정하기 폼 페이지
+    public void getBookInfo(Integer bookId){
+
+    }
+
 }
