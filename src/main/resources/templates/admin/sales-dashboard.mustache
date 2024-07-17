@@ -12,7 +12,7 @@
 <nav>
     <div class="nav-div">
         <div>
-            <a href="/api/main-page">
+            <a href="#">
                 <img src="/images/shelf_logo.png" alt="Shelf_logo" class="nav-logo"/>
             </a>
         </div>
@@ -58,35 +58,15 @@
                             <td>cumulativeSales}}</td>
                         </tr>
                     /SalesPageDTO}} -->
-                    <tr>
-                    <tr>
-                        <td>7월</td>
-                        <td>50</td>
-                        <td>45</td>
-                        <td>30</td>
-                        <td>60</td>
-                    </tr>
-                    <tr>
-                        <td>6월</td>
-                        <td>40</td>
-                        <td>35</td>
-                        <td>20</td>
-                        <td>30</td>
-                    </tr>
-                    <tr>
-                        <td>5월</td>
-                        <td>20</td>
-                        <td>15</td>
-                        <td>10</td>
-                        <td>10</td>
-                    </tr>
-                    <tr>
-                        <td>4월</td>
-                        <td>10</td>
-                        <td>5</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
+                    {{#MonthlySalesDTO.salesList}}
+                        <tr>
+                            <td>{{year}}년 {{month}}월</td>
+                            <td>{{cumulativeTotalUsers}}</td>
+                            <td>{{monthlySubUsers}}</td>
+                            <td>{{monthlySales}}</td>
+                            <td>{{cumulativeTotalSales}}</td>
+                        </tr>
+                    {{/MonthlySalesDTO.salesList}}
                 </table>
             </div>
         </div>
@@ -102,6 +82,15 @@
 <script>
     var ctx = document.getElementById('line-chart').getContext('2d');
 
+    var monthlySalesData = {
+        {{#MonthlySalesDTO.chartData}}
+            '{{month}}월': {{monthlySales}},
+        {{/MonthlySalesDTO.chartData}}
+    };
+
+    var labels = Object.keys(monthlySalesData);
+    var data = Object.values(monthlySalesData);
+
     // 그라디언트 생성
     var gradient = ctx.createLinearGradient(0, 0, 400, 0);
     gradient.addColorStop(0, '#9DCEFF');
@@ -110,11 +99,11 @@
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            labels: labels,
             datasets: [
                 {
                     label: 'Shelf 월 수익',
-                    data: [65000000, 68000000, 70000000, 72000000, 75000000, 72500000, 75000000, 0, 0, 0, 0, 0],
+                    data: data,
                     borderColor: gradient,
                     fill: false
                 }
