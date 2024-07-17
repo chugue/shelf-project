@@ -1,7 +1,9 @@
 package com.project.shelf._core.interceptor;
 
 import com.project.shelf._core.erros.exception.Exception401;
+import com.project.shelf._core.erros.exception.SSRException401;
 import com.project.shelf.admin.Admin;
+import com.project.shelf.admin.SessionAdmin;
 import com.project.shelf.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,11 +17,11 @@ public class LoginInterceptor implements HandlerInterceptor {
         System.out.println("preHandle............");
         HttpSession session = request.getSession();
 
-        Admin sessionAdmin = (Admin) session.getAttribute("sessionAdmin");
+        SessionAdmin sessionAdmin = (SessionAdmin) session.getAttribute("sessionAdmin");
 
         if(sessionAdmin != null){
             return true;
         }
-        throw new Exception401("로그인 하셔야 해요");
+        throw new SSRException401("로그인 하셔야 해요");
     }
 }
