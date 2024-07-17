@@ -4,8 +4,11 @@ import com.project.shelf.admin.AdminResponseRecord.BookDetailRespDTO;
 import com.project.shelf.admin.AdminResponseRecord.BookListRespDTO;
 import com.project.shelf.admin.AdminResponseRecord.UserListRespDTO;
 import com.project.shelf.book.Book;
+import com.project.shelf.user.SessionUser;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,19 +20,29 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 public class AdminController {
-
+    private final HttpSession session;
     private final AdminService adminService;
 
     @GetMapping("/")
     public String mainPage(HttpServletRequest request) {
-        return "admin/sales-dashboard";
-    }
-
-    @GetMapping("/admin/login")
-    public String getLoginPage(HttpServletRequest request) {
         return "admin/login";
     }
 
+    @PostMapping("/login")
+    public String login(AdminRequest.LoginDTO reqDTO) {
+        SessionAdmin sessionAdmin = adminService.login(reqDTO);
+        session.setAttribute("sessionAdmin", sessionAdmin);
+        System.out.println("승호" + sessionAdmin);
+        return "redirect:/admin/sales";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        session.removeAttribute("sessionUser");
+        session.invalidate();
+
+        return "redirect:/login";
+    }
     @GetMapping("/admin/sales")
     public String getSalesPage(HttpServletRequest request) {
         return "admin/sales-dashboard";
@@ -86,11 +99,4 @@ public class AdminController {
     public String deleteBook(HttpServletRequest request) {
         return "admin/sales-dashboard";
     }
-
-    @GetMapping("/err")
-    public String getErrPage(HttpServletRequest request) {
-        return "err/err-page";
-    }
-
-
 }

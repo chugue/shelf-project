@@ -2,6 +2,9 @@ package com.project.shelf.admin;
 
 import com.project.shelf.admin.AdminResponseRecord.BookDetailRespDTO;
 import com.project.shelf.admin.AdminResponseRecord.BookListRespDTO;
+import com.project.shelf._core.erros.exception.Exception401;
+import com.project.shelf._core.erros.exception.SSRException400;
+import com.project.shelf._core.erros.exception.SSRException401;
 import com.project.shelf._core.erros.exception.Exception404;
 import com.project.shelf.admin.AdminResponseRecord.UserListRespDTO;
 import com.project.shelf.book.Book;
@@ -9,6 +12,9 @@ import com.project.shelf.book.BookRepository;
 import jakarta.transaction.Transactional;
 import com.project.shelf.payment.PaymentRepository;
 import com.project.shelf.user.UserRepository;
+import com.project.shelf.user.SessionUser;
+import com.project.shelf.user.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -121,4 +127,11 @@ public class AdminService {
     }
 
 
+    @Transactional
+    public SessionAdmin login(AdminRequest.LoginDTO reqDTO) {
+        Admin admin = adminRepository.findByEmail(reqDTO.getEmail())
+                .orElseThrow(() -> new SSRException401("등록되지 않은 이메일 입니다!"));
+
+    return  new SessionAdmin(admin);
+    }
 }
