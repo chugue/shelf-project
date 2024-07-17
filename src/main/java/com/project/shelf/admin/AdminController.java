@@ -2,6 +2,7 @@ package com.project.shelf.admin;
 
 import com.project.shelf.admin.AdminResponseRecord.BookDetailRespDTO;
 import com.project.shelf.admin.AdminResponseRecord.BookListRespDTO;
+import com.project.shelf.admin.AdminResponseRecord.MonthlySalesPageDTO;
 import com.project.shelf.admin.AdminResponseRecord.UserListRespDTO;
 import com.project.shelf.book.Book;
 import com.project.shelf.user.SessionUser;
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -49,6 +48,8 @@ public class AdminController {
     // 매출 확인 페이지
     @GetMapping("/admin/sales")
     public String getSalesPage(HttpServletRequest request) {
+        MonthlySalesPageDTO resp = adminService.monthlySales();
+        request.setAttribute("MonthlySalesDTO", resp);
         return "admin/sales-dashboard";
     }
 
