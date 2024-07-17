@@ -25,11 +25,10 @@ public class UserRestController {
 
     @GetMapping("/oauth/naver/callback")
     public ResponseEntity<?> oauthCallback(@RequestParam("accessToken") String NaverAccessToken) {
-        System.out.println("스프링에서 받은 카카오토큰 : " + NaverAccessToken);
-        String blogAccessToken = userService.oauthNaver(NaverAccessToken);
-        return ResponseEntity.ok().header("Authorization", "Bearer " + blogAccessToken).body(new ApiUtil(null));
+        System.out.println("받은 네이버토큰 : " + NaverAccessToken);
+        String shelfAccessToken = userService.oauthNaver(NaverAccessToken);
+        return ResponseEntity.ok().header("Authorization", "Bearer " + shelfAccessToken).body(new ApiUtil(null));
     }
-
 
     //회원가입 TODO : respDTO를 담는 로직이 service에 들어가 있어야지 SRP를 지킨 코드지
     // *Single Responsibility Principle : 단일 책임 원칙
