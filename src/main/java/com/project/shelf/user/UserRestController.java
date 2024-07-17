@@ -48,7 +48,7 @@ public class UserRestController {
         if (emailDuplicate) {
             return ResponseEntity.ok(new ApiUtil<>(400, "중복된 이메일입니다."));
         } else {
-            return ResponseEntity.ok(new ApiUtil<>(200, "사용가능한 이메일입니다."));
+            return ResponseEntity.ok(new ApiUtil<>(200, "중복되지 않은 이메일입니다."));
         }
     }
     // 중복확인 ( nickName )
@@ -58,7 +58,7 @@ public class UserRestController {
         if (nickNameDuplicate) {
             return ResponseEntity.ok(new ApiUtil<>(400, "중복된 닉네임입니다."));
         } else {
-            return ResponseEntity.ok(new ApiUtil<>(200, "사용가능한 닉네임입니다."));
+            return ResponseEntity.ok(new ApiUtil<>(200, "중복되지 않은 닉네임입니다."));
         }
     }
 
