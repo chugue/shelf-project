@@ -96,7 +96,7 @@ public class BookService {
         while (start.isBefore(end)) {
             LocalDate weekEnd = start.plusDays(6);
             for (Book book : books) {
-                if (!book.getRegistrationDate().isBefore(start.atStartOfDay()) && !book.getRegistrationDate().isAfter(weekEnd.atStartOfDay())) {
+                if (!book.getRegistrationDate().isBefore(start) && !book.getRegistrationDate().isAfter(weekEnd)) {
                     weeklyData.computeIfAbsent(weekNumber, k -> new ArrayList<>()).add(book);
                 }
             }
@@ -168,14 +168,15 @@ public class BookService {
         // Book 객체 생성 및 저장
         Book book = Book.builder()
                 .author(author)
-                .title(reqDTO.title())
                 .path(imagePath)
+                .epubFile(epubFilePath)
+                .registrationDate(reqDTO.registrationDate())
+                .title(reqDTO.title())
                 .pageCount(reqDTO.pageCount())
                 .bookIntro(reqDTO.bookIntro())
                 .contentIntro(reqDTO.contentIntro())
                 .category(reqDTO.category())
                 .publisher(reqDTO.publisher())
-                .epubFile(epubFilePath)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();

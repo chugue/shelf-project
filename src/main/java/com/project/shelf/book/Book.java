@@ -44,7 +44,8 @@ public class Book {
     private String publisher; // 출판사
     private String epubFile;
 
-    private LocalDateTime registrationDate; // 출판일
+//    @ColumnDefault("'2019-07-16'")
+    private LocalDate registrationDate; // 출판일
 
     @ColumnDefault("527")
     private int totalView;
@@ -59,7 +60,7 @@ public class Book {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Book(Integer id, Author author, String title, String path, String pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime registrationDate) {
+    public Book(Integer id, Author author, String title, String path, String pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDate registrationDate) {
         this.id = id;
         this.author = author;
         this.title = title;
