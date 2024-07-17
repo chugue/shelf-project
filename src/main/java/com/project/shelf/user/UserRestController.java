@@ -81,17 +81,16 @@ public class UserRestController {
                 .body(new ApiUtil<>(respDTO));
     }
 
-    // 사용자 마이페이지
-    @GetMapping("/api/user/my-page")
+    // 마이페이지
+    @GetMapping("/app/user/my-page")
     public ResponseEntity<?> myPage() {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         UserResponse.MyPageDTO respDTO = userService.MyPage(sessionUser);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
-
-    // 사용자 개인정보
-    @GetMapping("/api/user/my-info")
+    // 개인정보
+    @GetMapping("/app/user/my-info")
     public ResponseEntity<?> myInfo() {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         UserResponse.MyInfoDTO respDTO = userService.MyInfo(sessionUser);
@@ -99,7 +98,7 @@ public class UserRestController {
     }
 
     // 개인정보 변경하기
-    @PostMapping("/user/update-info")
+    @PostMapping("/app/user/update-info")
     public ResponseEntity<?> updateInfo(@RequestBody UserRequest.UpdateInfoDTO reqDTO) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         UserResponse.UpdateInfoDTO respDTO
