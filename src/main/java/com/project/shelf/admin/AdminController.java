@@ -23,26 +23,28 @@ public class AdminController {
     private final HttpSession session;
     private final AdminService adminService;
 
+    // 메인 페이지 - login
     @GetMapping("/")
     public String mainPage(HttpServletRequest request) {
         return "admin/login";
     }
 
+    // 로그인 POST ( 관리자 )
     @PostMapping("/login")
     public String login(AdminRequest.LoginDTO reqDTO) {
         SessionAdmin sessionAdmin = adminService.login(reqDTO);
         session.setAttribute("sessionAdmin", sessionAdmin);
-        System.out.println("승호" + sessionAdmin);
         return "redirect:/admin/sales";
     }
-
+    // 로그아웃
     @GetMapping("/logout")
     public String logout() {
-        session.removeAttribute("sessionUser");
+        session.removeAttribute("sessionAdmin");
         session.invalidate();
 
-        return "redirect:/login";
+        return "redirect:/";
     }
+
     @GetMapping("/admin/sales")
     public String getSalesPage(HttpServletRequest request) {
         return "admin/sales-dashboard";
