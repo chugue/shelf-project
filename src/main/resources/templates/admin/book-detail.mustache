@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -16,7 +16,7 @@
     <div class="nav-div">
         <div>
             <a href="#">
-                <img src="/static/images/OH!FLIX.png" alt="오류" class="nav-logo" />
+                <img src="/images/shelf_logo.png" alt="Shelf_logo" class="nav-logo"/>
             </a>
         </div>
         <div class="logout">
@@ -45,7 +45,7 @@
                     <!-- 책 표지 사진 -->
                     <div class="form-field-header-left">
                         <div class="image-preview">
-                            <img id="preview-img" src="{{book.path}}" alt="미리보기 이미지" />
+                            <img id="preview-img" src="{{book.bookPath}}" alt="미리보기 이미지" />
                             <!-- TODO : 기본 이미지 넣기 -->
                         </div>
                         <input id="image-upload" type="file" name="mainPhoto" />
@@ -72,11 +72,11 @@
                     <div class="form-field-header-right">
                         <div class="form-field mb-20">
                             <label for="title">제목</label>
-                            <div class="input-data">{{book.title}}</div>
+                            <div class="input-data">{{book.bookTitle}}</div>
                         </div>
                         <div class="form-field mb-20">
                             <label for="author">저자</label>
-                            <div class="input-data">{{book.author.name}}</div>
+                            <div class="input-data">{{book.author}}</div>
                         </div>
                         <div class="form-field mb-20">
                             <label for="publisher">출판사</label>
@@ -126,8 +126,15 @@
                     });
                 </script>
                 <div class="bottom-btns">
-                    <label class="custom-upload-button">수정하기</label>
+                    <form method="get" action="/admin/book-update-form/{{bookId}}">
+                    <button class="custom-upload-button" >수정하기</button>
+                    </form>
+                    <form method="get" action="/admin/books">
                     <button id="back-btn">돌아가기</button>
+                    </form>
+                    <form method="post" action="/admin/book-delete/{{bookId}}">
+                    <button class="custom-upload-button" >삭제하기</button>
+                    </form>
                 </div>
             </div>
 

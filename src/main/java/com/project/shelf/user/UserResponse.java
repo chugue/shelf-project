@@ -107,48 +107,42 @@ public class UserResponse {
     @Data
     public static class MyInfoDTO {
         private Integer id;
+        private Avatar avatar;
         private String nickName;
         private String email;
         private String password;
         private String phone;
-        // 추가로직
-//        private String cardLastNum;   // 카드 번호 마지막 4
-//        private String ProfileIconPath;   // 프로필 아이콘 경로
-
         private String address;
 
         public MyInfoDTO(User user) {
-            this.id = user.getId();
-            this.nickName = user.getNickName();
-            this.email = user.getEmail();
-            this.password = user.getPassword();
-            this.phone = user.getPhone();
-            this.address = user.getAddress();
-//            this.cardLastNum = user.getIsSubscribed().get__;
-//            this.profileIconPath = user.getProfileIcon.getPath();
+            this.id         = user.getId();
+            this.avatar     = user.getAvatar();
+            this.nickName   = user.getNickName();
+            this.email      = user.getEmail();
+            this.password   = user.getPassword();
+            this.phone      = user.getPhone();
+            this.address    = user.getAddress();
         }
     }
 
     // 개인정보 수정
     @Data
     public static class UpdateInfoDTO {
+        private Integer id;
+        private Avatar avatar;
         private String nickName;
         private String password;
         private String phone;
         private String address;
 
-        // 추가로직
-//        private String cardLastNum;       // 카드 번호 마지막 4
-//        private Integer ProfileIconId;    // 프로필 아이콘
-
 
         public UpdateInfoDTO(User user) {
-            this.nickName = user.getNickName();
-            this.password = user.getPassword();
-            this.phone = user.getPhone();
-            this.address = user.getAddress();
-//            this.cardLastNum = user.getIsSubscribed().get__;
-//            this.profileIconPath = user.ProfileIconId.getId();
+            this.id         = user.getId();
+            this.avatar     = user.getAvatar();
+            this.nickName   = user.getNickName();
+            this.password   = user.getPassword();
+            this.phone      = user.getPhone();
+            this.address    = user.getAddress();
         }
     }
 }
