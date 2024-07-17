@@ -1,6 +1,7 @@
 package com.project.shelf.admin;
 
 import com.project.shelf.admin.AdminResponseRecord.BookListRespDTO;
+import com.project.shelf.admin.AdminResponseRecord.UserListRespDTO;
 import com.project.shelf.book.Book;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +32,15 @@ public class AdminController {
         return "admin/sales-dashboard";
     }
 
+    // 회원 관리 페이지
     @GetMapping("/admin/members")
     public String getManageMembers(HttpServletRequest request) {
+        UserListRespDTO resp = adminService.userList();
+        request.setAttribute("users", resp);
         return "admin/member-management";
     }
 
+    // 책 목록 페이지
     @GetMapping("/admin/books")
     public String getManageBooks(HttpServletRequest request) {
         BookListRespDTO resp = adminService.bookList();
@@ -48,6 +53,7 @@ public class AdminController {
         return "admin/add-book";
     }
 
+    // 책 상세보기 페이지
     @GetMapping("/admin/book/{bookId}")
     public String getBookDetail(HttpServletRequest request, @PathVariable Integer bookId) {
         Book book = adminService.bookDetail(bookId);
