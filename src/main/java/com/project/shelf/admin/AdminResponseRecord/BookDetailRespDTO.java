@@ -12,6 +12,7 @@ public record BookDetailRespDTO(
         String bookIntro,
         String contentIntro,
         String authorIntro,
-        String pageCount
+        String pageCount,
+        String epubFile
 ) {
 }

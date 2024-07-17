@@ -45,32 +45,32 @@
                             <div class="image-preview">
                                 <img id="preview-img" src="{{book.bookPath}}" alt="미리보기 이미지"/>
                             </div>
-                            <label for="image-upload" class="custom-file-upload">책 표지 업로드</label>
-                            <input id="image-upload" type="file" name="path" accept=".jpg,.jpeg,.png,.gif"/>
+<!--                            <label for="image-upload" class="custom-file-upload">책 표지 업로드</label>-->
+<!--                            <input id="image-upload" type="file" name="path" accept=".jpg,.jpeg,.png,.gif"/>-->
                         </div>
                         <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                                const imageUpload = document.getElementById('image-upload');
-                                const previewImg = document.getElementById('preview-img');
-                                // 체인지 이벤트 발생.
-                                imageUpload.addEventListener('change', function (e) {
-                                    const file = e.target.files[0];
-                                    if (file) {
-                                        const reader = new FileReader();
-                                        // 미리보기 사진 보이기
-                                        reader.onload = function (e) {
-                                            previewImg.src = e.target.result;
-                                            previewImg.style.display = "block";
-                                        }
-                                        reader.readAsDataURL(file);
-                                    }
-                                });
-                            });
+                            // document.addEventListener('DOMContentLoaded', function () {
+                            //     const imageUpload = document.getElementById('image-upload');
+                            //     const previewImg = document.getElementById('preview-img');
+                            //     // 체인지 이벤트 발생.
+                            //     imageUpload.addEventListener('change', function (e) {
+                            //         const file = e.target.files[0];
+                            //         if (file) {
+                            //             const reader = new FileReader();
+                            //             // 미리보기 사진 보이기
+                            //             reader.onload = function (e) {
+                            //                 previewImg.src = e.target.result;
+                            //                 previewImg.style.display = "block";
+                            //             }
+                            //             reader.readAsDataURL(file);
+                            //         }
+                            //     });
+                            // });
                         </script>
                         <div class="form-field-header-right">
                             <div class="form-field mb-20">
                                 <label for="title">제목</label>
-                                <input type="text" id="title" name="title" value="{{book.bookTitle}}">
+                                <input type="text" id="title" name="bookTitle" value="{{book.bookTitle}}">
                             </div>
                             <div class="form-field mb-20">
                                 <label for="author">저자</label>
@@ -129,7 +129,6 @@
         const form = document.getElementById('ebook-form');
 
         form.addEventListener('submit', function (e) {
-            e.preventDefault(); // 폼 제출 기본 동작 방지
 
             const formData = new FormData(form);
 
@@ -142,8 +141,7 @@
             const contentIntro = formData.get('contentIntro').trim();
             const authorIntro = formData.get('authorIntro').trim();
             const pageCount = formData.get('pageCount').trim();
-            const path = form.querySelector('input[name="path"]').files[0];
-            const epubFile = form.querySelector('input[name="epubFile"]').files[0];
+            // const path = form.querySelector('input[name="path"]').files[0];
 
             if (!title) {
                 alert('제목을 입력하세요.');
@@ -181,10 +179,10 @@
                 alert('총 페이지 수는 숫자만 입력할 수 있습니다.');
                 return;
             }
-            if (!path || !/\.(jpg|jpeg|png|gif)$/i.test(path.name)) {
-                alert('책 표지 이미지를 업로드하세요. (jpg, jpeg, png, gif)');
-                return;
-            }
+            // if (!path || !/\.(jpg|jpeg|png|gif)$/i.test(path.name)) {
+            //     alert('책 표지 이미지를 업로드하세요. (jpg, jpeg, png, gif)');
+            //     return;
+            // }
         });
     });
 </script>

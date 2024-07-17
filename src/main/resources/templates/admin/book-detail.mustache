@@ -45,7 +45,7 @@
                     <!-- 책 표지 사진 -->
                     <div class="form-field-header-left">
                         <div class="image-preview">
-                            <img id="preview-img" src="{{book.path}}" alt="미리보기 이미지" />
+                            <img id="preview-img" src="{{book.bookPath}}" alt="미리보기 이미지" />
                             <!-- TODO : 기본 이미지 넣기 -->
                         </div>
                         <input id="image-upload" type="file" name="mainPhoto" />
@@ -72,11 +72,11 @@
                     <div class="form-field-header-right">
                         <div class="form-field mb-20">
                             <label for="title">제목</label>
-                            <div class="input-data">{{book.title}}</div>
+                            <div class="input-data">{{book.bookTitle}}</div>
                         </div>
                         <div class="form-field mb-20">
                             <label for="author">저자</label>
-                            <div class="input-data">{{book.author.name}}</div>
+                            <div class="input-data">{{book.author}}</div>
                         </div>
                         <div class="form-field mb-20">
                             <label for="publisher">출판사</label>
@@ -126,7 +126,7 @@
                     });
                 </script>
                 <div class="bottom-btns">
-                    <label class="custom-upload-button">수정하기</label>
+                    <a class="custom-upload-button" href="/admin/book-update-form/{{bookId}}" >수정하기</a>
                     <button id="back-btn">돌아가기</button>
                 </div>
             </div>

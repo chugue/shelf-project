@@ -102,6 +102,7 @@ public class AdminService {
                 .contentIntro(book.getContentIntro())
                 .authorIntro(book.getAuthor().getAuthorIntro())
                 .pageCount(book.getPageCount())
+                .epubFile(book.getEpubFile())
                 .build();
 
         return respDTO;

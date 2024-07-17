@@ -79,11 +79,11 @@ public class AdminController {
     @PostMapping("/admin/book-update/{bookId}")
     public String updateBook(@PathVariable Integer bookId, BookUpdateReqDTO bookUpdateReqDTO) {
         adminService.updateBook(bookId, bookUpdateReqDTO);
-        return "redirect:admin/book-detail";
+        return "redirect:/admin/book/"+bookId;
     }
 
     //책 삭제하기
-    @DeleteMapping("/admin/book")
+    @DeleteMapping("/admin/book/delete")
     public String deleteBook() {
         return "admin/sales-dashboard";
     }
