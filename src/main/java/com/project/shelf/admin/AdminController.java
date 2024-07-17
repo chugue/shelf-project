@@ -1,5 +1,6 @@
 package com.project.shelf.admin;
 
+import com.project.shelf.admin.AdminRequestRecord.BookUpdateReqDTO;
 import com.project.shelf.admin.AdminResponseRecord.BookDetailRespDTO;
 import com.project.shelf.admin.AdminResponseRecord.BookListRespDTO;
 import com.project.shelf.admin.AdminResponseRecord.UserListRespDTO;
@@ -76,14 +77,14 @@ public class AdminController {
 
     //책 수정하기
     @PostMapping("/admin/book-update/{bookId}")
-    public String updateBook(HttpServletRequest request,@PathVariable Integer bookId) {
-
-        return "admin/book-detail";
+    public String updateBook(@PathVariable Integer bookId, BookUpdateReqDTO bookUpdateReqDTO) {
+        adminService.updateBook(bookId, bookUpdateReqDTO);
+        return "redirect:admin/book-detail";
     }
 
     //책 삭제하기
     @DeleteMapping("/admin/book")
-    public String deleteBook(HttpServletRequest request) {
+    public String deleteBook() {
         return "admin/sales-dashboard";
     }
 

@@ -1,9 +1,12 @@
 package com.project.shelf.admin;
 
+import com.project.shelf.admin.AdminRequestRecord.BookUpdateReqDTO;
 import com.project.shelf.admin.AdminResponseRecord.BookDetailRespDTO;
 import com.project.shelf.admin.AdminResponseRecord.BookListRespDTO;
 import com.project.shelf._core.erros.exception.Exception404;
 import com.project.shelf.admin.AdminResponseRecord.UserListRespDTO;
+import com.project.shelf.author.Author;
+import com.project.shelf.author.AuthorRepository;
 import com.project.shelf.book.Book;
 import com.project.shelf.book.BookRepository;
 import jakarta.transaction.Transactional;
@@ -31,6 +34,7 @@ public class AdminService {
     private final BookRepository bookRepository;
     private final PaymentRepository paymentRepository;
     private final UserRepository userRepository;
+    private final AuthorRepository authorRepository;
 
     // 회원 관리 페이지
     public UserListRespDTO userList() {
@@ -105,13 +109,33 @@ public class AdminService {
 
     // 책 수정하기
     @Transactional
-    public void updateBook(Integer bookId){
+    public void updateBook(Integer bookId, BookUpdateReqDTO reqDTO){
         //1. 책 정보 조회
         Book book = bookRepository.findByBookId(bookId)
                 .orElseThrow(() -> new Exception404("책 정보를 찾을 수 없습니다."));
 
-        //2. 책 정보 업데이트
+        //2. 작가 정보 조회 및 생성
+        Author author = book.getAuthor();
+        if(author == null || !author.getName().equals(reqDTO.author())) {
+            author = authorRepository.findByName(reqDTO.author())
+                    .orElseGet(() -> {
+                        Author newAuthor = new Author();
+                        newAuthor.setName(reqDTO.author());
+                        newAuthor.setAuthorIntro(reqDTO.authorIntro());
+                        return authorRepository.save(newAuthor);
+                    });
+        }
 
+        //3. 책 정보 업데이트
+        book.setTitle(reqDTO.bookTitle());
+        book.setAuthor(author);
+        book.setPublisher(reqDTO.publisher());
+        book.setCategory(Book.Category.valueOf(reqDTO.category().toUpperCase()));
+        book.setBookIntro(reqDTO.bookIntro());
+        book.setPageCount(reqDTO.pageCount());
+        book.setContentIntro(reqDTO.contentIntro());
+
+        bookRepository.save(book);
     }
 
     //책 사진 업로드
