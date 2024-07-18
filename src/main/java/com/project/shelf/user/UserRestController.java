@@ -61,7 +61,7 @@ public class UserRestController {
         }
     }
 
-    //메인
+    // 메인
     @GetMapping("/app/main")
     public ResponseEntity<?> mainPage() {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
@@ -69,7 +69,7 @@ public class UserRestController {
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
-    //로그인
+    // 로그인
     @PostMapping("/user/login")
     public ResponseEntity<?> login(@RequestBody LoginReqDTO reqDTO) {
         log.info("로그인 요청: {}", reqDTO);
