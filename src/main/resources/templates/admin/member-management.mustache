@@ -16,7 +16,7 @@
 <nav>
     <div class="nav-div">
         <div>
-            <a href="/api/main-page">
+            <a href="#">
                 <img src="/images/shelf_logo.png" alt="Shelf_logo" class="nav-logo"/>
             </a>
         </div>
@@ -37,21 +37,21 @@
                 <div class="member">
                     <div class="member-count">
                         <!-- <span class="gray mr-10">총 회원 수 :</span>''members.size}} -->
-                        <span class="gray mr-10">총 회원 수 :</span>9
+                        <span class="gray mr-10">총 회원 수 :</span>{{users.userCount}}
                     </div>
                     <div class="member-count">
                         <!-- <span class="gray mr-10">구독 회원 수 :</span>''subscriberCount}} -->
-                        <span class="gray mr-10">구독 회원 수 :</span>4
+                        <span class="gray mr-10">구독 회원 수 :</span>{{users.subCount}}
                     </div>
                 </div>
                 <table>
                     <thead>
                     <tr>
                         <th>NO</th>
-                        <th>이름</th>
+                        <th>이메일</th>
                         <th>계정 생성일</th>
                         <th>구독 상태</th>
-                        <th>구독 개월 수</th>
+                        <th>누적 구독 개월 수</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -68,51 +68,24 @@
                                     <td>monthsSubscribed}}</td>
                                 </tr>
                             /members}} -->
-                    <tr>
-                        <td>1</td>
-                        <td>김성훈</td>
-                        <td>2024.07.08</td>
-                        <td>
-                            <i class="fa-solid fa-circle-check"></i>
-                        </td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>김주혁</td>
-                        <td>2024.07.08</td>
-                        <td>
-                            <i class="fa-solid fa-circle-check"></i>
-                        </td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>양승호</td>
-                        <td>2024.07.08</td>
-                        <td>
-                            <i class="fa-solid fa-circle-xmark"></i>
-                        </td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>박선규</td>
-                        <td>2024.07.08</td>
-                        <td>
-                            <i class="fa-solid fa-circle-check"></i>
-                        </td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>서지민</td>
-                        <td>2024.07.08</td>
-                        <td>
-                            <i class="fa-solid fa-circle-check"></i>
-                        </td>
-                        <td>1</td>
-                    </tr>
+                    {{#users.userList}}
+                        <tr>
+                            <td>{{userId}}</td>
+                            <td>{{email}}</td>
+                            <td>{{createdAt}}</td>
+                            {{#isSub}}
+                                <td>
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </td>
+                            {{/isSub}}
+                            {{^isSub}}
+                                <td>
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                </td>
+                            {{/isSub}}
+                            <td>{{subMonths}}</td>
+                        </tr>
+                    {{/users.userList}}
                     <!-- 프론트 더미 끝-->
                     </tbody>
                 </table>

@@ -286,7 +286,6 @@ nav {
 .file-upload-container{
     display: flex;
     align-items: center;
-
 }
 
 #file-name-display{
@@ -301,7 +300,10 @@ nav {
 
 
 .bottom-btns{
-    text-align: end;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px
 }
 
 /* 숨겨진 파일 입력 필드 */

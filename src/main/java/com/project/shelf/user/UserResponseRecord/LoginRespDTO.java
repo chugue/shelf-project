@@ -22,7 +22,7 @@ public record LoginRespDTO(
         String email,
         String nickName,
         Boolean status,
-        Avatar avatar,
+        String avatar,
         LocalDateTime createdAt
 ) {
     public User toUser() {
@@ -31,7 +31,6 @@ public record LoginRespDTO(
                 .email(email)
                 .nickName(nickName)
                 .status(status)
-                .avatar(avatar)
                 .createdAt(createdAt)
                 .build();
     }

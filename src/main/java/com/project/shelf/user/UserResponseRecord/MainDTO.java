@@ -28,7 +28,8 @@ public record MainDTO(
             Integer id,
             String bookImagePath,
             String bookTitle,
-            String author
+            String author,
+            Integer rankNum
     ) {
     }
 

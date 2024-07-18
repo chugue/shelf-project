@@ -2,14 +2,14 @@ package com.project.shelf._core.enums;
 
 public enum Avatar {
 
-    AVATAR01("avatar01"),
-    AVATAR02("avatar02"),
-    AVATAR03("avatar03"),
-    AVATAR04("avatar04"),
-    AVATAR05("avatar05"),
-    AVATAR06("avatar06"),
-    AVATAR07("avatar07"),
-    AVATAR08("avatar08");
+    AVATAR01("AVATAR01"),
+    AVATAR02("AVATAR02"),
+    AVATAR03("AVATAR03"),
+    AVATAR04("AVATAR04"),
+    AVATAR05("AVATAR05"),
+    AVATAR06("AVATAR06"),
+    AVATAR07("AVATAR07"),
+    AVATAR08("AVATAR08");
 
     private final String value;
 
@@ -17,4 +17,7 @@ public enum Avatar {
         this.value = value;
     }
 
+    public String getValue() {
+        return value;
+    }
 }

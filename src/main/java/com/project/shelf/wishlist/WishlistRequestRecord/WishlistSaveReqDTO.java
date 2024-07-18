@@ -7,5 +7,4 @@ public record WishlistSaveReqDTO(
         Integer userId,
         Integer bookId
 ) {
-
 }

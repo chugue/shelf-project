@@ -2,9 +2,11 @@ package com.project.shelf.book;
 
 import com.project.shelf.author.Author;
 import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -15,6 +17,10 @@ import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
+
+    // 한달 간의 신간 구하는 쿼리
+    @Query("SELECT b FROM Book b JOIN FETCH b.author a WHERE b.registrationDate>= :startDate AND b.registrationDate <= :endDate GROUP BY b.id ORDER BY COUNT(b.id) DESC")
+    List<Book> findByRegistrationMonth(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
     // 베스트셀러 구하는 쿼리
     @Query("SELECT b,a FROM BookHistory bh JOIN bh.book b join bh.book.author a GROUP BY b.id ORDER BY COUNT(bh.id) DESC")
@@ -47,4 +53,11 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     // 관리자 책 상세보기
     @Query("select b, a.name from Book b JOIN FETCH b.author a where b.id =:bookId")
     Optional<Book> findByBookId(@Param("bookId") Integer bookId);
+
+    //책 삭제
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Book b WHERE b.id = :bookId")
+    void deleteByBookId(@Param("bookId") Integer bookId);
+
 }

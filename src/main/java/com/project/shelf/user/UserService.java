@@ -4,6 +4,8 @@ import com.project.shelf._core.enums.Avatar;
 import com.project.shelf._core.erros.exception.Exception400;
 import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf._core.util.NaverToken;
+import com.project.shelf.payment.Payment;
+import com.project.shelf.payment.PaymentRepository;
 import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
 import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
 import com.project.shelf._core.erros.exception.Exception401;
@@ -20,7 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.DayOfWeek;
@@ -33,6 +40,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Service
@@ -44,6 +52,7 @@ public class UserService {
     private final BookRepository bookRepository;
     private final BookHistoryRepository bookHistoryRepository;
     private final NaverToken naverToken;
+    private final PaymentRepository paymentRepository;
 
     //회원가입
     @Transactional
@@ -75,21 +84,26 @@ public class UserService {
                 .email(user.getEmail())
                 .nickName(user.getNickName())
                 .status(user.getStatus())
-                .avatar(user.getAvatar())
+                .avatar(user.getAvatar().getValue())
                 .createdAt(user.getCreatedAt())
                 .build();
     }
 
     //메인페이지
     public MainDTO main(SessionUser sessionUser) {
-        //1. 베스트 셀러 정보 DTO 매핑
-        List<MainDTO.BestSellerDTO> bestSeller = bookRepository.findBooksByHistory().stream().map(
-                book -> MainDTO.BestSellerDTO.builder()
-                        .id(book.getId())
-                        .bookImagePath(book.getPath())
-                        .bookTitle(book.getTitle())
-                        .author(book.getAuthor().getName())
-                        .build()).collect(Collectors.toList());
+        // 1. 베스트 셀러 정보 DTO 매핑
+        List<MainDTO.BestSellerDTO> bestSeller = IntStream.range(0, bookRepository.findBooksByHistory().size())
+                .mapToObj(i -> {
+                    Book book = bookRepository.findBooksByHistory().get(i);
+                    return MainDTO.BestSellerDTO.builder()
+                            .id(book.getId())
+                            .bookImagePath(book.getPath())
+                            .bookTitle(book.getTitle())
+                            .author(book.getAuthor().getName())
+                            .rankNum(i + 1) // 순위 추가
+                            .build();
+                })
+                .collect(Collectors.toList());
 
         //2. 이어보기 정보 DTO 매핑
         List<MainDTO.BookHistoryDTO> bookHistories = bookHistoryRepository.findBookHistoryByUserId(sessionUser.getId()).stream().map(
@@ -105,15 +119,19 @@ public class UserService {
 
         LocalDate today = LocalDate.now();
 
-        //3. 주간 베스트 셀러 DTO매핑
-        List<MainDTO.WeekBestSellerDTO> weekBestSeller = getWeeklyBestSellers(today).stream().map(
-                book -> MainDTO.WeekBestSellerDTO.builder()
-                        .id(book.getId())
-                        .bookImagePath(book.getPath())
-                        .bookTitle(book.getTitle())
-                        .author(book.getAuthor().getName())
-                        .build()).collect(Collectors.toList());
-
+        // 3. 주간 베스트 셀러 DTO 매핑
+        List<MainDTO.WeekBestSellerDTO> weekBestSeller = IntStream.range(0, getWeeklyBestSellers(today).size())
+                .mapToObj(i -> {
+                    Book book = getWeeklyBestSellers(today).get(i);
+                    return MainDTO.WeekBestSellerDTO.builder()
+                            .id(book.getId())
+                            .bookImagePath(book.getPath())
+                            .bookTitle(book.getTitle())
+                            .author(book.getAuthor().getName())
+                            .rankNum(i + 1) // 순위 추가
+                            .build();
+                })
+                .collect(Collectors.toList());
 
         //4, 일간 베스트 셀러 정보 DTO 매핑
         Book book = getDailyBestSellers(today);
@@ -156,22 +174,38 @@ public class UserService {
     }
 
     //네이버 오어스
-    public String oauthNaver(String code) {
-        RestTemplate restTemplate = new RestTemplate();
+    @Transactional
+    public String oauthNaver(String naverAccessToken) {
+        // 1. RestTemplate 객체 생성
+        RestTemplate rt = new RestTemplate();
 
-        NaverRespDTO naverResponse = naverToken.getNaverToken(code, restTemplate);
-        NaverRespDTO.NaverUserDTO naverUser = naverToken.getNaveUser(naverResponse.accessToken(), restTemplate);
+        // 2. 토큰으로 사용자 정보 받기 (PK, Email)
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        headers.add("Authorization", "Bearer " + naverAccessToken);
 
-        String email = "naver_" + naverUser.response().id();
+        HttpEntity<MultiValueMap<String, String>> request =
+                new HttpEntity<>(headers);
 
-        User oauthUser = userRepository.findByEmail(email).orElseThrow(() -> new Exception400("사용자 정보를 찾을 수 없습니다."));
+        ResponseEntity<NaverRespDTO.NaverUserDTO> response = rt.exchange(
+                "https://openapi.naver.com/v1/nid/me",
+                HttpMethod.GET,
+                request,
+                NaverRespDTO.NaverUserDTO.class);
 
-        if (oauthUser != null) {
-            return AppJwtUtil.create(oauthUser);
+        // 3. 해당정보로 DB조회 (있을수, 없을수)
+        String username = "naver_" + response.getBody().response().email();
+        User userPS = userRepository.findByEmail(username)
+                .orElse(null);
+
+        // 4. 있으면? - 조회된 유저정보 리턴
+        if (userPS != null) {
+            return AppJwtUtil.create(userPS);
         } else {
+            // 5. 없으면? - 강제 회원가입
             User user = User.builder()
                     .password(UUID.randomUUID().toString())
-                    .email(naverUser.response().email())
+                    .email(response.getBody().response().email())
                     .provider("naver")
                     .build();
             User returnUser = userRepository.save(user);
@@ -179,13 +213,29 @@ public class UserService {
         }
     }
 
+
     // 사용자 마이 페이지
     public UserResponse.MyPageDTO MyPage(SessionUser sessionUser) {
         // 사용자 정보 불러오기 ( 세션 )
-        User user = userRepository.findById(sessionUser.getId())
+        Payment payment = paymentRepository.findLastPaymentById(sessionUser.getId())
+                .stream()
+                .findFirst()
                 .orElseThrow(() -> new Exception401("❗로그인 되지 않았습니다❗"));
 
-        return new UserResponse.MyPageDTO(user);
+        // 구독 시작일 가져오기 및 변환
+        LocalDateTime subStartDateTime = LocalDateTime.parse(payment.getOrderDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        LocalDate subStartDateLD = subStartDateTime.toLocalDate();
+        // 구독 종료일 및 다음 결제일 계산
+        LocalDate subEndDateLD = subStartDateLD.plusMonths(1).minusDays(1);
+        LocalDate nextPaymentDayLD = subStartDateLD.plusMonths(1);
+        // String 문자열로 포맷
+        String subStartDate = subStartDateLD.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+        String subEndDate = subEndDateLD.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+        String nextPaymentDate = nextPaymentDayLD.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+        // 구독기간 생성
+        String subPeriod = subStartDate + " ~ " + subEndDate;
+
+        return new UserResponse.MyPageDTO(subPeriod, nextPaymentDate);
     }
 
     // 사용자 개인 정보
@@ -204,7 +254,9 @@ public class UserService {
         User user = userRepository.findById(sessionUser.getId())
                 .orElseThrow(() -> new Exception401("❗로그인 되지 않았습니다❗"));
         // 사용자 정보 업데이트
+        user.setAvatar(reqDTO.getAvatar());
         user.setNickName(reqDTO.getNickName());
+        user.setPassword(reqDTO.getPassword());
         user.setPhone(reqDTO.getPhone());
         user.setAddress(reqDTO.getAddress());
 
@@ -256,5 +308,14 @@ public class UserService {
                 .wishList(wishList)
                 .build();
 
+    }
+
+
+    public boolean checkEmailDuplicate(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public boolean checkNickNameDuplicate(String nickName) {
+        return userRepository.existsByNickName(nickName);
     }
 }

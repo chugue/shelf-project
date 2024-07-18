@@ -5,11 +5,15 @@ import com.project.shelf.book.Book;
 import lombok.Builder;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Builder
 public record BookSaveReqDTO(
         String author,
         String title,
         MultipartFile path,
+        LocalDate registrationDate,
         String pageCount,
         String bookIntro,
         String authorIntro,

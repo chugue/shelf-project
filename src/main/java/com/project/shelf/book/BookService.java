@@ -3,28 +3,27 @@ package com.project.shelf.book;
 
 import com.project.shelf._core.erros.exception.Exception400;
 import com.project.shelf._core.erros.exception.Exception401;
-import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf._core.util.MyFileUtil;
 import com.project.shelf.admin.AdminRequestRecord.BookSaveReqDTO;
 import com.project.shelf.author.Author;
 import com.project.shelf.author.AuthorRepository;
 import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
+import com.project.shelf.book.BookResponseRecord.BrandNewRespDTO;
 import com.project.shelf.user.SessionUser;
 import com.project.shelf.user.User;
 import com.project.shelf.user.UserRepository;
 import com.project.shelf.wishlist.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.WeekFields;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -37,6 +36,76 @@ public class BookService {
     private final WishlistRepository wishlistRepository;
     private final UserRepository userRepository;
 
+
+    public List<BrandNewRespDTO> brandNew(String registrationMonth) {
+        // 전달 받은 해당 월(2024-06)에 출간된 책 검색
+        String[] parts = registrationMonth.split("-");
+
+        int year = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]);
+
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()); // 해당 월의 마지막날 구하기
+
+        List<Book> books = bookRepository.findByRegistrationMonth(startDate.atStartOfDay(), endDate.atStartOfDay().with(LocalTime.MAX));
+
+        // 검색한 list를 주별로 구분
+        Map<Integer, List<Book>> weeklyData = splitDataByWeeks(books, startDate, endDate);
+
+        // 주별 데이터 담기
+        List<BrandNewRespDTO> brandNewRespDTOList = new ArrayList<>();
+        for (Map.Entry<Integer, List<Book>> entry : weeklyData.entrySet()) {
+            List<BrandNewRespDTO.brandNewList> list = entry.getValue().stream().map(book -> {
+                return BrandNewRespDTO.brandNewList.builder()
+                       .bookId(book.getId())
+                       .title(book.getTitle())
+                       .author(book.getAuthor().getName())
+                       .path(book.getPath())
+                       .build();
+            }).toList();
+            String weekName = weekIntegerToString(entry.getKey());
+
+
+            brandNewRespDTOList.add(new BrandNewRespDTO(weekName, list));
+        }
+
+        return brandNewRespDTOList;
+    }
+
+    // 몇째 주인지 string으로 변환
+    private static String weekIntegerToString(Integer weekNumber){
+        String weekName = switch (weekNumber) {
+            case 1 -> "첫째";
+            case 2 -> "둘째";
+            case 3 -> "셋째";
+            case 4 -> "넷째";
+            case 5 -> "다섯째";
+            default -> "";
+        };
+        return weekName;
+    }
+
+    // 데이터를 주 단위로 쪼개는 메서드
+    private static Map<Integer, List<Book>> splitDataByWeeks(List<Book> books, LocalDate startDate, LocalDate endDate) {
+        Map<Integer, List<Book>> weeklyData = new HashMap<>();
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        LocalDate start = startDate.with(TemporalAdjusters.previousOrSame(weekFields.getFirstDayOfWeek()));
+        LocalDate end = endDate.with(TemporalAdjusters.nextOrSame(weekFields.getFirstDayOfWeek()));
+
+        int weekNumber = 1;
+        while (start.isBefore(end)) {
+            LocalDate weekEnd = start.plusDays(6);
+            for (Book book : books) {
+                if (!book.getRegistrationDate().isBefore(start) && !book.getRegistrationDate().isAfter(weekEnd)) {
+                    weeklyData.computeIfAbsent(weekNumber, k -> new ArrayList<>()).add(book);
+                }
+            }
+            start = start.plusWeeks(1);
+            weekNumber++;
+        }
+
+        return weeklyData;
+    }
 
     public BookCategorySearchDTO bookSearch(String category, String authorName) {
         List<Book> books;
@@ -99,14 +168,15 @@ public class BookService {
         // Book 객체 생성 및 저장
         Book book = Book.builder()
                 .author(author)
-                .title(reqDTO.title())
                 .path(imagePath)
+                .epubFile(epubFilePath)
+                .registrationDate(reqDTO.registrationDate())
+                .title(reqDTO.title())
                 .pageCount(reqDTO.pageCount())
                 .bookIntro(reqDTO.bookIntro())
                 .contentIntro(reqDTO.contentIntro())
                 .category(reqDTO.category())
                 .publisher(reqDTO.publisher())
-                .epubFile(epubFilePath)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();

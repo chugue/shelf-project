@@ -1,6 +1,7 @@
 package com.project.shelf.book;
 
 import com.project.shelf.author.Author;
+import com.project.shelf.book_history.BookHistory;
 import com.project.shelf.wishlist.Wishlist;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -30,6 +31,12 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY)
     private Author author;
 
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Wishlist> wishlist;
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<BookHistory> bookHistory;
+
     private String title;
     private String path; // 사진 경로
 
@@ -45,7 +52,7 @@ public class Book {
     private String epubFile;
 
 //    @ColumnDefault("'2019-07-16'")
-    private LocalDateTime registrationDate; // 출판일
+    private LocalDate registrationDate; // 출판일
 
     @ColumnDefault("527")
     private int totalView;
@@ -60,7 +67,7 @@ public class Book {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Book(Integer id, Author author, String title, String path, String pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Book(Integer id, Author author, String title, String path, String pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDate registrationDate) {
         this.id = id;
         this.author = author;
         this.title = title;
@@ -73,6 +80,7 @@ public class Book {
         this.epubFile = epubFile;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.registrationDate = registrationDate;
     }
 
 
