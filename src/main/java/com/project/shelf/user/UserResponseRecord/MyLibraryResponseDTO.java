@@ -39,7 +39,8 @@ public record MyLibraryResponseDTO(
             String bookImagePath,
             Integer bookId,
             String bookTitle,
-            String author
+            String author,
+            String createdAt
     ){
     }
 }
