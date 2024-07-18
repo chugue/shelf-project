@@ -7,14 +7,11 @@ import com.project.shelf._core.util.NaverToken;
 import com.project.shelf.payment.Payment;
 import com.project.shelf.payment.PaymentRepository;
 import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
-import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
+import com.project.shelf.user.UserResponseRecord.*;
 import com.project.shelf._core.erros.exception.Exception401;
 import com.project.shelf.book.Book;
 import com.project.shelf.book.BookRepository;
 import com.project.shelf.book_history.BookHistoryRepository;
-import com.project.shelf.user.UserResponseRecord.MainDTO;
-import com.project.shelf.user.UserResponseRecord.MyLibraryResponseDTO;
-import com.project.shelf.user.UserResponseRecord.NaverRespDTO;
 import com.project.shelf.wishlist.WishlistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -315,5 +312,25 @@ public class UserService {
 
     public boolean checkNickNameDuplicate(String nickName) {
         return userRepository.existsByNickName(nickName);
+    }
+
+    //랭크
+    public void getRank(){
+        // 1. 베스트 셀러 정보 DTO 매핑
+        List<RankResponseDTO.TotalBestSellerDTO> bestSeller = IntStream.range(0, bookRepository.findBooksByHistory().size())
+                .mapToObj(i -> {
+                    Book book = bookRepository.findBooksByHistory().get(i);
+                    return RankResponseDTO.TotalBestSellerDTO.builder()
+                            .id(book.getId())
+                            .bookImagePath(book.getPath())
+                            .bookTitle(book.getTitle())
+                            .author(book.getAuthor().getName())
+                            .rankNum(i + 1) // 순위 추가
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        // 2. 카테고리별 베스트셀러 DTO 매핑
+
     }
 }

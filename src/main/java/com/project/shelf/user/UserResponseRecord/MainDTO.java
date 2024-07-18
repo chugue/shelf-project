@@ -48,7 +48,7 @@ public record MainDTO(
             Integer userId,
             Integer bookId,
             String bookTitle,
-            String pageCount,
+            Integer pageCount,
             String lastReadPage,
             String bookImagePath
     ) {

@@ -9,6 +9,6 @@ public record BookUpdateReqDTO(
         String bookIntro,
         String contentIntro,
         String authorIntro,
-        String pageCount
+        Integer pageCount
 ) {
 }
