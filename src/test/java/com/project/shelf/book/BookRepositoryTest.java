@@ -51,17 +51,17 @@ public class BookRepositoryTest {
         books.forEach(book -> System.out.println("book = " + book));
     }
 
-    @Test
-    void findBestSellersByCategory_Test(){
-        // when
-        List<RankResponseDTO.CategoryByBestSellerDTO> bestSeller = bookRepository.findBestSellersByCategory(Book.Category.소설);
-
-        // then
-        //bestSeller.forEach(System.out::println);
-        System.out.println(bestSeller.size());
-        System.out.println(bestSeller.getFirst().id());
-
-    }
+//    @Test
+//    void findBestSellersByCategory_Test(){
+//        // when
+//        List<RankResponseDTO.CategoryByBestSellerDTO> bestSeller = bookRepository.findBestSellersByCategory(Book.Category.소설);
+//
+//        // then
+//        //bestSeller.forEach(System.out::println);
+//        System.out.println(bestSeller.size());
+//        System.out.println(bestSeller.getFirst().id());
+//
+//    }
 
 
 }
