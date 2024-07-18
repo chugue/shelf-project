@@ -29,7 +29,7 @@ public class BookHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     private Book book;
 
-    private String lastReadPage; //마지막으로 읽은 페이지
+    private Integer lastReadPage; //마지막으로 읽은 페이지
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -40,7 +40,7 @@ public class BookHistory {
     private LocalDateTime updatedAt;
 
     @Builder
-    public BookHistory(Integer id, User user, Book book, String lastReadPage, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public BookHistory(Integer id, User user, Book book, Integer lastReadPage, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.user = user;
         this.book = book;
