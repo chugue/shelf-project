@@ -41,10 +41,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         // CORS 설정 추가
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000", "http://example.com")
+                .allowedOrigins("*") // TODO: "http://localhost:3000", "http://example.com"로 바꿔도 되도록
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
-                .allowCredentials(true)
+                .allowCredentials(false) // TODO: true로 해도 되도록
                 .maxAge(3600);
     }
 }
