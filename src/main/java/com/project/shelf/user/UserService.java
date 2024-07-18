@@ -92,7 +92,7 @@ public class UserService {
     //메인페이지
     public MainDTO main(SessionUser sessionUser) {
         // 1. 베스트 셀러 정보 DTO 매핑
-        List<MainDTO.BestSellerDTO> bestSeller = IntStream.range(0, bookRepository.findBooksByHistory().size())
+        List<MainDTO.BestSellerDTO> bestSeller = IntStream.range(0, 10)
                 .mapToObj(i -> {
                     Book book = bookRepository.findBooksByHistory().get(i);
                     return MainDTO.BestSellerDTO.builder()
