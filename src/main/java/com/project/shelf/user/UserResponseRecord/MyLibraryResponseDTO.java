@@ -19,8 +19,8 @@ public record MyLibraryResponseDTO(
                 Integer id,
                 String imagePath,
                 String bookTitle,
-                String pageCount,
-                String lastReadPage
+                Integer pageCount,
+                Integer lastReadPage
         ){
         }
 
@@ -39,7 +39,8 @@ public record MyLibraryResponseDTO(
             String bookImagePath,
             Integer bookId,
             String bookTitle,
-            String author
+            String author,
+            String createdAt
     ){
     }
 }

@@ -2,6 +2,8 @@ package com.project.shelf.book;
 
 import com.project.shelf.author.Author;
 import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
+import com.project.shelf.user.UserResponse;
+import com.project.shelf.user.UserResponseRecord.RankResponseDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -59,5 +61,9 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Transactional
     @Query("DELETE FROM Book b WHERE b.id = :bookId")
     void deleteByBookId(@Param("bookId") Integer bookId);
+
+
+//    @Query("select b from BookHistory bh JOIN FETCH bh.book b")
+//    List<RankResponseDTO.CategoryByBestSellerDTO> findBestSellersByCategory(@Param("category") Book.Category category);
 
 }

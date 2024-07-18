@@ -40,7 +40,7 @@ public class Book {
     private String title;
     private String path; // 사진 경로
 
-    private String pageCount; // 총 페이지 수
+    private Integer pageCount; // 총 페이지 수
 
     private String bookIntro; // 책 소개
     private String contentIntro; // 내용 소개
@@ -51,7 +51,7 @@ public class Book {
     private String publisher; // 출판사
     private String epubFile;
 
-//    @ColumnDefault("'2019-07-16'")
+    //    @ColumnDefault("'2019-07-16'")
     private LocalDate registrationDate; // 출판일
 
     @ColumnDefault("527")
@@ -67,7 +67,7 @@ public class Book {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Book(Integer id, Author author, List<Wishlist> wishlist, List<BookHistory> bookHistory, String title, String path, String pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDate registrationDate, Integer totalView, Integer completedViews, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Book(Integer id, Author author, List<Wishlist> wishlist, List<BookHistory> bookHistory, String title, String path, Integer pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDate registrationDate, Integer totalView, Integer completedViews, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.author = author;
         this.wishlist = wishlist;

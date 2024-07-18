@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 public class UserRestController {
-    private final UserRepository userRepository;
     private final UserService userService;
     private final HttpSession session;
 
@@ -42,8 +41,8 @@ public class UserRestController {
 
     // 중복확인 ( email )
     @GetMapping("/user/check-email")
-    public ResponseEntity<?> checkEmailDup(@RequestBody UserRequest.JoinDTO reqDTO) {
-        boolean emailDuplicate = userService.checkEmailDuplicate(reqDTO.getEmail());
+    public ResponseEntity<?> checkEmailDup(@RequestParam String email) {
+        boolean emailDuplicate = userService.checkEmailDuplicate(email);
         if (emailDuplicate) {
             return ResponseEntity.ok(new ApiUtil<>(400, "중복된 이메일입니다."));
         } else {
@@ -105,6 +104,7 @@ public class UserRestController {
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
+    // 내 서재
     @GetMapping("/app/user/my-library")
     public ResponseEntity<?> wishList() {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
