@@ -289,6 +289,7 @@ public class UserService {
                 .build());
 
         //4. 위시리스트 DTO 매핑
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         List<MyLibraryResponseDTO.WishListDTO> wishList = wishlistRepository.findWishlistByByUserId(sessionUser.getId()).stream().map(
                 wishlist -> MyLibraryResponseDTO.WishListDTO.builder()
                         .id(wishlist.getId())
@@ -296,6 +297,7 @@ public class UserService {
                         .bookImagePath(wishlist.getBook().getPath())
                         .bookTitle(wishlist.getBook().getTitle())
                         .author(wishlist.getBook().getAuthor().getName())
+                        .createdAt(wishlist.getCreatedAt().format(formatter))
                         .build()).collect(Collectors.toList());
 
         return MyLibraryResponseDTO.builder()
