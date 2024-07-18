@@ -38,31 +38,13 @@ a {
 }
 
 
-/* """"""""""""""""""""""""""""body"""""""""""""""""""""""""""" */
-body {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    /* 화면 전체 높이로 설정 */
-    margin: 0 auto;
-    /* 가운데 정렬을 위한 자동 마진 추가 */
-    background-color: #FAFAFA;
-}
-
 
 /* """""""""""""""""""""""""""""nav""""""""""""""""""""""""""""" */
 nav {
     background-color: rgb(255, 255, 255);
     text-align: center;
     flex: 0 1 auto;
-    position: fixed;
-    /* 네비게이션 바를 고정 */
-    top: 0;
-    /* 화면 상단에 위치 */
     width: 100%;
-    /* 화면 전체 너비 차지 */
-    z-index: 1000;
-    /* 다른 요소들 위에 표시되도록 z-index 설정 */
     display: flex;
     justify-content: center;
     /* Center the nav-div within the nav */
@@ -100,16 +82,14 @@ nav {
 /* """"""""""""""""""""""""""""""main"""""""""""""""""""""""""""""" */
 main {
     width: 70vw;
-    margin: 67px auto 0;
+    margin: 50px auto;
     flex: 1 0 auto;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    margin-top: 200px;
     gap: 100px;
-
 }
 .err-section{
     width: 600px;
@@ -174,26 +154,4 @@ main {
 
 .profile-manage i {
     margin-right: 10px;
-}
-
-/* """"""""""""""""""""""""""""footer"""""""""""""""""""""""""""" */
-footer {
-    display: flex;
-    justify-content: center;
-    flex: 0 1 auto;
-    text-align: start;
-    font-size: 12px;
-    margin: 5px 0;
-}
-
-footer div {
-    color: rgb(160, 160, 160);
-    width: 70vw;
-    margin-top: 40px;
-    margin-bottom: 40px;
-}
-
-footer div p {
-    font-size: 9px;
-    margin-bottom: 5px;
 }
