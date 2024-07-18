@@ -104,6 +104,7 @@ public class UserRestController {
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
+    // 내 서재
     @GetMapping("/app/user/my-library")
     public ResponseEntity<?> wishList() {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");

@@ -14,7 +14,7 @@ public record BookSaveReqDTO(
         String title,
         MultipartFile path,
         LocalDate registrationDate,
-        String pageCount,
+        Integer pageCount,
         String bookIntro,
         String authorIntro,
         String contentIntro,
