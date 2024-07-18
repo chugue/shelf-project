@@ -73,7 +73,7 @@ public class UserResponse {
         public class BookHistoryDTO {
             private Integer id;
             private String bookTitle;
-            private String pageCount; //총 페이지수
+            private Integer pageCount; //총 페이지수
             private String lastReadPage;
             private LocalDate createdAt; //처음으로 읽은 날짜
             private LocalDate updatedAt; // 마지막으로 읽은 날짜

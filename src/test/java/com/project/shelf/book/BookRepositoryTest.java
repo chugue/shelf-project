@@ -1,5 +1,6 @@
 package com.project.shelf.book;
 
+import com.project.shelf.user.UserResponseRecord.RankResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -49,6 +50,18 @@ public class BookRepositoryTest {
         List<Book> books = bookRepository.findByCategory(Book.Category.소설);
         books.forEach(book -> System.out.println("book = " + book));
     }
+
+//    @Test
+//    void findBestSellersByCategory_Test(){
+//        // when
+//        List<RankResponseDTO.CategoryByBestSellerDTO> bestSeller = bookRepository.findBestSellersByCategory(Book.Category.소설);
+//
+//        // then
+//        //bestSeller.forEach(System.out::println);
+//        System.out.println(bestSeller.size());
+//        System.out.println(bestSeller.getFirst().id());
+//
+//    }
 
 
 }

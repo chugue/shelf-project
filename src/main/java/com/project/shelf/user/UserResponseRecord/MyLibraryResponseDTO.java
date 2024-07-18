@@ -19,7 +19,7 @@ public record MyLibraryResponseDTO(
                 Integer id,
                 String imagePath,
                 String bookTitle,
-                String pageCount,
+                Integer pageCount,
                 String lastReadPage
         ){
         }

@@ -40,7 +40,7 @@ public class Book {
     private String title;
     private String path; // 사진 경로
 
-    private String pageCount; // 총 페이지 수
+    private Integer pageCount; // 총 페이지 수
 
     private String bookIntro; // 책 소개
     private String contentIntro; // 내용 소개
@@ -67,7 +67,7 @@ public class Book {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Book(Integer id, Author author, String title, String path, String pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDate registrationDate) {
+    public Book(Integer id, Author author, String title, String path, Integer pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDate registrationDate) {
         this.id = id;
         this.author = author;
         this.title = title;
