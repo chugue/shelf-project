@@ -49,7 +49,7 @@ public record MainDTO(
             Integer bookId,
             String bookTitle,
             Integer pageCount,
-            String lastReadPage,
+            Integer lastReadPage,
             String bookImagePath
     ) {
     }

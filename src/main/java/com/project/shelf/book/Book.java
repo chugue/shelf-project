@@ -51,13 +51,13 @@ public class Book {
     private String publisher; // 출판사
     private String epubFile;
 
-//    @ColumnDefault("'2019-07-16'")
+    //    @ColumnDefault("'2019-07-16'")
     private LocalDate registrationDate; // 출판일
 
     @ColumnDefault("527")
-    private int totalView;
+    private Integer totalView;
     @ColumnDefault("300")
-    private int completedViews;
+    private Integer completedViews;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -67,9 +67,11 @@ public class Book {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Book(Integer id, Author author, String title, String path, Integer pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDate registrationDate) {
+    public Book(Integer id, Author author, List<Wishlist> wishlist, List<BookHistory> bookHistory, String title, String path, Integer pageCount, String bookIntro, String contentIntro, Category category, String publisher, String epubFile, LocalDate registrationDate, Integer totalView, Integer completedViews, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.author = author;
+        this.wishlist = wishlist;
+        this.bookHistory = bookHistory;
         this.title = title;
         this.path = path;
         this.pageCount = pageCount;
@@ -78,11 +80,12 @@ public class Book {
         this.category = category;
         this.publisher = publisher;
         this.epubFile = epubFile;
+        this.registrationDate = registrationDate;
+        this.totalView = totalView;
+        this.completedViews = completedViews;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.registrationDate = registrationDate;
     }
-
 
     public enum Category {
         소설, 자기계발, 역사, 인문, 사회, 과학, 철학, 종교, IT
