@@ -13,23 +13,21 @@ import org.springframework.web.client.RestTemplate;
 @Controller
 public class NaverToken {
 
-    public NaverRespDTO getNaverToken(String code, RestTemplate restTemplate) {
-        System.out.println("code = " + code);
-        HttpEntity<MultiValueMap<String, String>> request = createTokenRequest(code);
+    public NaverRespDTO getNaverToken(String NaverAccessToken, RestTemplate restTemplate) {
+        System.out.println("NaverAccessToken = " + NaverAccessToken);
+        HttpEntity<MultiValueMap<String, String>> request = createTokenRequest(NaverAccessToken);
         System.out.println("request = " + request);
         ResponseEntity<NaverRespDTO> response = restTemplate.exchange(
                 "https://nid.naver.com/oauth2.0/token",
                 HttpMethod.POST,
                 request,
                 NaverRespDTO.class);
-
         return response.getBody();
     }
 
     private HttpEntity<MultiValueMap<String, String>> createTokenRequest(String code) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");

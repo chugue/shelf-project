@@ -22,7 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.DayOfWeek;
@@ -169,28 +174,45 @@ public class UserService {
     }
 
     //네이버 오어스
-    public String oauthNaver(String code) {
-        RestTemplate restTemplate = new RestTemplate();
+    @Transactional
+    public String oauthNaver(String naverAccessToken) {
+        // 1. RestTemplate 객체 생성
+        RestTemplate rt = new RestTemplate();
 
-        NaverRespDTO naverResponse = naverToken.getNaverToken(code, restTemplate);
-        NaverRespDTO.NaverUserDTO naverUser = naverToken.getNaveUser(naverResponse.accessToken(), restTemplate);
+        // 2. 토큰으로 사용자 정보 받기 (PK, Email)
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        headers.add("Authorization", "Bearer " + naverAccessToken);
 
-        String email = "naver_" + naverUser.response().id();
+        HttpEntity<MultiValueMap<String, String>> request =
+                new HttpEntity<>(headers);
 
-        User oauthUser = userRepository.findByEmail(email).orElseThrow(() -> new Exception400("사용자 정보를 찾을 수 없습니다."));
+        ResponseEntity<NaverRespDTO.NaverUserDTO> response = rt.exchange(
+                "https://openapi.naver.com/v1/nid/me",
+                HttpMethod.GET,
+                request,
+                NaverRespDTO.NaverUserDTO.class);
 
-        if (oauthUser != null) {
-            return AppJwtUtil.create(oauthUser);
+        // 3. 해당정보로 DB조회 (있을수, 없을수)
+        String username = "naver_" + response.getBody().response().email();
+        User userPS = userRepository.findByEmail(username)
+                .orElse(null);
+
+        // 4. 있으면? - 조회된 유저정보 리턴
+        if (userPS != null) {
+            return AppJwtUtil.create(userPS);
         } else {
+            // 5. 없으면? - 강제 회원가입
             User user = User.builder()
                     .password(UUID.randomUUID().toString())
-                    .email(naverUser.response().email())
+                    .email(response.getBody().response().email())
                     .provider("naver")
                     .build();
             User returnUser = userRepository.save(user);
             return AppJwtUtil.create(returnUser);
         }
     }
+
 
     // 사용자 마이 페이지
     public UserResponse.MyPageDTO MyPage(SessionUser sessionUser) {

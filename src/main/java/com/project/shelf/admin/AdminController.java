@@ -87,9 +87,8 @@ public class AdminController {
 
     // 책 수정하기 페이지
     @GetMapping("/admin/book-update-form/{bookId}")
-    public String getUpdateForm(HttpServletRequest request,@PathVariable Integer bookId) {
+    public String getUpdateForm(HttpServletRequest request, @PathVariable Integer bookId) {
         BookDetailRespDTO book = adminService.bookDetail(bookId);
-
         request.setAttribute("book", book);
         return "admin/book-update";
     }
@@ -98,7 +97,7 @@ public class AdminController {
     @PostMapping("/admin/book-update/{bookId}")
     public String updateBook(@PathVariable Integer bookId, BookUpdateReqDTO bookUpdateReqDTO) {
         adminService.updateBook(bookId, bookUpdateReqDTO);
-        return "redirect:/admin/book/"+bookId;
+        return "redirect:/admin/book/" + bookId;
     }
 
     //책 삭제하기
@@ -107,6 +106,5 @@ public class AdminController {
         adminService.deleteBook(bookId);
         return "redirect:/admin/books";
     }
-
 
 }
