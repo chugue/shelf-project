@@ -45,13 +45,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Integer findByCategoryConut(@Param("category") Book.Category category);
 
     // 관리자 책 목록 보기
-    @Query("""
-            SELECT b
-            FROM Book b
-            JOIN FETCH
-            b.author a
-            ORDER BY b.id DESC
-            """)
+    @Query("SELECT b FROM Book b JOIN FETCH b.author a ORDER BY b.registrationDate DESC")
     List<Book> findAllWithAuthor();
 
     // 관리자 책 상세보기
