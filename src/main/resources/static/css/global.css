@@ -1,0 +1,92 @@
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    /* 화면 전체 높이로 설정 */
+    margin: 0 auto;
+    /* 가운데 정렬을 위한 자동 마진 추가 */
+    background-color: #FCFCFC;
+}
+/* 사이드 바 */
+.sidebar {
+    /*width: calc(25% - 20px);*/
+    width: 200px;
+    position: fixed;
+    top: 200px;
+    font-size: 14px;
+    border-radius: 5px;
+}
+.sidebar-icon {
+    margin-right: 10px;
+}
+.custom-list li {
+    font-size: 17px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.custom-list li:hover {
+    background: #f0f0f0
+}
+
+.custom-list li a {
+    padding: 15px;
+    text-decoration: none;
+    color: inherit;
+    display: block; /* a 태그가 li 전체를 채우도록 */
+}
+.main-left-icon {
+    margin-right: 10px;
+}
+.main-left-text {
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.main-left-text:hover {
+    background-color: #E2E2E2; /* 커서를 가져다댔을 때 어두워지는 효과 */
+}
+
+/* 메인 */
+.main-div {
+    width: 900px;
+    display: flex;
+    text-align: start;
+    margin: 0 auto;
+    padding:  80px 0;
+    position: relative;
+}
+
+.main-section{
+    width: 75%;
+    display: flex;
+    margin-left: 25%;
+    flex-direction: column;
+}
+
+/* 푸터 */
+footer {
+    display: flex;
+    justify-content: center;
+    flex: 0 1 auto;
+    text-align: start;
+    font-size: 12px;
+    margin: 5px 0;
+}
+
+footer div{
+    color: rgb(160, 160, 160);
+    width: 900px;
+    padding: 10px 50px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+footer div p{
+    font-size: 9px;
+    margin-bottom: 5px;
+}
