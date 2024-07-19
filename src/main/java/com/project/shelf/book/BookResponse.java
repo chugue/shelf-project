@@ -4,6 +4,7 @@ import com.project.shelf.author.Author;
 import com.project.shelf.wishlist.Wishlist;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class BookResponse {
@@ -18,10 +19,13 @@ public class BookResponse {
         private Book.Category category;
                                     // 카테고리
         private LocalDateTime createdAt;
-                                    // 출판일?, 등록일?
+                                    // 등록일
         private String bookIntro;   // 책 소개
         private String contentIntro;// 내용 소개
         private Boolean isWish;     // 서재에 담겼는지
+        private LocalDate registrationDate;
+        private Integer totalViews;
+        private Integer completedViews;
         // TODO : epub 경로 추가
 
         public DetailPageDTO(Book book, Boolean isWish) {
@@ -35,6 +39,9 @@ public class BookResponse {
             this.bookIntro = book.getBookIntro();
             this.contentIntro = book.getContentIntro();
             this.isWish = isWish;
+            this.registrationDate = book.getRegistrationDate();
+            this.totalViews = book.getTotalView();
+            this.completedViews = book.getCompletedViews();
         }
     }
 }

@@ -2,6 +2,7 @@ package com.project.shelf.admin.AdminResponseRecord;
 
 import lombok.Builder;
 
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public record BookListRespDTO(
         String title,
         String author,
         String publisher,
-        String registrationDate
+        String registrationDate,
+        String path
     ){}
 }
