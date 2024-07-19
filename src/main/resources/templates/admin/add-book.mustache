@@ -32,7 +32,7 @@
         {{> _components/sidebar}}
 
         <div class="main-section">
-            <div class="main-header mb-20">e-book 등록/수정</div>
+            <div class="main-header mb-20">e-book 등록</div>
 
             <form action="/api/ebook" id="ebook-form" method="post" enctype="multipart/form-data">
                 <!-- SHELF -->
@@ -85,20 +85,14 @@
                                 <label for="category">카테고리</label>
                                 <select name="category" id="category">
                                     <option value="">카테고리 선택</option>
-                                    <option value="자기계발">자기계발</option>
-                                    <option value="역사">역사</option>
-                                    <option value="소설">소설</option>
-                                    <option value="소설">IT</option>
-                                    <option value="소설">인문</option>
-                                    <option value="소설">사회</option>
-                                    <option value="소설">종교</option>
-                                    <option value="소설">철학</option>
-                                    <option value="소설">과학</option>
+                                    {{#categories}}
+                                        <option value="{{.}}">{{.}}</option>
+                                    {{/categories}}
                                 </select>
                             </div>
                             <div class="form-field mb-20">
                                 <label for="registrationDate">출판일</label>
-                                <input type="date" id="registrationDate" name="registrationDate" value="2024-07-10">
+                                <input type="date" id="registrationDate" name="registrationDate" value="2024-07-17">
                             </div>
                         </div>
                     </div>
@@ -145,7 +139,7 @@
 <!-- 자바 스크립트 -->
 <script>
     document.getElementById("bookIntro").value = "[『달러구트 꿈 백화점』 작가의 신작] 150만부 이상을 판매하며 베스트셀러 작가로 발돋움한 이미예 작가의 첫 하이퍼리얼리즘 소설. 각 회사에서 탕비실의 빌런으로 뽑힌 사람들이 7일간의 합숙 리얼리티 쇼에 섭외된다. 누구나 받을 수 있는 미움, 혹은 누구나 범할 수 있는 오해를 임팩트 있게 다뤄냈다.";
-    document.getElementById("contentIntro").value = "7일간의 합숙 리얼리티 쇼 ‘탕비실’. 여기에 섭외된 이들은 같이 일하는 동료들로부터 ‘함께 탕비실을 쓰기 싫은 사람’으로 뽑혔다. 정작 이들은 자신이 빌런으로 뽑힌 것이 의아한 상황. 하지만, 평소 자신이 동료들을 위해 베풀었던 친절과 배려가 더없이 불쾌하고 오싹한 소름으로 전달되었다는 것을 알게 됨과 동시에 이야기는 본격적으로 시작된다.";
+    document.getElementById("contentIntro").value = "7일간의 합숙 리얼리티 쇼 '탕비실'. 여기에 섭외된 이들은 같이 일하는 동료들로부터 '함께 탕비실을 쓰기 싫은 사람'으로 뽑혔다. 정작 이들은 자신이 빌런으로 뽑힌 것이 의아한 상황. 하지만, 평소 자신이 동료들을 위해 베풀었던 친절과 배려가 더없이 불쾌하고 오싹한 소름으로 전달되었다는 것을 알게 됨과 동시에 이야기는 본격적으로 시작된다.";
     document.getElementById("authorIntro").value = "산대에서 재료공학을 공부하고 반도체 엔지니어로 일했다. 크라우드 펀딩 프로젝트 『주문하신 꿈은 매진입니다』(現 달러구트 꿈 백화점)으로 첫 소설을 발표해 후원자들의 열렬한 지지를 받아 성공적으로 펀딩을 종료하였다";
 
 
