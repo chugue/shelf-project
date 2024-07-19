@@ -77,7 +77,7 @@ nav {
 }
 
 .nav-div {
-    width: 1100px;
+    width: 900px;
     margin: 0 auto;
     padding: 10px 50px;
     display: flex;
@@ -105,51 +105,11 @@ nav {
 
 /* 메인 시작 */
 .main-div {
-    width: 1100px;
+    width: 900px;
     display: flex;
     text-align: start;
     margin: 0 auto ;
     padding: 30px 50px 80px;
-}
-
-.sidebar {
-    width: calc(30% - 20px);
-    margin-right: 20px;
-    font-size: 14px;
-}
-.sidebar-icon {
-    margin-right: 10px;
-    width: 1rem;
-}
-.custom-list li {
-    font-size: 17px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.custom-list li:hover {
-    background-color: #eee;
-}
-
-.custom-list li a {
-    padding: 15px;
-    text-decoration: none;
-    color: inherit;
-    display: block; /* a 태그가 li 전체를 채우도록 */
-}
-.main-left-icon {
-    margin-right: 10px;
-}
-.main-left-text {
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 20px;
-    cursor: pointer;
-}
-
-.main-left-text:hover {
-    background-color: #E2E2E2; /* 커서를 가져다댔을 때 어두워지는 효과 */
 }
 
 /* 메인 섹션 */
@@ -164,7 +124,6 @@ nav {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-right: 30px;
     width: 100%;
 }
 
@@ -214,6 +173,7 @@ th, td {
     padding: 8px;
     text-align: center;
     border: 1px solid #dddddd;
+    align-content: center;
 }
 
 th {
@@ -222,27 +182,4 @@ th {
 
 td {
     background-color: #ffffff;
-}
-
-/* """"""""""""""""""""""""""""footer"""""""""""""""""""""""""""" */
-footer {
-    display: flex;
-    justify-content: center;
-    flex: 0 1 auto;
-    text-align: start;
-    font-size: 12px;
-    margin: 5px 0;
-}
-
-footer div{
-    color: rgb(160, 160, 160);
-    width: 1100px;
-    padding: 10px 50px;
-    margin-top: 40px;
-    margin-bottom: 40px;
-}
-
-footer div p {
-    font-size: 9px;
-    margin-bottom: 5px;
 }
