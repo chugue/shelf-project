@@ -7,6 +7,7 @@ import com.project.shelf.author.AuthorResponseRecord.SearchPageRespDTO;
 import com.project.shelf.author.AuthorService;
 import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
 import com.project.shelf.book.BookResponseRecord.BrandNewRespDTO;
+import com.project.shelf.book.BookResponseRecord.RankResponseDTO;
 import com.project.shelf.user.SessionUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -16,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -67,9 +67,10 @@ public class BookRestController {
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
-    @GetMapping("/categories")
-    public List<Book.Category> getCategories() {
-        return Arrays.asList(Book.Category.values());
+    //랭크
+    @GetMapping("/app/book/rank")
+    public ResponseEntity<?> bookSearch(@RequestParam(required = false) String category) {
+        RankResponseDTO respDTO = bookService.getRank(category);
+        return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 }
-

@@ -1,4 +1,4 @@
-package com.project.shelf.user.UserResponseRecord;
+package com.project.shelf.book.BookResponseRecord;
 
 import lombok.Builder;
 
