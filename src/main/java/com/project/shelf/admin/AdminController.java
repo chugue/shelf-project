@@ -51,8 +51,8 @@ public class AdminController {
     // 매출 확인 페이지
     @GetMapping("/admin/sales")
     public String getSalesPage(HttpServletRequest request) {
-        MonthlySalesPageDTO resp = adminService.monthlySales();
-        request.setAttribute("MonthlySalesDTO", resp);
+        MonthlySalesPageDTO respDTO = adminService.monthlySales();
+        request.setAttribute("respDTO", respDTO);
         return "admin/sales-dashboard";
     }
 

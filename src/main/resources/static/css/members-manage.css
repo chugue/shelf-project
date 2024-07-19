@@ -107,9 +107,14 @@ nav {
     vertical-align: middle;
     text-align: center;
 }
-.book-item a{
+.book-item a div{
     display: flex;
     align-items: center;
+    height: 90px;
+}
+.book-img{
+    width: 70px;
+    margin-right: 8px;
 }
 
 #item-link {
@@ -119,9 +124,8 @@ nav {
 }
 
 .book-item img {
-    height: 90px;
+    height: 100%;
     vertical-align: middle;
-    margin-right: 8px;
 }
 
 .title {
