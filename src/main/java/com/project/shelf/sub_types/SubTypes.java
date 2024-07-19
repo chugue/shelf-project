@@ -18,6 +18,8 @@ public class SubTypes {
 
     private Integer amount; //구독권 별 금액
 
+    private String subName; // 구독권 이름
+
     @Enumerated(EnumType.STRING)
     private SubscriptionPeriod subPeriod; //구독기간
 
