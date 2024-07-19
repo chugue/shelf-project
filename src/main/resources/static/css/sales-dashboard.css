@@ -158,8 +158,7 @@ table {
     width: 100%;
     max-width: 800px;
     border-collapse: collapse;
-    margin: auto;
-    margin-top: 20px;
+    margin: 20px auto;
     font-size: 12px;
 }
 
@@ -169,17 +168,17 @@ table {
     text-align: center;
 }
 
-th, td {
+#chart-table th, #chart-table td {
     padding: 8px;
     text-align: center;
     border: 1px solid #dddddd;
     align-content: center;
 }
 
-th {
+#chart-table th {
     background-color: #f2f2f2;
 }
 
-td {
+#chart-table td {
     background-color: #ffffff;
 }
