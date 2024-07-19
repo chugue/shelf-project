@@ -85,9 +85,9 @@
                                 <label for="category">카테고리</label>
                                 <select name="category" id="category">
                                     <option value="">카테고리 선택</option>
-                                    <option value="자기계발">자기계발</option>
-                                    <option value="역사">역사</option>
-                                    <option value="소설">소설</option>
+                                    {{#categories}}
+                                        <option value="{{.}}">{{.}}</option>
+                                    {{/categories}}
                                 </select>
                             </div>
                             <div class="form-field mb-20">

@@ -84,9 +84,9 @@
                                 <label for="category">카테고리</label>
                                 <select name="category" id="category">
                                     <option value="{{book.category}}" selected>{{book.category}}</option>
-                                    <option value="자기계발">자기계발</option>
-                                    <option value="역사">역사</option>
-                                    <option value="소설">소설</option>
+                                    {{#book.categories}}
+                                        <option value="{{.}}">{{.}}</option>
+                                    {{/book.categories}}
                                 </select>
                             </div>
                         </div>

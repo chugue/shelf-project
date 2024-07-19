@@ -152,6 +152,7 @@ public class AdminService {
                 .author(book.getAuthor().getName())
                 .publisher(book.getPublisher())
                 .category(book.getCategory().name())
+                .categories(Book.Category.getCategories())
                 .bookIntro(book.getBookIntro())
                 .contentIntro(book.getContentIntro())
                 .authorIntro(book.getAuthor().getAuthorIntro())

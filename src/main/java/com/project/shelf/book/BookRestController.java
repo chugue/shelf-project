@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -65,4 +66,10 @@ public class BookRestController {
 
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
+
+    @GetMapping("/categories")
+    public List<Book.Category> getCategories() {
+        return Arrays.asList(Book.Category.values());
+    }
 }
+
