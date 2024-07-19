@@ -132,7 +132,7 @@ public class AdminService {
                         .title(bookList.get(i).getTitle())
                         .author(bookList.get(i).getAuthor().getName())
                         .publisher(bookList.get(i).getPublisher())
-                        .createdAt(bookList.get(i).getCreatedAt().format(formatter))
+                        .registrationDate(bookList.get(i).getRegistrationDate().format(formatter))
                         .build()).collect(Collectors.toList());
 
         return BookListRespDTO.builder()

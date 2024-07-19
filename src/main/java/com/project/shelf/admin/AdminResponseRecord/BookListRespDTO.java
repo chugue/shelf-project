@@ -17,6 +17,6 @@ public record BookListRespDTO(
         String title,
         String author,
         String publisher,
-        String createdAt
+        String registrationDate
     ){}
 }
