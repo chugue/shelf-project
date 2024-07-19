@@ -1,7 +1,7 @@
 --7. 구독--
-INSERT INTO sub_typs_tb(amount, sub_period)
-values (10000, '일개월'),
-       (9800, '일년');
+INSERT INTO sub_typs_tb(amount, sub_name, sub_period)
+values (10000, '[Shelf] 정기 결제', '일개월'),
+       (9800, '[Shelf] 정기 결제 (1년)', '일년');
 
 
 --8. 구독 결제--

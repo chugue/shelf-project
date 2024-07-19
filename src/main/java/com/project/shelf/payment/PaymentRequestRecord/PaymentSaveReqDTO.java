@@ -1,7 +1,6 @@
 package com.project.shelf.payment.PaymentRequestRecord;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.project.shelf.payment.Payment;
 
 public record PaymentSaveReqDTO(
         @JsonProperty("imp_uid")
@@ -12,14 +11,16 @@ public record PaymentSaveReqDTO(
         String merchantUid,
         @JsonProperty("name")
         String name,
-        @JsonProperty("amount")
-        Integer amount,
+        @JsonProperty("paid_amount")
+        Integer paidAmount,
         @JsonProperty("status")
         String status,
-        @JsonProperty("order_date")
-        String orderDate,
+        @JsonProperty("paid_at")
+        String paidAt,
         @JsonProperty("card_name")
         String cardName,
+        @JsonProperty("card_number")
+        String cardNumber,
         @JsonProperty("customer_uid")
         String customerUid,
         @JsonProperty("buyer_email")
