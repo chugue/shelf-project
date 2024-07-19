@@ -19,7 +19,7 @@ public class BookResponse {
         private Book.Category category;
                                     // 카테고리
         private LocalDateTime createdAt;
-                                    // 출판일?, 등록일?
+                                    // 등록일
         private String bookIntro;   // 책 소개
         private String contentIntro;// 내용 소개
         private Boolean isWish;     // 서재에 담겼는지
