@@ -32,7 +32,7 @@ public class PaymentRepositoryTest {
         Integer userId = 1;
 
         // when
-        Integer resp = paymentRepository.findByUserId(userId);
+        Integer resp = paymentRepository.countByUserId(userId);
 
         // eye
         System.out.println("구독 개월 수 : " + resp);

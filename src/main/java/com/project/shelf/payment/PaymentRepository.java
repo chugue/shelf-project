@@ -19,9 +19,13 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
             """)
     List<MonthlySaleDTO> findSalesByMonth();
 
+    // 특정 회원의 결제 내역 리스트
+    @Query("SELECT p FROM Payment p WHERE p.user.id = :userId")
+    List<Payment> findByUserId(@Param("userId") Integer userId);
+
     // 특정 회원의 결제 내역 수
     @Query("SELECT count(*) FROM Payment p WHERE p.user.id = :userId")
-    Integer findByUserId(@Param("userId") Integer userId);
+    Integer countByUserId(@Param("userId") Integer userId);
 
     @Query("""
             SELECT p

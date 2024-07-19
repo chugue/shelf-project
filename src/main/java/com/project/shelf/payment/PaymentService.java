@@ -4,6 +4,7 @@ package com.project.shelf.payment;
 
 import com.project.shelf._core.erros.exception.Exception400;
 import com.project.shelf.payment.PaymentRequestRecord.PaymentSaveReqDTO;
+import com.project.shelf.payment.PaymentRequestRecord.PaymentUnscheduleDTO;
 import com.project.shelf.payment.PaymentRequestRecord.WebHookDTO;
 import com.project.shelf.payment.PaymentResponseRecord.PaymentDetailDTO;
 import com.project.shelf.sub_types.SubTypes;
@@ -24,6 +25,18 @@ public class PaymentService {
     private final UserRepository userRepository;
     private final SubTypesRepository subTypesRepository;
     private final PortOneService portOneService;
+
+
+    // 예약 취소
+    @Transactional
+    public void unschedule(Integer userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new Exception400("존재하지 않는 회원입니다."));
+
+        // 예약 취소
+        portOneService.unschedule(user.getCustomerUid());
+        System.out.println("예약 취소 성공");
+    }
 
     // 비인증 결제(최초 x)
     @Transactional
@@ -67,7 +80,7 @@ public class PaymentService {
 //            }
 //        }
 
-        portOneService.schedule(payment, user.getEmail(), subTypes);
+        portOneService.schedule(user, subTypes);
         System.out.println("예약 성공");
 
     }
@@ -96,10 +109,13 @@ public class PaymentService {
                 .subStatus(Payment.SubscriptionPayment.완료)
                 .build();
 
+        user.setCustomerUid(paymentDTO.customerUid());
+        user.setStatus(true);
+
         paymentRepository.save(payment);
         System.out.println("DB에 저장 성공");
 
-        portOneService.schedule(payment, user.getEmail(), subTypes);
+        portOneService.schedule(user, subTypes);
         System.out.println("예약 성공");
     }
 
