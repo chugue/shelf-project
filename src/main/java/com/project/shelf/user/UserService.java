@@ -4,17 +4,15 @@ import com.project.shelf._core.enums.Avatar;
 import com.project.shelf._core.erros.exception.Exception400;
 import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf._core.util.NaverToken;
+import com.project.shelf.book.BookResponseRecord.RankResponseDTO;
 import com.project.shelf.payment.Payment;
 import com.project.shelf.payment.PaymentRepository;
 import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
-import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
+import com.project.shelf.user.UserResponseRecord.*;
 import com.project.shelf._core.erros.exception.Exception401;
 import com.project.shelf.book.Book;
 import com.project.shelf.book.BookRepository;
 import com.project.shelf.book_history.BookHistoryRepository;
-import com.project.shelf.user.UserResponseRecord.MainDTO;
-import com.project.shelf.user.UserResponseRecord.MyLibraryResponseDTO;
-import com.project.shelf.user.UserResponseRecord.NaverRespDTO;
 import com.project.shelf.wishlist.WishlistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -92,7 +90,7 @@ public class UserService {
     //메인페이지
     public MainDTO main(SessionUser sessionUser) {
         // 1. 베스트 셀러 정보 DTO 매핑
-        List<MainDTO.BestSellerDTO> bestSeller = IntStream.range(0, bookRepository.findBooksByHistory().size())
+        List<MainDTO.BestSellerDTO> bestSeller = IntStream.range(0, 10)
                 .mapToObj(i -> {
                     Book book = bookRepository.findBooksByHistory().get(i);
                     return MainDTO.BestSellerDTO.builder()
@@ -292,6 +290,7 @@ public class UserService {
                 .build());
 
         //4. 위시리스트 DTO 매핑
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         List<MyLibraryResponseDTO.WishListDTO> wishList = wishlistRepository.findWishlistByByUserId(sessionUser.getId()).stream().map(
                 wishlist -> MyLibraryResponseDTO.WishListDTO.builder()
                         .id(wishlist.getId())
@@ -299,6 +298,7 @@ public class UserService {
                         .bookImagePath(wishlist.getBook().getPath())
                         .bookTitle(wishlist.getBook().getTitle())
                         .author(wishlist.getBook().getAuthor().getName())
+                        .createdAt(wishlist.getCreatedAt().format(formatter))
                         .build()).collect(Collectors.toList());
 
         return MyLibraryResponseDTO.builder()

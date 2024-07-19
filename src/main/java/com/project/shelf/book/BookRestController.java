@@ -7,6 +7,7 @@ import com.project.shelf.author.AuthorResponseRecord.SearchPageRespDTO;
 import com.project.shelf.author.AuthorService;
 import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
 import com.project.shelf.book.BookResponseRecord.BrandNewRespDTO;
+import com.project.shelf.book.BookResponseRecord.RankResponseDTO;
 import com.project.shelf.user.SessionUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -38,6 +39,8 @@ public class BookRestController {
     @GetMapping("/app/book/search")
     public ResponseEntity<?> bookSearch(@RequestParam(value = "category", required = false) String category,
                                         @RequestParam(value = "author", required = false) String author) {
+
+
         BookCategorySearchDTO respDTO = bookService.bookSearch(category, author);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
@@ -61,6 +64,13 @@ public class BookRestController {
         BookResponse.DetailPageDTO respDTO
                 = bookService.bookDetailPage(sessionUser, bookId);
 
+        return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
+    }
+
+    //랭크
+    @GetMapping("/app/book/rank")
+    public ResponseEntity<?> bookSearch(@RequestParam(required = false) String category) {
+        RankResponseDTO respDTO = bookService.getRank(category);
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 }
