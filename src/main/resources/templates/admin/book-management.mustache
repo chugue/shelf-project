@@ -49,7 +49,7 @@
                         <th>제목</th>
                         <th>저자</th>
                         <th>출판사</th>
-                        <th>등록일</th>
+                        <th>출판일</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -64,12 +64,21 @@
                         </tr>
                     /items}} -->
                     {{#books.bookDTOList}}
-                        <tr>
+                        <tr class="book-item">
                             <td>{{no}}</td>
-                            <td><a href="/admin/book/{{no}}">{{title}}</a></td>
+                            <td id="item-link">
+                                <a href="/admin/book/{{no}}">
+                                    <div>
+                                        <div class="book-img">
+                                            <img src="{{path}}" alt="책 표지 No.{{no}}">
+                                        </div>
+                                        <p>{{title}}</p>
+                                    </div>
+                                </a>
+                            </td>
                             <td>{{author}}</td>
                             <td>{{publisher}}</td>
-                            <td>{{registrationDate}}</td>
+                            <td id="created-td">{{registrationDate}}</td>
                         </tr>
                     {{/books.bookDTOList}}
 

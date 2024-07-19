@@ -43,7 +43,7 @@
                         <!-- 책 표지 사진 -->
                         <div class="form-field-header-left">
                             <div class="image-preview">
-                                <img id="preview-img" src="" alt=""/>
+                                <img id="preview-img" src="" alt="미리보기 이미지" style="display: none"/>
                                 <!-- TODO : 기본 이미지 넣기 -->
                             </div>
                             <label for="image-upload" class="custom-file-upload">책 표지 업로드</label>
@@ -85,15 +85,9 @@
                                 <label for="category">카테고리</label>
                                 <select name="category" id="category">
                                     <option value="">카테고리 선택</option>
-                                    <option value="자기계발">자기계발</option>
-                                    <option value="역사">역사</option>
-                                    <option value="소설">소설</option>
-                                    <option value="소설">IT</option>
-                                    <option value="소설">인문</option>
-                                    <option value="소설">사회</option>
-                                    <option value="소설">종교</option>
-                                    <option value="소설">철학</option>
-                                    <option value="소설">과학</option>
+                                    {{#categories}}
+                                        <option value="{{.}}">{{.}}</option>
+                                    {{/categories}}
                                 </select>
                             </div>
                             <div class="form-field mb-20">
