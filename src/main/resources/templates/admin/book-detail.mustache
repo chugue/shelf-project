@@ -94,12 +94,12 @@
                 </div>
                 <!-- width 100% 입력 창 -->
                 <div class="form-field mb-20">
-                    <label for="comment">코멘트</label>
-                    <div class="input-data" style="height: 5rem;">{{book.contentIntro}}</div>
-                </div>
-                <div class="form-field mb-20">
                     <label for="introduction">책 소개</label>
                     <div class="input-data" style="height: 7rem;">{{book.bookIntro}}</div>
+                </div>
+                <div class="form-field mb-20">
+                    <label for="comment">내용 소개</label>
+                    <div class="input-data" style="height: 5rem;">{{book.contentIntro}}</div>
                 </div>
                 <!-- 파일 선택 -->
                 <div class="small-title">epub파일</div>
@@ -133,7 +133,7 @@
                     <button id="back-btn">돌아가기</button>
                     </form>
                     <form method="post" action="/admin/book-delete/{{bookId}}">
-                    <button class="custom-upload-button" >삭제하기</button>
+                    <button class="custom-delete-button" >삭제하기</button>
                     </form>
                 </div>
             </div>

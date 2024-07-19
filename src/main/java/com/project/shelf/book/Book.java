@@ -15,8 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Entity
@@ -88,6 +89,12 @@ public class Book {
     }
 
     public enum Category {
-        소설, 자기계발, 역사, 인문, 사회, 과학, 철학, 종교, IT
+        소설, 자기계발, 역사, 인문, 사회, 과학, 철학, 종교, IT;
+
+        public static List<String> getCategories() {
+            return Arrays.stream(Category.values())
+                    .map(Category::name)
+                    .collect(Collectors.toList());
+        }
     }
 }

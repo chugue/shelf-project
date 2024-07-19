@@ -1,6 +1,9 @@
 package com.project.shelf.admin.AdminResponseRecord;
 
+import com.project.shelf.book.Book;
 import lombok.Builder;
+
+import java.util.List;
 
 @Builder
 public record BookDetailRespDTO(
@@ -9,6 +12,7 @@ public record BookDetailRespDTO(
         String author,
         String publisher,
         String category,
+        List<String> categories,
         String bookIntro,
         String contentIntro,
         String authorIntro,

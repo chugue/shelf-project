@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Controller
 public class AdminController {
@@ -49,8 +51,8 @@ public class AdminController {
     // 매출 확인 페이지
     @GetMapping("/admin/sales")
     public String getSalesPage(HttpServletRequest request) {
-        MonthlySalesPageDTO resp = adminService.monthlySales();
-        request.setAttribute("MonthlySalesDTO", resp);
+        MonthlySalesPageDTO respDTO = adminService.monthlySales();
+        request.setAttribute("respDTO", respDTO);
         return "admin/sales-dashboard";
     }
 
@@ -73,6 +75,7 @@ public class AdminController {
     // 책 등록 페이지
     @GetMapping("/admin/add-book")
     public String getAddBook(HttpServletRequest request) {
+        request.setAttribute("categories", Book.Category.getCategories());
         return "admin/add-book";
     }
 
@@ -80,8 +83,8 @@ public class AdminController {
     @GetMapping("/admin/book/{bookId}")
     public String getBookDetail(HttpServletRequest request, @PathVariable Integer bookId) {
         BookDetailRespDTO book = adminService.bookDetail(bookId);
-
         request.setAttribute("book", book);
+
         return "admin/book-detail";
     }
 

@@ -1,9 +1,5 @@
 package com.project.shelf.book;
 
-import com.project.shelf.author.Author;
-import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
-import com.project.shelf.user.UserResponse;
-import com.project.shelf.user.UserResponseRecord.RankResponseDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +45,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Integer findByCategoryConut(@Param("category") Book.Category category);
 
     // 관리자 책 목록 보기
-    @Query("SELECT b FROM Book b JOIN FETCH b.author a ORDER BY b.id DESC")
+    @Query("SELECT b FROM Book b JOIN FETCH b.author a ORDER BY b.registrationDate DESC")
     List<Book> findAllWithAuthor();
 
     // 관리자 책 상세보기
@@ -63,7 +59,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     void deleteByBookId(@Param("bookId") Integer bookId);
 
 
-//    @Query("select b from BookHistory bh JOIN FETCH bh.book b")
-//    List<RankResponseDTO.CategoryByBestSellerDTO> findBestSellersByCategory(@Param("category") Book.Category category);
+    @Query("select b from BookHistory bh JOIN bh.book b JOIN FETCH b.author a WHERE b.category = :category GROUP BY b.id ORDER BY COUNT(bh.id) DESC")
+    List<Book> findBestSellersByCategory(@Param("category") Book.Category category);
 
 }
