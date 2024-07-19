@@ -23,7 +23,7 @@ public class BookRepositoryTest {
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()); // 해당 월의 마지막날 구하기
 
         // when
-        List<Book> books = bookRepository.findByRegistrationMonth(startDate.atStartOfDay(), endDate.atStartOfDay().with(LocalTime.MAX));
+        List<Book> books = bookRepository.findByRegistrationMonth(startDate, endDate);
 
         // eye
         books.forEach(System.out::println);

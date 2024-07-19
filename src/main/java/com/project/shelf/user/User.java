@@ -26,6 +26,7 @@ public class User {
     private String nickName;
     private String phone;
     private String address;
+    private String customerUid; // 구매자의 결제 수단 식별 고유번호 (ex.customer_1720595101182)
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

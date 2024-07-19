@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.project.shelf.payment.PaymentResponseRecord.PaymentDetailDTO;
 import com.project.shelf.payment.PaymentResponseRecord.PortOneScheduledDTO;
 import com.project.shelf.payment.PaymentResponseRecord.PortOneTokenDTO;
+import com.project.shelf.payment.PaymentResponseRecord.PortOneUnscheduledDTO;
 import com.project.shelf.sub_types.SubTypes;
+import com.project.shelf.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +30,38 @@ public class PortOneService {
     private String impKey;
     @Value("${iamport.imp_secret}")
     private String impSecret;
+
+
+    // 예약 취소
+    @Transactional
+    public void unschedule(String customerUid) {
+        // access 토큰 발급
+        String accessToken = getAccessToken();
+
+        // 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/json;charset=utf-8");
+        headers.add("Authorization", "Bearer " + accessToken); // 인증 및 권한 부여
+
+        // 바디 설정
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode body = mapper.createObjectNode();
+        body.put("customer_uid", customerUid);
+
+        // 헤더 + 바디
+        HttpEntity<String> request = new HttpEntity<>(body.toString(), headers);
+
+        // API 요청
+        ResponseEntity<PortOneUnscheduledDTO> response = rt.exchange(
+                "https://api.iamport.kr/subscribe/payments/unschedule",
+                HttpMethod.POST,
+                request,
+                PortOneUnscheduledDTO.class
+        );
+
+        System.out.println("unschedule : " + response);
+
+    }
 
 
     // 결제내역 단건 조회
@@ -57,7 +91,7 @@ public class PortOneService {
 
     // 예약
     @Transactional
-    public void schedule(Payment payment, String email, SubTypes subTypes) {
+    public void schedule(User user, SubTypes subTypes) {
         // access 토큰 발급
         String accessToken = getAccessToken();
 
@@ -86,11 +120,11 @@ public class PortOneService {
         schedule.put("currency", "KRW");
         schedule.put("amount", 100); // 테스트라서... 원래는 subTypes.getAmount()
         schedule.put("name", subTypes.getSubName());
-        schedule.put("buyer_email", email);
+        schedule.put("buyer_email", user.getEmail());
 
         schedules.add(schedule);
 
-        body.put("customer_uid", payment.getCustomerUid());
+        body.put("customer_uid", user.getCustomerUid());
         body.set("schedules", schedules);
 
         // 헤더 + 바디

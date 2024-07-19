@@ -99,7 +99,7 @@ public class AdminService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Map<Boolean, List<UserListRespDTO.UserList>> partitionedUsers = userRepository.findAll().stream()
                 .map(user -> {
-                    Integer subMonths = paymentRepository.findByUserId(user.getId());
+                    Integer subMonths = paymentRepository.countByUserId(user.getId());
                     return UserListRespDTO.UserList.builder()
                             .userId(user.getId())
                             .email(user.getEmail())

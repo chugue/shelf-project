@@ -49,7 +49,7 @@ public class BookService {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()); // 해당 월의 마지막날 구하기
 
-        List<Book> books = bookRepository.findByRegistrationMonth(startDate.atStartOfDay(), endDate.atStartOfDay().with(LocalTime.MAX));
+        List<Book> books = bookRepository.findByRegistrationMonth(startDate, endDate);
 
         // 검색한 list를 주별로 구분
         Map<Integer, List<Book>> weeklyData = splitDataByWeeks(books, startDate, endDate);

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     // 한달 간의 신간 구하는 쿼리
     @Query("SELECT b FROM Book b JOIN FETCH b.author a WHERE b.registrationDate>= :startDate AND b.registrationDate <= :endDate GROUP BY b.id ORDER BY COUNT(b.id) DESC")
-    List<Book> findByRegistrationMonth(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    List<Book> findByRegistrationMonth(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
     // 베스트셀러 구하는 쿼리
     @Query("SELECT b,a FROM BookHistory bh JOIN bh.book b join bh.book.author a GROUP BY b.id ORDER BY COUNT(bh.id) DESC")
