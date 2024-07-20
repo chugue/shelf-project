@@ -52,7 +52,7 @@ public class AdminController {
     @GetMapping("/admin/sales")
     public String getSalesPage(HttpServletRequest request) {
         MonthlySalesPageDTO respDTO = adminService.monthlySales();
-        request.setAttribute("respDTO", respDTO);
+        request.setAttribute("MonthlySalesDTO", respDTO);
         return "admin/sales-dashboard";
     }
 

@@ -19,6 +19,8 @@ import com.project.shelf.user.UserResponseRecord.MonthlyUserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -69,6 +71,9 @@ public class AdminService {
             cumulativeUsers += user.userCount();
             cumulativeSales += sale.totalSales();
 
+            // 세자리마다 , 찍기 포맷
+            NumberFormat numberFormat = NumberFormat.getNumberInstance();
+
             // chartData
             chartDTOS.addLast(MonthlySalesPageDTO.ChartDTO.builder()
                     .month(sale.month())
@@ -80,8 +85,8 @@ public class AdminService {
                     .month(sale.month())
                     .cumulativeTotalUsers(cumulativeUsers)
                     .monthlySubUsers(sale.subUser())
-                    .monthlySales(sale.totalSales())
-                    .cumulativeTotalSales(cumulativeSales)
+                    .monthlySales(numberFormat.format(sale.totalSales()))
+                    .cumulativeTotalSales(numberFormat.format(cumulativeSales))
                     .build());
         }
 
@@ -94,7 +99,7 @@ public class AdminService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Map<Boolean, List<UserListRespDTO.UserList>> partitionedUsers = userRepository.findAll().stream()
                 .map(user -> {
-                    Integer subMonths = paymentRepository.findByUserId(user.getId());
+                    Integer subMonths = paymentRepository.countByUserId(user.getId());
                     return UserListRespDTO.UserList.builder()
                             .userId(user.getId())
                             .email(user.getEmail())
