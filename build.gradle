@@ -43,6 +43,12 @@ dependencies {
 
     implementation 'io.github.cdimascio:java-dotenv:5.2.2' // .env 파일을 자동으로 로드할 때 사용
     implementation 'com.github.iamport:iamport-rest-client-java:0.2.23' // portone
+
+
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'//통합테스트
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+
 }
 
 tasks.named('test') {
