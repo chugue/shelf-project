@@ -32,7 +32,7 @@ public class UserRestControllerTest extends MyRestDoc {
     private PortOneService portOneService;
 
     @Autowired
-    private MockMvc mvc;
+    private MockMvc mockMvc;
 
     @BeforeAll
     public static void setup() {
@@ -65,7 +65,7 @@ public class UserRestControllerTest extends MyRestDoc {
         actions.andExpect(jsonPath("$.msg").value("성공"));
         actions.andExpect(jsonPath("$.data.subPeriod").value("2024.06.10 ~ 2024.07.09"));
         actions.andExpect(jsonPath("$.data.nextPaymentDate").value("2024.07.10"));
-//        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -93,7 +93,7 @@ public class UserRestControllerTest extends MyRestDoc {
         actions.andExpect(jsonPath("$.data.password").value("1234"));
         actions.andExpect(jsonPath("$.data.phone").value("010-2897-2345"));
         actions.andExpect(jsonPath("$.data.address").value("부산광역시 금정구"));
-//        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     @Test
@@ -130,7 +130,7 @@ public class UserRestControllerTest extends MyRestDoc {
         actions.andExpect(jsonPath("$.data.wishList[0].bookTitle").value("대화의 힘"));
         actions.andExpect(jsonPath("$.data.wishList[0].author").value("찰스 두히그"));
         actions.andExpect(jsonPath("$.data.wishList[0].createdAt").value("2024-07-01"));
-//        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
 
