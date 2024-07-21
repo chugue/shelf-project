@@ -2,6 +2,7 @@ package com.project.shelf.user;
 
 import com.project.shelf._core.enums.Avatar;
 import com.project.shelf._core.erros.exception.Exception400;
+import com.project.shelf._core.util.ApiUtil;
 import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf._core.util.NaverToken;
 import com.project.shelf.book.BookResponseRecord.RankResponseDTO;
@@ -308,12 +309,15 @@ public class UserService {
 
     }
 
-
+    // 중복확인
     public boolean checkEmailDuplicate(String email) {
         return userRepository.existsByEmail(email);
+
     }
 
     public boolean checkNickNameDuplicate(String nickName) {
         return userRepository.existsByNickName(nickName);
     }
+
+
 }
