@@ -6,8 +6,8 @@ import java.util.List;
 
 @Builder
 public record RankResponseDTO(
-    List<TotalBestSellerDTO> totalBestSellers,
-    List<CategoryByBestSellerDTO> categoryByBestSellers
+        List<TotalBestSellerDTO> totalBestSellers,
+        List<CategoryByBestSellerDTO> categoryByBestSellers
 ) {
     @Builder
     public record TotalBestSellerDTO(

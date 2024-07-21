@@ -3,13 +3,11 @@ package com.project.shelf.book;
 
 import com.project.shelf._core.util.ApiUtil;
 import com.project.shelf.admin.AdminRequestRecord.BookSaveReqDTO;
-import com.project.shelf.author.AuthorResponseRecord.SearchPageRespDTO;
 import com.project.shelf.author.AuthorService;
 import com.project.shelf.book.BookResponseRecord.BookCategorySearchDTO;
 import com.project.shelf.book.BookResponseRecord.BrandNewRespDTO;
 import com.project.shelf.book.BookResponseRecord.RankResponseDTO;
 import com.project.shelf.user.SessionUser;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

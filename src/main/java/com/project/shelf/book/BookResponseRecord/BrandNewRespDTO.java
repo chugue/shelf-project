@@ -1,12 +1,13 @@
 package com.project.shelf.book.BookResponseRecord;
 
 import lombok.Builder;
+
 import java.util.List;
 
 @Builder
 public record BrandNewRespDTO (
-    String brandNewWeekly,
-    List<brandNewList> brandNewList
+        String brandNewWeekly,
+        List<brandNewList> brandNewList
 
 ){
     @Builder

@@ -48,7 +48,7 @@ spring.servlet:
   multipart:
     max-file-size: 50MB
     max-request-size: 50MB
+
 iamport:
   imp_key: ${IMP_KEY}
   imp_secret: ${IMP_SECRET}
-

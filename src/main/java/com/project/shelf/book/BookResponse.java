@@ -1,7 +1,6 @@
 package com.project.shelf.book;
 
 import com.project.shelf.author.Author;
-import com.project.shelf.wishlist.Wishlist;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -17,9 +16,9 @@ public class BookResponse {
         private Author author;      // 저자
         private String publisher;   // 출판사
         private Book.Category category;
-                                    // 카테고리
+        // 카테고리
         private LocalDateTime createdAt;
-                                    // 등록일
+        // 등록일
         private String bookIntro;   // 책 소개
         private String contentIntro;// 내용 소개
         private Boolean isWish;     // 서재에 담겼는지

@@ -1,6 +1,7 @@
 package com.project.shelf.book.BookResponseRecord;
 
 import lombok.Builder;
+
 import java.util.List;
 
 @Builder
@@ -16,13 +17,13 @@ public record BookCategorySearchDTO(
             String bookTitle,
             String bookPath,
             Author author
-           ) {
+    ) {
 
         @Builder
         public record Author(
                 Integer authorId,
                 String authorName
-           ) {
+        ) {
         }
     }
 }
