@@ -1,15 +1,11 @@
 package com.project.shelf.user;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.shelf._core.enums.Avatar;
 import com.project.shelf.payment.PortOneService;
 import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
-import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,11 +16,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -43,7 +38,6 @@ public class UserRestControllerTest {
     private UserRepository userRepository;
 
     // 회원가입 테스트
-
     @Test
     public void join_test() throws Exception {
         // given
@@ -60,7 +54,7 @@ public class UserRestControllerTest {
 
         // when
         ResultActions actions = mockMvc.perform(
-                MockMvcRequestBuilders.post("/user/join")
+                post("/user/join")
                         .content(reqBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -211,7 +205,7 @@ public class UserRestControllerTest {
 
         // when
         ResultActions actions = mockMvc.perform(
-                MockMvcRequestBuilders.post("/user/login")
+                post("/user/login")
                         .content(reqBody)
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -226,10 +220,74 @@ public class UserRestControllerTest {
         actions.andExpect(MockMvcResultMatchers.status().isOk());
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.status").value(200));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("성공"));
+
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.data.id").value(6));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.data.email").value("ysh@naver.com"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.data.nickName").value("ysh"));
         actions.andExpect(MockMvcResultMatchers.jsonPath("$.data.avatar").value("AVATAR06"));
+    }
+
+    // 사용자 개인정보 업데이트
+    @Test
+    public void updateInfo_test() throws Exception {
+        System.out.println("💕💕💕💕💕사용자 개인정보 업데이트 테스트 실행💕💕💕💕💕");
+        // given
+        // JWT
+        String jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJibG9nIiwiaWQiOjEsImV4cCI6MTcyMTY2MDYwM30.UAGYr7z57RImWSP9P_s9mk8HrCEtg7aw3Nx7tbSjG69yqEJLGS6BJ0esYnEiTspFsB10XBdr_I6Tvg0n6GcizQ"; // 예시로 사용되는 JWT 토큰
+
+        // Session
+        SessionUser sessionUser = new SessionUser();
+        sessionUser.setId(1);
+
+        // Request Body
+        UserRequest.UpdateInfoDTO reqDTO = new UserRequest.UpdateInfoDTO();
+        reqDTO.setAvatar(Avatar.valueOf("AVATAR02"));
+        reqDTO.setNickName("matthew");
+        reqDTO.setPassword("4321");
+        reqDTO.setPhone("010-9603-2291");
+        reqDTO.setAddress("부산 진구 가야동");
+        String reqBody = new ObjectMapper().writeValueAsString(reqDTO);
+
+        System.out.println("세션유저" + sessionUser);
+        System.out.println("/ 요청 바디 : " + reqBody);
+
+        // Response DTO
+        UserResponse.UpdateInfoDTO respDTO = new UserResponse.UpdateInfoDTO();
+        respDTO.setAvatar(reqDTO.getAvatar());
+        respDTO.setNickName(reqDTO.getNickName());
+        respDTO.setPassword(reqDTO.getPassword());
+        respDTO.setPhone(reqDTO.getPhone());
+        respDTO.setAddress(reqDTO.getAddress());
+
+        // userService.UpdateInfo 특정값 반환 ( respDTO )
+        when(userService.UpdateInfo(any(SessionUser.class),any(UserRequest.UpdateInfoDTO.class))).thenReturn(respDTO);
+
+        ResultActions actions = mockMvc.perform(
+                post("/app/user/update-info")
+                        .header("Authorization", "Bearer " + jwt) // JWT 헤더에 추가
+                        .sessionAttr("sessionUser", sessionUser)
+                        .content(reqBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // eye
+        String respBody = actions.andReturn().getResponse().getContentAsString();
+        int statusCode = actions.andReturn().getResponse().getStatus();
+        System.out.println("응답 바디 : " + respBody);
+        System.out.println("상태 코드 : " + statusCode);
+
+        // then
+        actions.andExpect(MockMvcResultMatchers.status().isOk());
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.status").value(200));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("성공"));
+
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.data.avatar").value("AVATAR02"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.data.nickName").value("matthew"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.data.password").value("4321"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.data.phone").value("010-9603-2291"));
+        actions.andExpect(MockMvcResultMatchers.jsonPath("$.data.address").value("부산 진구 가야동"));
+
+        System.out.println("💕💕💕💕💕사용자 개인정보 업데이트 테스트 종료💕💕💕💕💕");
     }
 
     // Naver OAuth 테스트
@@ -243,7 +301,7 @@ public class UserRestControllerTest {
 
         // when
         ResultActions actions = mockMvc.perform(
-                MockMvcRequestBuilders.post("/oauth/naver/callback")
+                post("/oauth/naver/callback")
                         .content("accessToken=" + NaverAccessToken)
                         .contentType(MediaType.APPLICATION_JSON)
         );
