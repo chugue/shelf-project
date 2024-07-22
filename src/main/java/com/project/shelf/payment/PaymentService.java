@@ -4,9 +4,9 @@ package com.project.shelf.payment;
 
 import com.project.shelf._core.erros.exception.Exception400;
 import com.project.shelf.payment.PaymentRequestRecord.PaymentSaveReqDTO;
-import com.project.shelf.payment.PaymentRequestRecord.PaymentUnscheduleDTO;
 import com.project.shelf.payment.PaymentRequestRecord.WebHookDTO;
 import com.project.shelf.payment.PaymentResponseRecord.PaymentDetailDTO;
+import com.project.shelf.payment.PaymentResponseRecord.PaymentListDTO;
 import com.project.shelf.sub_types.SubTypes;
 import com.project.shelf.sub_types.SubTypesRepository;
 import com.project.shelf.user.User;
@@ -15,6 +15,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.List;
+import static com.project.shelf._core.util.Formatter.number;
 
 
 @RequiredArgsConstructor
@@ -26,6 +30,25 @@ public class PaymentService {
     private final SubTypesRepository subTypesRepository;
     private final PortOneService portOneService;
 
+
+    // 결제 내역
+    public PaymentListDTO paymentList(Integer userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new Exception400("존재하지 않는 회원입니다."));
+
+        List<Payment> paymentList = paymentRepository.findByUserId(userId);
+        List<PaymentListDTO.PaymentDTO> paymentDTOList = paymentList.stream().map(payment -> PaymentListDTO.PaymentDTO.builder()
+                .paymentId(payment.getId())
+                .subTypePeriod(String.valueOf(payment.getSubTypes().getSubPeriod()))
+                .paymentStatus(String.valueOf(payment.getSubStatus()))
+                .paymentAt(Instant.ofEpochSecond(Long.parseLong(payment.getOrderDate()))
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate())
+                .amount(number(payment.getAmount()))
+                .build()).toList();;
+
+        return new PaymentListDTO(paymentList.size(), paymentDTOList);
+    }
 
     // 예약 취소
     @Transactional
@@ -44,7 +67,7 @@ public class PaymentService {
         // impUid로 결제 내역 조회
         ResponseEntity<PaymentDetailDTO> resp = portOneService.getPaymentDetail(paymentDTO.impUid());
 
-        User user = userRepository.findByEmail(resp.getBody().response().buyer_email())
+        User user = userRepository.findByEmail(resp.getBody().response().buyerEmail())
                 .orElseThrow(() -> new Exception400("존재하지 않는 회원입니다."));
 
         SubTypes subTypes = subTypesRepository.findById(1) // 지금은 이용권 1개월만 사용하므로 고정값을 넣음
@@ -54,15 +77,15 @@ public class PaymentService {
         Payment payment = Payment.builder()
                 .user(user)
                 .subTypes(subTypes)
-                .orderDate(resp.getBody().response().paid_at())
+                .orderDate(resp.getBody().response().paidAt())
                 .amount(resp.getBody().response().amount())
                 .impUid(paymentDTO.impUid())
-                .payMethod(resp.getBody().response().pay_method())
-                .merchantUid(resp.getBody().response().merchant_uid())
+                .payMethod(resp.getBody().response().payMethod())
+                .merchantUid(resp.getBody().response().merchantUid())
                 .name(resp.getBody().response().name())
-                .cardName(resp.getBody().response().card_name())
-                .cardNumber(resp.getBody().response().card_number())
-                .customerUid(resp.getBody().response().customer_uid())
+                .cardName(resp.getBody().response().cardName())
+                .cardNumber(resp.getBody().response().cardNumber())
+                .customerUid(resp.getBody().response().customerUid())
                 .subStatus(Payment.SubscriptionPayment.완료)
                 .build();
 

@@ -21,4 +21,7 @@ public class SessionUser {
         this.nickName = getNickName();
         this.email = getEmail();
     }
+
+    public SessionUser() {
+    }
 }
