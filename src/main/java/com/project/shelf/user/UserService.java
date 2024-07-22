@@ -217,15 +217,13 @@ public class UserService {
                 .findFirst()
                 .orElseThrow(() -> new Exception401("❗로그인 되지 않았습니다❗"));
 
-        // 문자열을 long 으로 변환
+        // 문자열을 long 으로
         String orderDateStr = payment.getOrderDate();
         long unixTimestamp = Long.parseLong(orderDateStr);
 
-        // 유닉스 타임스탬프를 LocalDateTime으로 변환
+        // unixTimestamp -> LocalDateTime으로 변환
         LocalDateTime subStartDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(unixTimestamp), ZoneId.systemDefault());
         LocalDate subStartDateLD = subStartDateTime.toLocalDate();
-
-        // 구독 시작일 가져오기 및 변환
 
         // 구독 종료일 및 다음 결제일 계산
         LocalDate subEndDateLD = subStartDateLD.plusMonths(1).minusDays(1);
@@ -266,65 +264,63 @@ public class UserService {
         return new UserResponse.UpdateInfoDTO(user);
     }
 
-//    try catch (IllegalArgumentException e) {
-//        throw new RuntimeException("유효하지 않은 아바타 입니다." + reqDTO.getAvatar());
-//    }
-//내 서재 페이지
-public MyLibraryResponseDTO myLibrary(SessionUser sessionUser) {
-    //1. 이어보기 정보 DTO 매핑
-    List<MyLibraryResponseDTO.BookListDTO.HistoryDTO> bookHistories = bookHistoryRepository.findBookHistoryByUserId(sessionUser.getId()).stream().map(
-            bookHistory -> MyLibraryResponseDTO.BookListDTO.HistoryDTO.builder()
-                    .id(bookHistory.getBook().getId())
-                    .imagePath(bookHistory.getBook().getPath())
-                    .bookTitle(bookHistory.getBook().getTitle())
-                    .pageCount(bookHistory.getBook().getPageCount())
-                    .lastReadPage(bookHistory.getLastReadPage())
-                    .build()).collect(Collectors.toList());
 
-    //2. 전체 도서 DTO 매핑
-    List<MyLibraryResponseDTO.BookListDTO.AllBookDTO> allBook = bookHistoryRepository.findBookListByUserId(sessionUser.getId()).stream().map(
-            bookHistory -> MyLibraryResponseDTO.BookListDTO.AllBookDTO.builder()
-                    .id(bookHistory.getBook().getId())
-                    .bookImagePath(bookHistory.getBook().getPath())
-                    .bookTitle(bookHistory.getBook().getTitle())
-                    .author(bookHistory.getBook().getAuthor().getName())
-                    .build()).collect(Collectors.toList());
+    //내 서재 페이지
+    public MyLibraryResponseDTO myLibrary(SessionUser sessionUser) {
+        //1. 이어보기 정보 DTO 매핑
+        List<MyLibraryResponseDTO.BookListDTO.HistoryDTO> bookHistories = bookHistoryRepository.findBookHistoryByUserId(sessionUser.getId()).stream().map(
+                bookHistory -> MyLibraryResponseDTO.BookListDTO.HistoryDTO.builder()
+                        .id(bookHistory.getBook().getId())
+                        .imagePath(bookHistory.getBook().getPath())
+                        .bookTitle(bookHistory.getBook().getTitle())
+                        .pageCount(bookHistory.getBook().getPageCount())
+                        .lastReadPage(bookHistory.getLastReadPage())
+                        .build()).collect(Collectors.toList());
 
-    //3. 책 목록 DTO 매핑
-    List<MyLibraryResponseDTO.BookListDTO> bookList = new ArrayList<>();
-    bookList.add(MyLibraryResponseDTO.BookListDTO.builder()
-            .historyList(bookHistories)
-            .allBook(allBook)
-            .build());
+        //2. 전체 도서 DTO 매핑
+        List<MyLibraryResponseDTO.BookListDTO.AllBookDTO> allBook = bookHistoryRepository.findBookListByUserId(sessionUser.getId()).stream().map(
+                bookHistory -> MyLibraryResponseDTO.BookListDTO.AllBookDTO.builder()
+                        .id(bookHistory.getBook().getId())
+                        .bookImagePath(bookHistory.getBook().getPath())
+                        .bookTitle(bookHistory.getBook().getTitle())
+                        .author(bookHistory.getBook().getAuthor().getName())
+                        .build()).collect(Collectors.toList());
 
-    //4. 위시리스트 DTO 매핑
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    List<MyLibraryResponseDTO.WishListDTO> wishList = wishlistRepository.findWishlistByByUserId(sessionUser.getId()).stream().map(
-            wishlist -> MyLibraryResponseDTO.WishListDTO.builder()
-                    .id(wishlist.getId())
-                    .bookId(wishlist.getBook().getId())
-                    .bookImagePath(wishlist.getBook().getPath())
-                    .bookTitle(wishlist.getBook().getTitle())
-                    .author(wishlist.getBook().getAuthor().getName())
-                    .createdAt(wishlist.getCreatedAt().format(formatter))
-                    .build()).collect(Collectors.toList());
+        //3. 책 목록 DTO 매핑
+        List<MyLibraryResponseDTO.BookListDTO> bookList = new ArrayList<>();
+        bookList.add(MyLibraryResponseDTO.BookListDTO.builder()
+                .historyList(bookHistories)
+                .allBook(allBook)
+                .build());
 
-    return MyLibraryResponseDTO.builder()
-            .bookList(bookList)
-            .wishList(wishList)
-            .build();
+        //4. 위시리스트 DTO 매핑
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        List<MyLibraryResponseDTO.WishListDTO> wishList = wishlistRepository.findWishlistByByUserId(sessionUser.getId()).stream().map(
+                wishlist -> MyLibraryResponseDTO.WishListDTO.builder()
+                        .id(wishlist.getId())
+                        .bookId(wishlist.getBook().getId())
+                        .bookImagePath(wishlist.getBook().getPath())
+                        .bookTitle(wishlist.getBook().getTitle())
+                        .author(wishlist.getBook().getAuthor().getName())
+                        .createdAt(wishlist.getCreatedAt().format(formatter))
+                        .build()).collect(Collectors.toList());
 
-}
+        return MyLibraryResponseDTO.builder()
+                .bookList(bookList)
+                .wishList(wishList)
+                .build();
 
-// 중복확인
-public boolean checkEmailDuplicate(String email) {
-    return userRepository.existsByEmail(email);
+    }
 
-}
+    // 중복확인
+    public boolean checkEmailDuplicate(String email) {
+        return userRepository.existsByEmail(email);
 
-public boolean checkNickNameDuplicate(String nickName) {
-    return userRepository.existsByNickName(nickName);
-}
+    }
+
+    public boolean checkNickNameDuplicate(String nickName) {
+        return userRepository.existsByNickName(nickName);
+    }
 
 
 }
