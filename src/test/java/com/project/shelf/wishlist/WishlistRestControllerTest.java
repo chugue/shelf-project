@@ -185,4 +185,50 @@ public class WishlistRestControllerTest extends MyRestDoc {
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
+    //위시 리스트 업데이트 확인
+    @Test
+    public void get_books_test_success() throws Exception {
+        // given
+        Integer bookId = 1;
+
+        // when
+        ResultActions actions = mvc.perform(get("/app/books/"+bookId)
+                .header("Authorization", "Bearer " + jwt));
+        // eye
+        String respBody = actions.andReturn().getResponse().getContentAsString(); //String으로 변환
+        System.out.println("respBody = " + respBody);
+        // then
+        actions.andExpect(jsonPath("$.status").value("200")); // header 검증
+        actions.andExpect(jsonPath("$.msg").value("성공"));
+        actions.andExpect(jsonPath("$.data.id").value(1));
+        actions.andExpect(jsonPath("$.data.bookId").value(1));
+        actions.andExpect(jsonPath("$.data.bookImagePath").value("/image/book/대화의_힘.jpg"));
+        actions.andExpect(jsonPath("$.data.bookTitle").value("대화의 힘"));
+        actions.andExpect(jsonPath("$.data.author").value("찰스 두히그"));
+        actions.andExpect(jsonPath("$.data.createdAt").exists());
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
+
+    }
+
+    //위시 리스트 업데이트 실패
+    @Test
+    public void get_books_test_fail() throws Exception {
+        // given
+        Integer bookId = 999 ;
+
+        // when
+        ResultActions actions = mvc.perform(get("/app/books/"+bookId)
+                .header("Authorization", "Bearer " + jwt));
+        // eye
+        String respBody = actions.andReturn().getResponse().getContentAsString(); //String으로 변환
+        System.out.println("respBody = " + respBody);
+        // then
+        actions.andExpect(jsonPath("$.status").value(404)); // header 검증
+        actions.andExpect(jsonPath("$.msg").value("도서를 찾을 수 없습니다."));
+        actions.andExpect(jsonPath("$.data").isEmpty());
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
+
+    }
+
+
 }
