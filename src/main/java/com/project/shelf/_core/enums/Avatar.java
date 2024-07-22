@@ -1,7 +1,6 @@
 package com.project.shelf._core.enums;
 
-public enum
-Avatar {
+public enum Avatar {
 
     AVATAR01("AVATAR01"),
     AVATAR02("AVATAR02"),
