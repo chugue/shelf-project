@@ -41,7 +41,7 @@ public class UserRestController {
 
     // 중복확인 ( email )
     @GetMapping("/user/check-email")
-    public ResponseEntity<?> checkEmailDup(@RequestParam String email) {
+    public ResponseEntity<?> checkEmailDup(@RequestParam("email") String email) {
         boolean emailDuplicate = userService.checkEmailDuplicate(email);
         if (emailDuplicate) {
             return ResponseEntity.ok(new ApiUtil<>(400, "중복된 이메일입니다."));
@@ -51,8 +51,8 @@ public class UserRestController {
     }
     // 중복확인 ( nickName )
     @GetMapping("/user/check-nickName")
-    public ResponseEntity<?> checkNickNameDup(@RequestBody UserRequest.JoinDTO reqDTO) {
-        boolean nickNameDuplicate = userService.checkNickNameDuplicate(reqDTO.getNickName());
+    public ResponseEntity<?> checkNickNameDup(@RequestParam("nickName") String nickName) {
+        boolean nickNameDuplicate = userService.checkNickNameDuplicate(nickName);
         if (nickNameDuplicate) {
             return ResponseEntity.ok(new ApiUtil<>(400, "중복된 닉네임입니다."));
         } else {
