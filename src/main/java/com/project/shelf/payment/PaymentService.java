@@ -140,6 +140,7 @@ public class PaymentService {
 
         portOneService.schedule(user, subTypes);
         System.out.println("예약 성공");
+
     }
 
 }
