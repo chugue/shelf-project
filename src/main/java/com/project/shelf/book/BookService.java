@@ -16,6 +16,8 @@ import com.project.shelf.user.UserRepository;
 import com.project.shelf.wishlist.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -209,9 +211,11 @@ public class BookService {
     //랭크
     public RankResponseDTO getRank(String category) {
             // 1. 베스트 셀러 정보 DTO 매핑
-            List<RankResponseDTO.TotalBestSellerDTO> bestSellers = IntStream.range(0, bookRepository.findBooksByHistory().size())
+        Pageable pageable = PageRequest.of(0, 15);
+
+            List<RankResponseDTO.TotalBestSellerDTO> bestSellers = IntStream.range(0, bookRepository.findBooksByHistory(pageable).size())
                     .mapToObj(i -> {
-                        Book book = bookRepository.findBooksByHistory().get(i);
+                        Book book = bookRepository.findBooksByHistory(pageable).get(i);
                         return RankResponseDTO.TotalBestSellerDTO.builder()
                                 .id(book.getId())
                                 .bookImagePath(book.getPath())

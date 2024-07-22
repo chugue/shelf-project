@@ -1,6 +1,5 @@
 package com.project.shelf.user;
 
-import com.project.shelf._core.erros.exception.Exception400;
 import com.project.shelf._core.util.ApiUtil;
 import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf._core.util.JwtVO;
