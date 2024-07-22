@@ -183,6 +183,7 @@ public class BookRestControllerTest extends MyRestDoc {
     public void rankBook_test_fail() throws Exception {
         // given
         String category = "소설asdfg";
+
         // when
         ResultActions actions = mvc.perform(get("/app/book/rank")
                 .param("category" ,category)
