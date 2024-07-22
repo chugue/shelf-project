@@ -1,6 +1,7 @@
 package com.project.shelf.wishlist;
 
 import com.project.shelf._core.erros.exception.Exception400;
+import com.project.shelf._core.erros.exception.Exception404;
 import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf._core.util.NaverToken;
 import com.project.shelf.book.Book;
@@ -14,6 +15,7 @@ import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
 import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
 import com.project.shelf.user.UserResponseRecord.NaverRespDTO;
 import com.project.shelf.wishlist.WishlistRequestRecord.WishlistSaveReqDTO;
+import com.project.shelf.wishlist.WishlistResponseRecord.BookDetailForWish;
 import com.project.shelf.wishlist.WishlistResponseRecord.WishlistSaveRespDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,8 @@ public class WishlistService {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
 
+
+
     //위시리스트 저장, 삭제
     @Transactional
     public WishlistSaveRespDTO toggleWishlist(WishlistSaveReqDTO requestDTO) {
@@ -50,9 +54,9 @@ public class WishlistService {
                     wishlistRepository.delete(wishlist);
                     //삭제
                     return WishlistSaveRespDTO.builder()
-                            .id(wishlist.getId())
                             .userId(userId)
                             .bookId(bookId)
+                            .isWish(false)
                             .createdAt(wishlist.getCreatedAt())
                             .build();
                 })
@@ -65,11 +69,23 @@ public class WishlistService {
                             .build();
                     Wishlist savedWishlist = wishlistRepository.save(wishlist);
                     return WishlistSaveRespDTO.builder()
-                            .id(savedWishlist.getId())
                             .userId(userId)
                             .bookId(bookId)
+                            .isWish(true)
                             .createdAt(savedWishlist.getCreatedAt())
                             .build();
                 });
+    }
+
+    // 위시리스트 업데이트용 메소드
+    public BookDetailForWish getBooks(Integer bookId) {
+        Book book = bookRepository.appFindABook(bookId).orElseThrow(() -> new Exception404("도서를 찾을 수 없습니다."));
+        return BookDetailForWish.builder()
+                .id(book.getId())
+                .bookId(book.getId())
+                .bookTitle(book.getTitle())
+                .bookImagePath(book.getPath())
+                .author(book.getAuthor().getName())
+                .createdAt(book.getCreatedAt()).build();
     }
 }
