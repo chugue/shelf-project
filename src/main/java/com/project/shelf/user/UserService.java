@@ -45,7 +45,6 @@ import java.util.stream.IntStream;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
     private final WishlistRepository wishlistRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
