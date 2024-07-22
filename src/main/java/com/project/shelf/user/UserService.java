@@ -18,6 +18,7 @@ import com.project.shelf.wishlist.WishlistRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,10 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -221,9 +219,16 @@ public class UserService {
                 .findFirst()
                 .orElseThrow(() -> new Exception401("❗로그인 되지 않았습니다❗"));
 
-        // 구독 시작일 가져오기 및 변환
-        LocalDateTime subStartDateTime = LocalDateTime.parse(payment.getOrderDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        // 문자열을 long 으로 변환
+        String orderDateStr = payment.getOrderDate();
+        long unixTimestamp = Long.parseLong(orderDateStr);
+
+        // 유닉스 타임스탬프를 LocalDateTime으로 변환
+        LocalDateTime subStartDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(unixTimestamp), ZoneId.systemDefault());
         LocalDate subStartDateLD = subStartDateTime.toLocalDate();
+
+        // 구독 시작일 가져오기 및 변환
+
         // 구독 종료일 및 다음 결제일 계산
         LocalDate subEndDateLD = subStartDateLD.plusMonths(1).minusDays(1);
         LocalDate nextPaymentDayLD = subStartDateLD.plusMonths(1);
