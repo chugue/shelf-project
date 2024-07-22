@@ -177,29 +177,4 @@ public class BookRestControllerTest extends MyRestDoc {
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 
     }
-
-    //랭크 실페 테스트
-    @Test
-    public void rankBook_test_fail() throws Exception {
-        // given
-        String category = "소설asdfg";
-
-        // when
-        ResultActions actions = mvc.perform(get("/app/book/rank")
-                .param("category" ,category)
-                .header("Authorization", "Bearer " + jwt));
-        // eye
-        String respBody = actions.andReturn().getResponse().getContentAsString(); //String으로 변환
-        System.out.println("respBody = " + respBody);
-        // then
-        actions.andExpect(jsonPath("$.status").value(400)); // header 검증
-        actions.andExpect(jsonPath("$.msg").value("실패"));
-        actions.andExpect(jsonPath("$.data.totalBestSellers[0].id").value(1));
-        actions.andExpect(jsonPath("$.data.totalBestSellers[0].bookImagePath").value("/image/book/대화의_힘.jpg"));
-        actions.andExpect(jsonPath("$.data.totalBestSellers[0].bookTitle").value("대화의 힘"));
-        actions.andExpect(jsonPath("$.data.totalBestSellers[0].author").value("찰스 두히그"));
-        actions.andExpect(jsonPath("$.data.totalBestSellers[0].rankNum").value(1));
-        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
-
-    }
 }

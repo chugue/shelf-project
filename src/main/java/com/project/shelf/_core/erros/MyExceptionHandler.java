@@ -44,14 +44,4 @@ public class MyExceptionHandler {
         ApiUtil<?> apiUtil = new ApiUtil<>(500, e.getMessage());
         return new ResponseEntity<>(apiUtil, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    @ExceptionHandler(CustomEnumNotFoundException.class)
-    public ResponseEntity<?> handleCustomCategoryNotFoundException(CustomEnumNotFoundException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", 400);
-        response.put("msg", ex.getMessage());
-        response.put("errorMessage", ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
 }

@@ -1,7 +1,6 @@
 package com.project.shelf.book;
 
 
-import com.project.shelf._core.erros.exception.CustomEnumNotFoundException;
 import com.project.shelf._core.erros.exception.Exception400;
 import com.project.shelf._core.erros.exception.Exception401;
 import com.project.shelf._core.util.MyFileUtil;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
 import java.util.*;
@@ -49,6 +47,7 @@ public class BookService {
 
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()); // 해당 월의 마지막날 구하기
+
 
         List<Book> books = bookRepository.findByRegistrationMonth(startDate, endDate);
 
@@ -209,7 +208,6 @@ public class BookService {
 
     //랭크
     public RankResponseDTO getRank(String category) {
-        try {
             // 1. 베스트 셀러 정보 DTO 매핑
             List<RankResponseDTO.TotalBestSellerDTO> bestSellers = IntStream.range(0, bookRepository.findBooksByHistory().size())
                     .mapToObj(i -> {
@@ -224,8 +222,11 @@ public class BookService {
                     })
                     .collect(Collectors.toList());
 
+
+
             // 2. 카테고리별 베스트셀러 DTO 매핑
             Book.Category bookCategory = Book.Category.valueOf(category.toUpperCase()); // 문자열을 enum 타입으로 변환
+
             List<RankResponseDTO.CategoryByBestSellerDTO> categoryByBestSellers = IntStream.range(0, bookRepository.findBestSellersByCategory(bookCategory).size())
                     .mapToObj(i -> {
                         Book book = bookRepository.findBestSellersByCategory(bookCategory).get(i);
@@ -243,8 +244,5 @@ public class BookService {
                     .totalBestSellers(bestSellers)
                     .categoryByBestSellers(categoryByBestSellers)
                     .build();
-        } catch (IllegalArgumentException e) {
-            throw new CustomEnumNotFoundException("유효하지 않은 카테고리 값입니다: " + category);
-        }
     }
 }
