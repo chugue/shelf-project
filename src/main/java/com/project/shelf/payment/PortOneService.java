@@ -169,6 +169,7 @@ public class PortOneService {
 
 
         if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) { // HTTP 응답 상태 코드가 200번대 + 응답 본문이 비어있지 않다면
+            System.out.println("accessToken: " + response.getBody().response().accessToken());
             return response.getBody().response().accessToken(); // accessToken return
         }
 

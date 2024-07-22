@@ -57,7 +57,7 @@ public class BookRestControllerTest extends MyRestDoc {
                 .header("Authorization", "Bearer " + jwt));
         // eye
         String respBody = actions.andReturn().getResponse().getContentAsString(); //String으로 변환
-        System.out.println("respBody = " + respBody);
+//        System.out.println("respBody = " + respBody);
         // then
         actions.andExpect(status().isOk()); // header 검증
         actions.andExpect(jsonPath("$.msg").value("성공"));
@@ -83,7 +83,7 @@ public class BookRestControllerTest extends MyRestDoc {
                 .header("Authorization", "Bearer " + jwt));
         // eye
         String respBody = actions.andReturn().getResponse().getContentAsString(); //String으로 변환
-        System.out.println("respBody = " + respBody);
+//        System.out.println("respBody = " + respBody);
         // then
         actions.andExpect(jsonPath("$.status").value("200")); // header 검증
         actions.andExpect(jsonPath("$.msg").value("성공"));
@@ -108,7 +108,7 @@ public class BookRestControllerTest extends MyRestDoc {
                 .header("Authorization", "Bearer " + jwt));
         // eye
         String respBody = actions.andReturn().getResponse().getContentAsString(); //String으로 변환
-        System.out.println("respBody = " + respBody);
+//        System.out.println("respBody = " + respBody);
         // then
         actions.andExpect(jsonPath("$.status").value("200")); // header 검증
         actions.andExpect(jsonPath("$.msg").value("성공"));
@@ -165,7 +165,7 @@ public class BookRestControllerTest extends MyRestDoc {
                 .header("Authorization", "Bearer " + jwt));
         // eye
         String respBody = actions.andReturn().getResponse().getContentAsString(); //String으로 변환
-        System.out.println("respBody = " + respBody);
+//        System.out.println("respBody = " + respBody);
         // then
         actions.andExpect(jsonPath("$.status").value("200")); // header 검증
         actions.andExpect(jsonPath("$.msg").value("성공"));

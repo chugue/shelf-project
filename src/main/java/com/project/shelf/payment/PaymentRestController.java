@@ -21,9 +21,8 @@ public class PaymentRestController {
 
     // 사용자가 앱을 통해 취소
     @PostMapping("/unschedule")
-    public ResponseEntity<?> unschedule() {
-        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        paymentService.unschedule(sessionUser.getId());
+    public ResponseEntity<?> unschedule(@RequestBody PaymentUnscheduleDTO reqDTO) {
+        paymentService.unschedule(reqDTO.userId());
         return ResponseEntity.ok(Map.of("message", "이용권이 해지되었습니다."));
     }
 
