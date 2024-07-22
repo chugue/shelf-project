@@ -135,6 +135,8 @@ public class UserResponse {
         private String phone;
         private String address;
 
+        public UpdateInfoDTO() {
+        }
 
         public UpdateInfoDTO(User user) {
             this.id         = user.getId();
