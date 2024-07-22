@@ -378,4 +378,24 @@ public class UserRestControllerTest extends MyRestDoc {
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 
     }
+
+    //메인 실패 테스트
+    @Test
+    public void mainPage_test_fail() throws Exception {
+        // given
+
+
+        // when
+        ResultActions actions = mvc.perform(get("/app/main")
+                .header("Authorization", "Bearer "));
+        // eye
+        String respBody = actions.andReturn().getResponse().getContentAsString(); //String으로 변환
+        System.out.println("respBody = " + respBody);
+        // then
+        actions.andExpect(jsonPath("$.status").value("401")); // header 검증
+        actions.andExpect(jsonPath("$.msg").value("토큰이 유효하지 않습니다."));
+        actions.andExpect(jsonPath("$.data").isEmpty());
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
+
+    }
 }
