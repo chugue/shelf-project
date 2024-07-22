@@ -5,6 +5,7 @@ import com.project.shelf.user.*;
 import com.project.shelf.user.UserRequestRecord.LoginReqDTO;
 import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
 import com.project.shelf.wishlist.WishlistRequestRecord.WishlistSaveReqDTO;
+import com.project.shelf.wishlist.WishlistResponseRecord.BookDetailForWish;
 import com.project.shelf.wishlist.WishlistResponseRecord.WishlistSaveRespDTO;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class WishlistRestController {
     private final WishlistService wishlistService;
+
+    @GetMapping("/app/books/{bookId}")
+    public ResponseEntity<?> getBooks (@PathVariable Integer bookId){
+     BookDetailForWish respDTO = wishlistService.getBooks(bookId);
+     return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
+    }
+
 
     @PostMapping("/app/wishlist/toggle")
     public ResponseEntity<?> toggleWishlist(@RequestBody WishlistSaveReqDTO requestDTO) {
