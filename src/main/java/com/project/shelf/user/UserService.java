@@ -223,7 +223,7 @@ public class UserService {
 
         // unixTimestamp -> LocalDateTime으로 변환
         LocalDateTime subStartDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(unixTimestamp), ZoneId.systemDefault());
-        LocalDate subStartDateLD = subStartDateTime.toLocalDate();
+        LocalDate subStartDateLD = subStartDateTime.toLocalDate().minusDays(1);;
 
         // 구독 종료일 및 다음 결제일 계산
         LocalDate subEndDateLD = subStartDateLD.plusMonths(1).minusDays(1);

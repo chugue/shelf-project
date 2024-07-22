@@ -165,7 +165,7 @@ public class PaymentRestControllerTest extends MyRestDoc {
         System.out.println("respBody : " + respBody);
 
         // then
-        actions.andExpect(jsonPath("$.status").value(400));
+        actions.andExpect(jsonPath("$.status").value(401));
         actions.andExpect(jsonPath("$.msg").value("존재하지 않는 회원입니다."));
         actions.andExpect(jsonPath("$.data").isEmpty());
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
@@ -222,7 +222,7 @@ public class PaymentRestControllerTest extends MyRestDoc {
         System.out.println("respBody : " + respBody);
 
         // then
-        actions.andExpect(jsonPath("$.status").value(400));
+        actions.andExpect(jsonPath("$.status").value(401));
         actions.andExpect(jsonPath("$.msg").value("존재하지 않는 회원입니다."));
         actions.andExpect(jsonPath("$.data").isEmpty());
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
