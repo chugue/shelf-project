@@ -37,8 +37,23 @@ public class UserRestController {
         System.out.println("👉👉👉👉" + reqDTO.toString());
         User user = userService.join(reqDTO);
         UserResponse.Join respDTO = new UserResponse.Join(user);
-        return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
+        String jwt = AppJwtUtil.create(user);
+        return ResponseEntity.ok()
+                .header(JwtVO.HEADER, JwtVO.PREFIX + jwt)
+                .body(new ApiUtil<>(respDTO));
     }
+
+    // 로그인
+    @PostMapping("/user/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginReqDTO reqDTO, Errors errors) {
+        log.info("로그인 요청: {}", reqDTO);
+        LoginRespDTO respDTO = userService.login(reqDTO);
+        String jwt = AppJwtUtil.create(respDTO.toUser());
+        return ResponseEntity.ok()
+                .header(JwtVO.HEADER, JwtVO.PREFIX + jwt)
+                .body(new ApiUtil<>(respDTO));
+    }
+
 
     // 중복확인 ( email )
     @GetMapping("/user/check-email")
@@ -69,16 +84,6 @@ public class UserRestController {
         return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
     }
 
-    // 로그인
-    @PostMapping("/user/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginReqDTO reqDTO, Errors errors) {
-        log.info("로그인 요청: {}", reqDTO);
-        LoginRespDTO respDTO = userService.login(reqDTO);
-        String jwt = AppJwtUtil.create(respDTO.toUser());
-        return ResponseEntity.ok()
-                .header(JwtVO.HEADER, JwtVO.PREFIX + jwt)
-                .body(new ApiUtil<>(respDTO));
-    }
 
     // 마이페이지
     @GetMapping("/app/user/my-page")
