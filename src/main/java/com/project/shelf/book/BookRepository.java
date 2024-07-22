@@ -53,6 +53,10 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query("select b, a.name from Book b JOIN FETCH b.author a where b.id =:bookId")
     Optional<Book> findByBookId(@Param("bookId") Integer bookId);
 
+    // 앱 책 정보 불러오기
+    @Query("select b, a.name from Book b JOIN FETCH b.author a where b.id =:bookId")
+    Optional<Book> appFindABook(@Param("bookId") Integer bookId);
+
     //책 삭제
     @Modifying
     @Transactional

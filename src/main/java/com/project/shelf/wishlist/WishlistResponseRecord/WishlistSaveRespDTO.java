@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 
 @Builder
 public record WishlistSaveRespDTO(
-        Integer id,
         Integer userId,
         Integer bookId,
+        Boolean isWish,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
