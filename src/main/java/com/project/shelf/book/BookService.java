@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
 import java.util.*;
@@ -49,6 +48,7 @@ public class BookService {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth()); // 해당 월의 마지막날 구하기
 
+
         List<Book> books = bookRepository.findByRegistrationMonth(startDate, endDate);
 
         // 검색한 list를 주별로 구분
@@ -63,6 +63,7 @@ public class BookService {
                        .title(book.getTitle())
                        .author(book.getAuthor().getName())
                        .path(book.getPath())
+                        .registrationDate(book.getRegistrationDate())
                        .build();
             }).toList();
             String weekName = weekIntegerToString(entry.getKey());
@@ -206,42 +207,42 @@ public class BookService {
     }
 
     //랭크
-    public RankResponseDTO getRank(String category){
-        // 1. 베스트 셀러 정보 DTO 매핑
-        List<RankResponseDTO.TotalBestSellerDTO> bestSellers = IntStream.range(0, bookRepository.findBooksByHistory().size())
-                .mapToObj(i -> {
-                    Book book = bookRepository.findBooksByHistory().get(i);
-                    return RankResponseDTO.TotalBestSellerDTO.builder()
-                            .id(book.getId())
-                            .bookImagePath(book.getPath())
-                            .bookTitle(book.getTitle())
-                            .author(book.getAuthor().getName())
-                            .rankNum(i + 1) // 순위 추가
-                            .build();
-                })
-                .collect(Collectors.toList());
-
-        // 2. 카테고리별 베스트셀러 DTO 매핑
-        Book.Category bookCategory = Book.Category.valueOf(category.toUpperCase()); // 문자열을 enum 타입으로 변환
-        List<RankResponseDTO.CategoryByBestSellerDTO> categoryByBestSellers =IntStream.range(0, bookRepository.findBestSellersByCategory(bookCategory).size())
-                .mapToObj(i -> {
-                    Book book = bookRepository.findBestSellersByCategory(bookCategory).get(i);
-                    return RankResponseDTO.CategoryByBestSellerDTO.builder()
-                            .id(book.getId())
-                            .title(book.getTitle())
-                            .path(book.getPath())
-                            .category(book.getCategory().name())
-                            .authorName(book.getAuthor().getName())
-                            .rankNum(i + 1)
-                            .build();
-                }).collect(Collectors.toList());
+    public RankResponseDTO getRank(String category) {
+            // 1. 베스트 셀러 정보 DTO 매핑
+            List<RankResponseDTO.TotalBestSellerDTO> bestSellers = IntStream.range(0, bookRepository.findBooksByHistory().size())
+                    .mapToObj(i -> {
+                        Book book = bookRepository.findBooksByHistory().get(i);
+                        return RankResponseDTO.TotalBestSellerDTO.builder()
+                                .id(book.getId())
+                                .bookImagePath(book.getPath())
+                                .bookTitle(book.getTitle())
+                                .author(book.getAuthor().getName())
+                                .rankNum(i + 1) // 순위 추가
+                                .build();
+                    })
+                    .collect(Collectors.toList());
 
 
-        return RankResponseDTO.builder()
-                .totalBestSellers(bestSellers)
-                .categoryByBestSellers(categoryByBestSellers)
-                .build();
 
+            // 2. 카테고리별 베스트셀러 DTO 매핑
+            Book.Category bookCategory = Book.Category.valueOf(category.toUpperCase()); // 문자열을 enum 타입으로 변환
 
+            List<RankResponseDTO.CategoryByBestSellerDTO> categoryByBestSellers = IntStream.range(0, bookRepository.findBestSellersByCategory(bookCategory).size())
+                    .mapToObj(i -> {
+                        Book book = bookRepository.findBestSellersByCategory(bookCategory).get(i);
+                        return RankResponseDTO.CategoryByBestSellerDTO.builder()
+                                .id(book.getId())
+                                .title(book.getTitle())
+                                .path(book.getPath())
+                                .category(book.getCategory().name())
+                                .authorName(book.getAuthor().getName())
+                                .rankNum(i + 1)
+                                .build();
+                    }).collect(Collectors.toList());
+
+            return RankResponseDTO.builder()
+                    .totalBestSellers(bestSellers)
+                    .categoryByBestSellers(categoryByBestSellers)
+                    .build();
     }
 }

@@ -1,6 +1,7 @@
 package com.project.shelf.wishlist;
 
 import com.project.shelf._core.erros.exception.Exception400;
+import com.project.shelf._core.erros.exception.Exception401;
 import com.project.shelf._core.erros.exception.Exception404;
 import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf._core.util.NaverToken;
@@ -46,8 +47,8 @@ public class WishlistService {
         Integer userId = requestDTO.userId();
         Integer bookId = requestDTO.bookId();
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("사용자 정보를 찾을 수 없습니다."));
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("책 정보를 찾을 수 없습니다."));
+        User user = userRepository.findById(userId).orElseThrow(() -> new Exception401("사용자 정보를 찾을 수 없습니다."));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new Exception401("책 정보를 찾을 수 없습니다."));
 
         return wishlistRepository.findByUserIdAndBookId(userId, bookId)
                 .map(wishlist -> {

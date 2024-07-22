@@ -1,6 +1,8 @@
 package com.project.shelf.book.BookResponseRecord;
 
 import lombok.Builder;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Builder
@@ -14,6 +16,7 @@ public record BrandNewRespDTO (
             Integer bookId,
             String title,
             String author,
-            String path
+            String path,
+            LocalDate registrationDate
     ){}
 }
