@@ -12,13 +12,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-
 import java.nio.charset.StandardCharsets;
 
-@ExtendWith({ SpringExtension.class, RestDocumentationExtension.class })
+@ExtendWith({SpringExtension.class, RestDocumentationExtension.class})
 public class MyRestDoc {
     protected MockMvc mvc;
     protected RestDocumentationResultHandler document;
+
     @BeforeEach
     public void setup(WebApplicationContext webApplicationContext,
                       RestDocumentationContextProvider restDocumentation) {
@@ -29,7 +29,7 @@ public class MyRestDoc {
                 .addFilter(new CharacterEncodingFilter(StandardCharsets.UTF_8.name(),
                         true))
                 .apply(MockMvcRestDocumentation.documentationConfiguration(restDocumentation))
-// .apply(SecurityMockMvcConfigurers.springSecurity())
+                // .apply(SecurityMockMvcConfigurers.springSecurity())
                 .alwaysDo(document)
                 .build();
     }

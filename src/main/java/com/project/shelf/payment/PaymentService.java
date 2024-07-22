@@ -3,6 +3,8 @@ package com.project.shelf.payment;
 
 
 import com.project.shelf._core.erros.exception.Exception400;
+import com.project.shelf._core.erros.exception.Exception401;
+import com.project.shelf._core.erros.exception.Exception404;
 import com.project.shelf.payment.PaymentRequestRecord.PaymentSaveReqDTO;
 import com.project.shelf.payment.PaymentRequestRecord.WebHookDTO;
 import com.project.shelf.payment.PaymentResponseRecord.PaymentDetailDTO;
@@ -54,7 +56,7 @@ public class PaymentService {
     @Transactional
     public void unschedule(Integer userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new Exception400("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new Exception401("존재하지 않는 회원입니다."));
 
         // 예약 취소
         portOneService.unschedule(user.getCustomerUid());
@@ -68,10 +70,10 @@ public class PaymentService {
         ResponseEntity<PaymentDetailDTO> resp = portOneService.getPaymentDetail(paymentDTO.impUid());
 
         User user = userRepository.findByEmail(resp.getBody().response().buyerEmail())
-                .orElseThrow(() -> new Exception400("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new Exception401("존재하지 않는 회원입니다."));
 
         SubTypes subTypes = subTypesRepository.findById(1) // 지금은 이용권 1개월만 사용하므로 고정값을 넣음
-                .orElseThrow(() -> new Exception400("존재하지 않는 이용권입니다."));
+                .orElseThrow(() -> new Exception404("존재하지 않는 이용권입니다."));
 
         // DB에 저장
         Payment payment = Payment.builder()
@@ -112,10 +114,10 @@ public class PaymentService {
     @Transactional
     public void save(PaymentSaveReqDTO paymentDTO) {
         User user = userRepository.findByEmail(paymentDTO.buyerEmail())
-                .orElseThrow(() -> new Exception400("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new Exception401("존재하지 않는 회원입니다."));
 
         SubTypes subTypes = subTypesRepository.findById(1) // 지금은 이용권 1개월만 사용하므로 고정값을 넣음
-                .orElseThrow(() -> new Exception400("존재하지 않는 이용권입니다."));
+                .orElseThrow(() -> new Exception404("존재하지 않는 이용권입니다."));
 
         Payment payment = Payment.builder()
                 .user(user)
@@ -140,6 +142,7 @@ public class PaymentService {
 
         portOneService.schedule(user, subTypes);
         System.out.println("예약 성공");
+
     }
 
 }
