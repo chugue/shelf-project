@@ -63,6 +63,7 @@ public class BookService {
                        .title(book.getTitle())
                        .author(book.getAuthor().getName())
                        .path(book.getPath())
+                        .registrationDate(book.getRegistrationDate())
                        .build();
             }).toList();
             String weekName = weekIntegerToString(entry.getKey());
