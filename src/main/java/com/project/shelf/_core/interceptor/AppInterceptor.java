@@ -19,7 +19,6 @@ public class AppInterceptor implements HandlerInterceptor {
 
         String jwt = request.getHeader("Authorization");
         jwt = jwt.replace("Bearer ", "");
-        System.out.println("jwt = .▶️▶️▶️▶️▶️" + jwt);
         HttpSession session = request.getSession();
 
 

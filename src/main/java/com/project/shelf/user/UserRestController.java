@@ -1,6 +1,5 @@
 package com.project.shelf.user;
 
-import com.project.shelf._core.erros.exception.Exception400;
 import com.project.shelf._core.util.ApiUtil;
 import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf._core.util.JwtVO;
@@ -9,9 +8,11 @@ import com.project.shelf.user.UserResponseRecord.LoginRespDTO;
 import com.project.shelf.user.UserResponseRecord.MainDTO;
 import com.project.shelf.user.UserResponseRecord.MyLibraryResponseDTO;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -29,19 +30,21 @@ public class UserRestController {
         return ResponseEntity.ok().header("Authorization", "Bearer " + shelfAccessToken).body(new ApiUtil(null));
     }
 
-    //회원가입 TODO : respDTO를 담는 로직이 service에 들어가 있어야지 SRP를 지킨 코드지
-    // *Single Responsibility Principle : 단일 책임 원칙
+    // 회원가입
     @PostMapping("/user/join")
-    public ResponseEntity<?> join(@RequestBody UserRequest.JoinDTO reqDTO) {
+    public ResponseEntity<?> join(@Valid @RequestBody UserRequest.JoinDTO reqDTO, Errors errors) {
         System.out.println("👉👉👉👉" + reqDTO.toString());
         User user = userService.join(reqDTO);
         UserResponse.Join respDTO = new UserResponse.Join(user);
-        return ResponseEntity.ok().body(new ApiUtil<>(respDTO));
+        String jwt = AppJwtUtil.create(user);
+        return ResponseEntity.ok()
+                .header(JwtVO.HEADER, JwtVO.PREFIX + jwt)
+                .body(new ApiUtil<>(respDTO));
     }
 
     // 로그인
     @PostMapping("/user/login")
-    public ResponseEntity<?> login(@RequestBody LoginReqDTO reqDTO) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginReqDTO reqDTO, Errors errors) {
         log.info("로그인 요청: {}", reqDTO);
         LoginRespDTO respDTO = userService.login(reqDTO);
         String jwt = AppJwtUtil.create(respDTO.toUser());
@@ -49,6 +52,7 @@ public class UserRestController {
                 .header(JwtVO.HEADER, JwtVO.PREFIX + jwt)
                 .body(new ApiUtil<>(respDTO));
     }
+
 
     // 중복확인 ( email )
     @GetMapping("/user/check-email")
@@ -80,7 +84,6 @@ public class UserRestController {
     }
 
 
-
     // 마이페이지
     @GetMapping("/app/user/my-page")
     public ResponseEntity<?> myPage() {
@@ -99,7 +102,7 @@ public class UserRestController {
 
     // 개인정보 변경하기
     @PostMapping("/app/user/update-info")
-    public ResponseEntity<?> updateInfo(@RequestBody UserRequest.UpdateInfoDTO reqDTO) {
+    public ResponseEntity<?> updateInfo(@Valid @RequestBody UserRequest.UpdateInfoDTO reqDTO, Errors errors) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         UserResponse.UpdateInfoDTO respDTO
                 = userService.UpdateInfo(sessionUser, reqDTO);

@@ -17,6 +17,6 @@ public interface WishlistRepository extends JpaRepository<Wishlist, Integer> {
 
     Optional<Wishlist> findByUserIdAndBookId(Integer userId, Integer bookId);
 
-    @Query("select w from Wishlist w JOIN FETCH w.book b JOIN fetch w.book.author a JOIN fetch w.user u where u.id = :userId")
+    @Query("select w from Wishlist w JOIN FETCH w.book b JOIN fetch w.book.author a JOIN fetch w.user u where u.id = :userId order by w.createdAt DESC")
     List<Wishlist> findWishlistByByUserId(Integer userId);
 }

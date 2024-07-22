@@ -1,5 +1,6 @@
 package com.project.shelf.payment;
 
+import com.project.shelf._core.util.ApiUtil;
 import com.project.shelf.payment.PaymentRequestRecord.PaymentSaveReqDTO;
 import com.project.shelf.payment.PaymentRequestRecord.PaymentUnscheduleDTO;
 import com.project.shelf.payment.PaymentResponseRecord.PaymentListDTO;
@@ -28,20 +29,21 @@ public class PaymentRestController {
     public ResponseEntity<?> paymentList() {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         PaymentListDTO resp = paymentService.paymentList(sessionUser.getId());
-        return ResponseEntity.ok(Map.of("message", resp));
+        return ResponseEntity.ok(new ApiUtil<>(resp));
     }
 
     // 사용자가 앱을 통해 취소
     @PostMapping("/app/unschedule")
     public ResponseEntity<?> unschedule(@Valid @RequestBody PaymentUnscheduleDTO reqDTO, Errors errors) {
         paymentService.unschedule(reqDTO.userId());
-        return ResponseEntity.ok(Map.of("message", "이용권이 해지되었습니다."));
+        return ResponseEntity.ok(new ApiUtil<>("이용권이 해지되었습니다."));
     }
 
     // 사용자가 앱을 통해 구매
     @PostMapping("/app/pay")
     public ResponseEntity<?> pay(@Valid @RequestBody PaymentSaveReqDTO reqDTO, Errors errors) {
         paymentService.save(reqDTO);
-        return ResponseEntity.ok(Map.of("message", "결제가 완료되었습니다."));
+        System.out.println("결제 완료");
+        return ResponseEntity.ok(new ApiUtil<>("결제가 완료되었습니다."));
     }
 }
