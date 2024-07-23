@@ -48,7 +48,7 @@ public class WishlistService {
         Integer bookId = requestDTO.bookId();
 
         User user = userRepository.findById(userId).orElseThrow(() -> new Exception401("사용자 정보를 찾을 수 없습니다."));
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new Exception401("책 정보를 찾을 수 없습니다."));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new Exception404("책 정보를 찾을 수 없습니다."));
 
         return wishlistRepository.findByUserIdAndBookId(userId, bookId)
                 .map(wishlist -> {

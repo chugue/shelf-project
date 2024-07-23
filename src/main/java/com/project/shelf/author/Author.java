@@ -1,6 +1,7 @@
 package com.project.shelf.author;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -31,6 +32,7 @@ public class Author {
 
     private String authorIntro;
 
+    @Builder
     public Author(Integer id, String name, LocalDateTime createdAt, LocalDateTime updatedAt, String authorIntro) {
         this.id = id;
         this.name = name;

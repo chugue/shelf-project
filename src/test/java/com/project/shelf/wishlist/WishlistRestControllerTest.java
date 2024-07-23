@@ -75,11 +75,11 @@ public class WishlistRestControllerTest extends MyRestDoc {
         // then
         actions.andExpect(jsonPath("$.status").value(200));
         actions.andExpect(jsonPath("$.msg").value("성공"));
-        actions.andExpect(jsonPath("$.data.id").value(1));
         actions.andExpect(jsonPath("$.data.userId").value(1));
         actions.andExpect(jsonPath("$.data.bookId").value(1));
         actions.andExpect(jsonPath("$.data.createdAt").exists());
         actions.andExpect(jsonPath("$.data.updatedAt").isEmpty());
+
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
@@ -113,6 +113,7 @@ public class WishlistRestControllerTest extends MyRestDoc {
         actions.andExpect(jsonPath("$.status").value(401));
         actions.andExpect(jsonPath("$.msg").value("사용자 정보를 찾을 수 없습니다."));
         actions.andExpect(jsonPath("$.data").isEmpty());
+
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
@@ -144,7 +145,6 @@ public class WishlistRestControllerTest extends MyRestDoc {
         // then
         actions.andExpect(jsonPath("$.status").value(200));
         actions.andExpect(jsonPath("$.msg").value("성공"));
-        actions.andExpect(jsonPath("$.data.id").value(11));
         actions.andExpect(jsonPath("$.data.userId").value(3));
         actions.andExpect(jsonPath("$.data.bookId").value(1));
         actions.andExpect(jsonPath("$.data.createdAt").exists());

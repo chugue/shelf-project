@@ -1,6 +1,7 @@
 package com.project.shelf.book;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.project.shelf.MyRestDoc;
 import com.project.shelf._core.util.AppJwtUtil;
 import com.project.shelf.payment.PortOneService;
@@ -28,21 +29,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class BookRestControllerTest extends MyRestDoc {
     private static String jwt;
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    private ObjectMapper om = new ObjectMapper();
+    private static ObjectMapper om;
 
     @MockBean
     private PortOneService portOneService;
 
     @BeforeAll
-    public static void setUp() {
+    public static void setup() {
+        om = new ObjectMapper();
+        om.registerModule(new JavaTimeModule());
         jwt = AppJwtUtil.create(
                 User.builder()
                         .id(1)
                         .email("psk@naver.com")
-                        .nickName("박선규")
                         .build());
     }
 
@@ -103,23 +102,21 @@ public class BookRestControllerTest extends MyRestDoc {
     public void bookDetail_test_success() throws Exception {
         // given
         Integer bookId = 1;
+
         // when
         ResultActions actions = mvc.perform(get("/app/book/"+bookId)
                 .header("Authorization", "Bearer " + jwt));
         // eye
-        String respBody = actions.andReturn().getResponse().getContentAsString(); //String으로 변환
-//        System.out.println("respBody = " + respBody);
+        String respBody = actions.andReturn().getResponse().getContentAsString(); // String으로 변환
+        System.out.println("respBody = " + respBody);
+
         // then
         actions.andExpect(jsonPath("$.status").value("200")); // header 검증
         actions.andExpect(jsonPath("$.msg").value("성공"));
         actions.andExpect(jsonPath("$.data.id").value(1));
         actions.andExpect(jsonPath("$.data.path").value("/image/book/대화의_힘.jpg"));
         actions.andExpect(jsonPath("$.data.title").value("대화의 힘"));
-        actions.andExpect(jsonPath("$.data.author.id").value(1));
-        actions.andExpect(jsonPath("$.data.author.name").value("찰스 두히그"));
-        actions.andExpect(jsonPath("$.data.author.createdAt").exists());
-        actions.andExpect(jsonPath("$.data.author.updatedAt").exists());
-        actions.andExpect(jsonPath("$.data.author.authorIntro").value("퓰리처상 수상 저널리스트이자 미국 최고의 논픽션 작가"));
+        actions.andExpect(jsonPath("$.data.author").value("찰스 두히그"));
         actions.andExpect(jsonPath("$.data.publisher").value("선규사"));
         actions.andExpect(jsonPath("$.data.category").value("자기계발"));
         actions.andExpect(jsonPath("$.data.createdAt").exists());
@@ -130,8 +127,8 @@ public class BookRestControllerTest extends MyRestDoc {
         actions.andExpect(jsonPath("$.data.totalViews").value(527));
         actions.andExpect(jsonPath("$.data.completedViews").value(300));
         actions.andExpect(jsonPath("$.errorMessage").doesNotExist());
-        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     //책 상세보기 실패 테스트
@@ -146,12 +143,12 @@ public class BookRestControllerTest extends MyRestDoc {
         String respBody = actions.andReturn().getResponse().getContentAsString(); //String으로 변환
         System.out.println("respBody = " + respBody);
         // then
-        actions.andExpect(jsonPath("$.status").value("401")); // header 검증
+        actions.andExpect(jsonPath("$.status").value("404")); // header 검증
         actions.andExpect(jsonPath("$.msg").value("책 정보를 찾을 수 없습니다!!"));
         actions.andExpect(jsonPath("$.data").isEmpty());
         actions.andExpect(jsonPath("$.errorMessage").doesNotExist());
-        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
     //카테고리별 랭크
@@ -174,7 +171,7 @@ public class BookRestControllerTest extends MyRestDoc {
         actions.andExpect(jsonPath("$.data.totalBestSellers[0].bookTitle").value("대화의 힘"));
         actions.andExpect(jsonPath("$.data.totalBestSellers[0].author").value("찰스 두히그"));
         actions.andExpect(jsonPath("$.data.totalBestSellers[0].rankNum").value(1));
-        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 }

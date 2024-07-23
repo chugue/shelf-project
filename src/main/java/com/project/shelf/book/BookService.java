@@ -3,6 +3,7 @@ package com.project.shelf.book;
 
 import com.project.shelf._core.erros.exception.Exception400;
 import com.project.shelf._core.erros.exception.Exception401;
+import com.project.shelf._core.erros.exception.Exception404;
 import com.project.shelf._core.util.MyFileUtil;
 import com.project.shelf.admin.AdminRequestRecord.BookSaveReqDTO;
 import com.project.shelf.author.Author;
@@ -191,13 +192,13 @@ public class BookService {
     public BookResponse.DetailPageDTO bookDetailPage(SessionUser sessionUser, Integer bookId){
 //        SessionUser sessionUser = AppJwtUtil.verify(jwt);
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new Exception401("책 정보를 찾을 수 없습니다!!"));
+                .orElseThrow(() -> new Exception404("책 정보를 찾을 수 없습니다!!"));
         // 사용자 가져오기
         User user = userRepository.findById(sessionUser.getId())
                 .orElseThrow(() -> new Exception401("사용자를 찾을 수 없습니다!!"));
         // 저자 가져오기
         Author author = authorRepository.findById(book.getAuthor().getId())
-                .orElseThrow(() -> new Exception401("저자를 찾을 수 없습니다!!"));
+                .orElseThrow(() -> new Exception404("저자를 찾을 수 없습니다!!"));
         book.setAuthor(author);
 
         // 위시리스트 여부
