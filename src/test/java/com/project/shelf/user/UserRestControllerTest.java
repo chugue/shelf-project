@@ -127,7 +127,7 @@ public class UserRestControllerTest extends MyRestDoc {
 
     // 이메일 중복 확인 테스트 ( 중복 X )
     @Test
-    public void checkEmailDup_false_test() throws Exception {
+    public void checkEmailDup_fail_test() throws Exception {
         // given
         String email = "unique@email.com";
 
@@ -422,7 +422,7 @@ public class UserRestControllerTest extends MyRestDoc {
 
     //메인
     @Test
-    public void mainPage_test_success() throws Exception {
+    public void mainPage_success_test() throws Exception {
         // given
 
 
@@ -464,7 +464,7 @@ public class UserRestControllerTest extends MyRestDoc {
 
     //메인 실패 테스트
     @Test
-    public void mainPage_test_fail() throws Exception {
+    public void mainPage_fail_test() throws Exception {
         // given
 
         // when
