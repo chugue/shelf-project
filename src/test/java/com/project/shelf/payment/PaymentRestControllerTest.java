@@ -34,9 +34,6 @@ public class PaymentRestControllerTest extends MyRestDoc {
     @MockBean
     private PortOneService portOneService;
 
-    @Autowired
-    private MockMvc mockMvc;
-
     @BeforeAll
     public static void setup() {
         om = new ObjectMapper();
@@ -72,8 +69,8 @@ public class PaymentRestControllerTest extends MyRestDoc {
         actions.andExpect(jsonPath("$.data.paymentDTOList[0].paymentStatus").value("완료"));
         actions.andExpect(jsonPath("$.data.paymentDTOList[0].paymentAt").value("2024-05-10"));
         actions.andExpect(jsonPath("$.data.paymentDTOList[0].amount").value("10,000"));
-        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
 
+        actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
     @Test
     public void paymentList_fail_test() throws Exception { // 로그인 안 했을 때

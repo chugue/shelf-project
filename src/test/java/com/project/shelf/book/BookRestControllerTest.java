@@ -45,7 +45,7 @@ public class BookRestControllerTest extends MyRestDoc {
                         .build());
     }
 
-    //책 신간 페이지
+    // 책 신간 페이지
     @Test
     public void brandNew_success_test() throws Exception {
         // given
@@ -69,9 +69,9 @@ public class BookRestControllerTest extends MyRestDoc {
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
-    //책 검색
+    // 책 검색
     @Test
-    public void searchBook_test_success() throws Exception {
+    public void searchBook_success_test() throws Exception {
         // given
         String category = "소설";
         String author = "알렉스 안도릴";
@@ -99,7 +99,7 @@ public class BookRestControllerTest extends MyRestDoc {
 
     //책 상세보기
     @Test
-    public void bookDetail_test_success() throws Exception {
+    public void bookDetail_success_test() throws Exception {
         // given
         Integer bookId = 1;
 
@@ -133,7 +133,7 @@ public class BookRestControllerTest extends MyRestDoc {
 
     //책 상세보기 실패 테스트
     @Test
-    public void bookDetail_test_fail() throws Exception {
+    public void bookDetail_fail_test() throws Exception {
         // given
         Integer bookId = 999;
         // when
@@ -151,9 +151,9 @@ public class BookRestControllerTest extends MyRestDoc {
         actions.andDo(MockMvcResultHandlers.print()).andDo(document);
     }
 
-    //카테고리별 랭크
+    // 카테고리별 랭크
     @Test
-    public void rankBook_test_success() throws Exception {
+    public void rankBook_success_test() throws Exception {
         // given
         String category = "소설";
         // when
