@@ -44,4 +44,5 @@ public class MyExceptionHandler {
         ApiUtil<?> apiUtil = new ApiUtil<>(500, e.getMessage());
         return new ResponseEntity<>(apiUtil, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }
