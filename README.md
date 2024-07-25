@@ -15,7 +15,7 @@
 
 # 👉 깃허브 주소
   
-> #### 플러터 서버     : [https://github.com/chugue/project-ohflix](https://github.com/chugue/shelf-project)<br>
+> #### 플러터 서버     : [https://github.com/chugue/shelf-flutter-project](https://github.com/chugue/shelf-flutter-project)<br>
 > #### 관리자 서버     : [https://github.com/chugue/shelf-project](https://github.com/chugue/shelf-project)<br>
 <br>
 
