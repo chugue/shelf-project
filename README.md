@@ -1,4 +1,4 @@
-# 🚀 "SHELF" - E-book 플랫폼
+![image](https://github.com/user-attachments/assets/c3cd045b-5b20-42ee-bf17-122e350d72cc)# 🚀 "SHELF" - E-book 플랫폼
 
 <br>
 
@@ -15,7 +15,7 @@
 
 # 👉 깃허브 주소
   
-> #### 플러터 서버     : [https://github.com/chugue/project-ohflix](https://github.com/chugue/shelf-project)<br>
+> #### 플러터 서버     : [https://github.com/chugue/shelf-flutter-project](https://github.com/chugue/shelf-flutter-project)<br>
 > #### 관리자 서버     : [https://github.com/chugue/shelf-project](https://github.com/chugue/shelf-project)<br>
 <br>
 
@@ -41,11 +41,11 @@
   </tr>
   <tr>
     <td style="text-align:center; vertical-align:middle;"><a href="https://github.com/chugue">@chugue</a></td>
-    <td style="text-align:center; vertical-align:middle;"><a href="https://github.com/dongkipark1">@kjh5848</a></td>
-    <td style="text-align:center; vertical-align:middle;"><a href="https://github.com/LifeIsOne">@hillview0303</a></td>
-    <td style="text-align:center; vertical-align:middle;"><a href="https://github.com/Kongjiyoung">@LifeIsOne</a></td>
-    <td style="text-align:center; vertical-align:middle;"><a href="https://github.com/yunchocopie">@p4rksk</a></td>
-    <td style="text-align:center; vertical-align:middle;"><a href="https://github.com/yunchocopie">@minmeanmin</a></td>
+    <td style="text-align:center; vertical-align:middle;"><a href="https://github.com/kjh5848">@kjh5848</a></td>
+    <td style="text-align:center; vertical-align:middle;"><a href="https://github.com/hillview0303">@hillview0303</a></td>
+    <td style="text-align:center; vertical-align:middle;"><a href="https://github.com/LifeIsOne">@LifeIsOne</a></td>
+    <td style="text-align:center; vertical-align:middle;"><a href="https://github.com/p4rksk">@p4rksk</a></td>
+    <td style="text-align:center; vertical-align:middle;"><a href="https://github.com/minmeanmin">@minmeanmin</a></td>
   </tr>
 </table>
 
