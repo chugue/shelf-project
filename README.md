@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/c3cd045b-5b20-42ee-bf17-122e350d72cc)# 🚀 "SHELF" - E-book 플랫폼
+# 🚀 "SHELF" - E-book 플랫폼
 
 <br>
 
