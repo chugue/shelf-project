@@ -96,38 +96,25 @@
 
 # 👉 Flutter Dependencies
 ```java
-dependencies:
-  flutter:
-    sdk: flutter
-
-  cupertino_icons: ^1.0.6
-  font_awesome_flutter: ^10.5.0
-  flutter_riverpod: ^2.5.1
-  loop_page_view: ^1.2.5
-  carousel_slider: ^4.2.1
-  infinite_scroll_pagination: ^4.0.0
-  flutter_staggered_grid_view: ^0.7.0
-  flutter_svg: ^2.0.10+1
-  cosmos_epub: ^0.0.2 #epub 뷰어
-  fl_chart: ^0.68.0
-  intl: ^0.19.0
-  logger: 2.3.0
-  dio: ^5.4.3+1
-  flutter_secure_storage: ^9.2.2
-  get: ^4.3.8
-  image_picker: ^1.1.2
-  video_player: ^2.9.1
-  pull_to_refresh: ^2.0.0
-  shimmer: ^3.0.0
-  flutter_launcher_icons: ^0.11.0
-  shared_preferences: ^2.2.3
-  url_launcher: 6.2.5
-  flutter_naver_login: ^1.8.0
-  http: ^1.2.2
-  webview_flutter: ^4.8.0
-  webview_flutter_android: ^3.16.3
-  webview_flutter_wkwebview: ^3.13.1
-  flutter_dotenv: ^5.1.0
+dependencies {
+    implementation group: 'com.auth0', name: 'java-jwt', version: '4.3.0'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-mustache'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation group: 'com.auth0', name: 'java-jwt', version: '4.3.0'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.h2database:h2'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'io.github.cdimascio:java-dotenv:5.2.2'
+    implementation 'com.github.iamport:iamport-rest-client-java:0.2.23'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    implementation 'org.springframework.boot:spring-boot-starter'
+}
 ```
 
 <br>
